@@ -1,4 +1,4 @@
-define([], function() {
+define([], function () {
   return {
     //Dimension Picker labels
     "DimensionWidth": "Leveys",
@@ -33,7 +33,7 @@ define([], function() {
     "SPListQueryOperatorNe": "Erilainen",
     "SPListQueryOperatorStartsWith": "Alkaa",
     "SPListQueryOperatorSubstringof": "Osa ala-",
-    "SPListQueryOperatorLt":  "Alle",
+    "SPListQueryOperatorLt": "Alle",
     "SPListQueryOperatorLe": "Enintään",
     "SPListQueryOperatorGt": "Yli",
     "SPListQueryOperatorGe": "Enemmän tai yhtä suuri",

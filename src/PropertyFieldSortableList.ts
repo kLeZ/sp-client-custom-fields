@@ -7,14 +7,11 @@
  * Released under MIT licence
  *
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType
-} from '@microsoft/sp-webpart-base';
-import { IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
-import PropertyFieldSortableListHost, { IPropertyFieldSortableListHostProps } from './PropertyFieldSortableListHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType } from "@microsoft/sp-webpart-base";
+import { IChoiceGroupOption } from "office-ui-fabric-react/lib/ChoiceGroup";
+import PropertyFieldSortableListHost, { IPropertyFieldSortableListHostProps } from "./PropertyFieldSortableListHost";
 
 /**
  * @enum
@@ -22,7 +19,7 @@ import PropertyFieldSortableListHost, { IPropertyFieldSortableListHostProps } fr
  */
 export enum ISortableListOrder {
   Key,
-  Text
+  Text,
 }
 
 /**
@@ -97,12 +94,12 @@ export interface IPropertyFieldSortableListProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string[]) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string[]) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -137,7 +134,6 @@ export interface IPropertyFieldSortableListPropsInternal extends IPropertyFieldS
  *
  */
 class PropertyFieldSortableListBuilder implements IPropertyPaneField<IPropertyFieldSortableListPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -174,13 +170,10 @@ class PropertyFieldSortableListBuilder implements IPropertyPaneField<IPropertyFi
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
-    if (_properties.sortBy !== undefined)
-      this.sortBy = _properties.sortBy;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.sortBy !== undefined) this.sortBy = _properties.sortBy;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -207,7 +200,7 @@ class PropertyFieldSortableListBuilder implements IPropertyPaneField<IPropertyFi
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -217,10 +210,7 @@ class PropertyFieldSortableListBuilder implements IPropertyPaneField<IPropertyFi
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -229,27 +219,29 @@ class PropertyFieldSortableListBuilder implements IPropertyPaneField<IPropertyFi
  * @param targetProperty - Target property the SharePoint list picker is associated to.
  * @param properties - Strongly typed SPList Picker properties.
  */
-export function PropertyFieldSortableList(targetProperty: string, properties: IPropertyFieldSortableListProps): IPropertyPaneField<IPropertyFieldSortableListPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldSortableListPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      selectedItems: properties.selectedItems,
-      items: properties.items,
-      sortBy: properties.sortBy,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldSortableList builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldSortableListBuilder(targetProperty, newProperties);
+export function PropertyFieldSortableList(
+  targetProperty: string,
+  properties: IPropertyFieldSortableListProps
+): IPropertyPaneField<IPropertyFieldSortableListPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldSortableListPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    selectedItems: properties.selectedItems,
+    items: properties.items,
+    sortBy: properties.sortBy,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldSortableList builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldSortableListBuilder(targetProperty, newProperties);
 }

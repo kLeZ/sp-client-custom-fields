@@ -5,28 +5,27 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import { Environment, EnvironmentType } from '@microsoft/sp-core-library';
-import { IWebPartContext } from '@microsoft/sp-webpart-base';
-import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
-import { IPropertyFieldSPFolderPickerPropsInternal } from './PropertyFieldSPFolderPicker';
-import { Label } from 'office-ui-fabric-react/lib/Label';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import { IconButton, DefaultButton, PrimaryButton, CommandButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
-import { Dialog, DialogType } from 'office-ui-fabric-react/lib/Dialog';
-import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
-import { List } from 'office-ui-fabric-react/lib/List';
-import { Async } from 'office-ui-fabric-react/lib/Utilities';
+import * as React from "react";
+import { Environment, EnvironmentType } from "@microsoft/sp-core-library";
+import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
+import { IPropertyFieldSPFolderPickerPropsInternal } from "./PropertyFieldSPFolderPicker";
+import { Label } from "office-ui-fabric-react/lib/Label";
+import { TextField } from "office-ui-fabric-react/lib/TextField";
+import { IconButton, DefaultButton, PrimaryButton, CommandButton, IButtonProps } from "office-ui-fabric-react/lib/Button";
+import { Dialog, DialogType } from "office-ui-fabric-react/lib/Dialog";
+import { Spinner, SpinnerType } from "office-ui-fabric-react/lib/Spinner";
+import { List } from "office-ui-fabric-react/lib/List";
+import { Async } from "office-ui-fabric-react/lib/Utilities";
 
-import * as strings from 'sp-client-custom-fields/strings';
+import * as strings from "sp-client-custom-fields/strings";
 
 /**
  * @interface
  * PropertyFieldSPFolderPickerHost properties interface
  *
  */
-export interface IPropertyFieldSPFolderPickerHostProps extends IPropertyFieldSPFolderPickerPropsInternal {
-}
+export interface IPropertyFieldSPFolderPickerHostProps extends IPropertyFieldSPFolderPickerPropsInternal {}
 
 /**
  * @interface
@@ -47,8 +46,10 @@ export interface IPropertyFieldSPFolderPickerHostState {
  * @class
  * Renders the controls for PropertyFieldSPFolderPicker component
  */
-export default class PropertyFieldSPFolderPickerHost extends React.Component<IPropertyFieldSPFolderPickerHostProps, IPropertyFieldSPFolderPickerHostState> {
-
+export default class PropertyFieldSPFolderPickerHost extends React.Component<
+  IPropertyFieldSPFolderPickerHostProps,
+  IPropertyFieldSPFolderPickerHostState
+> {
   private currentPage: number = 0;
   private pageItemCount: number = 6;
 
@@ -76,10 +77,9 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
 
     //Inits the intial folders
     var initialFolder: string;
-    var currentSPFolder: string = '';
-    if (props.baseFolder != null)
-      currentSPFolder = props.baseFolder;
-    if (props.initialFolder != null && props.initialFolder != '') {
+    var currentSPFolder: string = "";
+    if (props.baseFolder != null) currentSPFolder = props.baseFolder;
+    if (props.initialFolder != null && props.initialFolder != "") {
       initialFolder = props.initialFolder;
       currentSPFolder = this.getParentFolder(initialFolder);
     }
@@ -91,7 +91,7 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
       confirmFolder: initialFolder,
       selectedFolder: initialFolder,
       childrenFolders: { value: [] },
-      errorMessage: ''
+      errorMessage: "",
     };
 
     this.async = new Async(this);
@@ -114,12 +114,17 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
    * Function called when the user erase the current selection
    */
   private onClearSelectionClick(): void {
-    this.state.confirmFolder = '';
-    this.state.currentSPFolder = '';
-    if (this.props.baseFolder != null)
-      this.state.currentSPFolder = this.props.baseFolder;
+    this.state.confirmFolder = "";
+    this.state.currentSPFolder = "";
+    if (this.props.baseFolder != null) this.state.currentSPFolder = this.props.baseFolder;
     this.currentPage = 0;
-    this.setState({ isOpen: false, loading: true, selectedFolder: this.state.selectedFolder, currentSPFolder: this.state.currentSPFolder, childrenFolders: this.state.childrenFolders });
+    this.setState({
+      isOpen: false,
+      loading: true,
+      selectedFolder: this.state.selectedFolder,
+      currentSPFolder: this.state.currentSPFolder,
+      childrenFolders: this.state.childrenFolders,
+    });
     this.delayedValidate(this.state.confirmFolder);
   }
 
@@ -130,13 +135,25 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
   private LoadChildrenFolders(): void {
     //Loading
     this.state.childrenFolders = { value: [] };
-    this.setState({ isOpen: true, loading: true, selectedFolder: this.state.selectedFolder, currentSPFolder: this.state.currentSPFolder, childrenFolders: this.state.childrenFolders });
+    this.setState({
+      isOpen: true,
+      loading: true,
+      selectedFolder: this.state.selectedFolder,
+      currentSPFolder: this.state.currentSPFolder,
+      childrenFolders: this.state.childrenFolders,
+    });
     //Inits the service
     var folderService: SPFolderPickerService = new SPFolderPickerService(this.props.context);
     folderService.getFolders(this.state.currentSPFolder, this.currentPage, this.pageItemCount).then((response: ISPFolders) => {
       //Binds the results
       this.state.childrenFolders = response;
-      this.setState({ isOpen: true, loading: false, selectedFolder: this.state.selectedFolder, currentSPFolder: this.state.currentSPFolder, childrenFolders: this.state.childrenFolders });
+      this.setState({
+        isOpen: true,
+        loading: false,
+        selectedFolder: this.state.selectedFolder,
+        currentSPFolder: this.state.currentSPFolder,
+        childrenFolders: this.state.childrenFolders,
+      });
     });
   }
 
@@ -144,12 +161,11 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
    * @function
    * User clicks on the previous button
    */
-   private onClickPrevious(): void {
-     this.currentPage = this.currentPage - 1;
-     this.state.selectedFolder = '';
-     if (this.currentPage < 0)
-      this.currentPage = 0;
-     this.LoadChildrenFolders();
+  private onClickPrevious(): void {
+    this.currentPage = this.currentPage - 1;
+    this.state.selectedFolder = "";
+    if (this.currentPage < 0) this.currentPage = 0;
+    this.LoadChildrenFolders();
   }
 
   /**
@@ -157,7 +173,7 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
    * User clicks on the next button
    */
   private onClickNext(): void {
-    this.state.selectedFolder = '';
+    this.state.selectedFolder = "";
     this.currentPage = this.currentPage + 1;
     this.LoadChildrenFolders();
   }
@@ -168,7 +184,7 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
    */
   private onClickLink(element?: any): void {
     this.currentPage = 0;
-    this.state.selectedFolder = '';
+    this.state.selectedFolder = "";
     this.state.currentSPFolder = element.currentTarget.value;
     this.LoadChildrenFolders();
   }
@@ -179,10 +195,9 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
    */
   private onClickParent(): void {
     var parentFolder: string = this.getParentFolder(this.state.currentSPFolder);
-    if (parentFolder == this.props.context.pageContext.web.serverRelativeUrl)
-      parentFolder = '';
+    if (parentFolder == this.props.context.pageContext.web.serverRelativeUrl) parentFolder = "";
     this.currentPage = 0;
-    this.state.selectedFolder = '';
+    this.state.selectedFolder = "";
     this.state.currentSPFolder = parentFolder;
     this.LoadChildrenFolders();
   }
@@ -192,12 +207,12 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
    * Gets the parent folder server relative url from a folder url
    */
   private getParentFolder(folderUrl: string): string {
-    var splitted = folderUrl.split('/');
-    var parentFolder: string = '';
-    for (var i = 0; i < splitted.length -1; i++) {
+    var splitted = folderUrl.split("/");
+    var parentFolder: string = "";
+    for (var i = 0; i < splitted.length - 1; i++) {
       var node: string = splitted[i];
-      if (node != null && node != '') {
-        parentFolder += '/';
+      if (node != null && node != "") {
+        parentFolder += "/";
         parentFolder += splitted[i];
       }
     }
@@ -210,7 +225,13 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
    */
   private onFolderChecked(element?: any): void {
     this.state.selectedFolder = element.currentTarget.value;
-    this.setState({ isOpen: true, loading: false, selectedFolder: this.state.selectedFolder, currentSPFolder: this.state.currentSPFolder, childrenFolders: this.state.childrenFolders });
+    this.setState({
+      isOpen: true,
+      loading: false,
+      selectedFolder: this.state.selectedFolder,
+      currentSPFolder: this.state.currentSPFolder,
+      childrenFolders: this.state.childrenFolders,
+    });
   }
 
   /**
@@ -219,10 +240,14 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
    */
   private onClickSelect(): void {
     this.state.confirmFolder = this.state.selectedFolder;
-    this.state = { isOpen: false, loading: false, selectedFolder: this.state.selectedFolder,
+    this.state = {
+      isOpen: false,
+      loading: false,
+      selectedFolder: this.state.selectedFolder,
       confirmFolder: this.state.selectedFolder,
       currentSPFolder: this.state.currentSPFolder,
-      childrenFolders: this.state.childrenFolders };
+      childrenFolders: this.state.childrenFolders,
+    };
     this.setState(this.state);
     this.delayedValidate(this.state.confirmFolder);
   }
@@ -237,28 +262,23 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
       return;
     }
 
-    if (this.latestValidateValue === value)
-      return;
+    if (this.latestValidateValue === value) return;
     this.latestValidateValue = value;
 
-    var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || '');
+    var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || "");
     if (result !== undefined) {
-      if (typeof result === 'string') {
-        if (result === undefined || result === '')
-          this.notifyAfterValidate(this.props.initialFolder, value);
+      if (typeof result === "string") {
+        if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialFolder, value);
         this.state.errorMessage = result;
         this.setState(this.state);
-      }
-      else {
+      } else {
         result.then((errorMessage: string) => {
-          if (errorMessage === undefined || errorMessage === '')
-            this.notifyAfterValidate(this.props.initialFolder, value);
+          if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialFolder, value);
           this.state.errorMessage = errorMessage;
           this.setState(this.state);
         });
       }
-    }
-    else {
+    } else {
       this.notifyAfterValidate(this.props.initialFolder, value);
     }
   }
@@ -271,8 +291,7 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
     if (this.props.onPropertyChange && newValue != null) {
       this.props.properties[this.props.targetProperty] = newValue;
       this.props.onPropertyChange(this.props.targetProperty, oldValue, newValue);
-      if (!this.props.disableReactivePropertyChanges && this.props.render != null)
-        this.props.render();
+      if (!this.props.disableReactivePropertyChanges && this.props.render != null) this.props.render();
     }
   }
 
@@ -289,7 +308,13 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
    * User close the dialog wihout saving
    */
   private onDismiss(ev?: React.MouseEvent<any>): any {
-    this.setState({ isOpen: false, loading: false, selectedFolder: this.state.selectedFolder, currentSPFolder: this.state.currentSPFolder, childrenFolders: this.state.childrenFolders });
+    this.setState({
+      isOpen: false,
+      loading: false,
+      selectedFolder: this.state.selectedFolder,
+      currentSPFolder: this.state.currentSPFolder,
+      childrenFolders: this.state.childrenFolders,
+    });
   }
 
   /**
@@ -297,31 +322,30 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
    * Renders the controls
    */
   public render(): JSX.Element {
-
     var currentFolderisRoot: boolean = false;
-    if (this.state.currentSPFolder == null || this.state.currentSPFolder == '' || this.state.currentSPFolder == this.props.baseFolder)
+    if (this.state.currentSPFolder == null || this.state.currentSPFolder == "" || this.state.currentSPFolder == this.props.baseFolder)
       currentFolderisRoot = true;
 
     //Renders content
     return (
       <div>
         <Label>{this.props.label}</Label>
-         <table style={{width: '100%', borderSpacing: 0}}>
+        <table style={{ width: "100%", borderSpacing: 0 }}>
           <tbody>
             <tr>
               <td width="*">
-                <TextField
-                  disabled={this.props.disabled}
-                  style={{width:'100%'}}
-                  readOnly={true}
-                  value={this.state.confirmFolder} />
+                <TextField disabled={this.props.disabled} style={{ width: "100%" }} readOnly={true} value={this.state.confirmFolder} />
               </td>
               <td width="64">
-                <table style={{width: '100%', borderSpacing: 0}}>
+                <table style={{ width: "100%", borderSpacing: 0 }}>
                   <tbody>
                     <tr>
-                      <td><IconButton disabled={this.props.disabled} iconProps={ { iconName: 'FolderSearch' } } onClick={this.onBrowseClick} /></td>
-                      <td><IconButton disabled={this.props.disabled} iconProps={ { iconName: 'Delete' } } onClick={this.onClearSelectionClick} /></td>
+                      <td>
+                        <IconButton disabled={this.props.disabled} iconProps={{ iconName: "FolderSearch" }} onClick={this.onBrowseClick} />
+                      </td>
+                      <td>
+                        <IconButton disabled={this.props.disabled} iconProps={{ iconName: "Delete" }} onClick={this.onClearSelectionClick} />
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -330,41 +354,62 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
           </tbody>
         </table>
 
-        { this.state.errorMessage != null && this.state.errorMessage != '' && this.state.errorMessage != undefined ?
-              <div style={{paddingBottom: '8px'}}><div aria-live='assertive' className='ms-u-screenReaderOnly' data-automation-id='error-message'>{  this.state.errorMessage }</div>
-              <span>
-                <p className='ms-TextField-errorMessage ms-u-slideDownIn20'>{ this.state.errorMessage }</p>
-              </span>
+        {this.state.errorMessage != null && this.state.errorMessage != "" && this.state.errorMessage != undefined ? (
+          <div style={{ paddingBottom: "8px" }}>
+            <div aria-live="assertive" className="ms-u-screenReaderOnly" data-automation-id="error-message">
+              {this.state.errorMessage}
+            </div>
+            <span>
+              <p className="ms-TextField-errorMessage ms-u-slideDownIn20">{this.state.errorMessage}</p>
+            </span>
+          </div>
+        ) : (
+          ""
+        )}
+
+        <Dialog
+          type={DialogType.close}
+          title={strings.SPFolderPickerDialogTitle}
+          isOpen={this.state.isOpen}
+          isDarkOverlay={true}
+          isBlocking={false}
+          onDismiss={this.onDismiss}
+        >
+          <div style={{ height: "330px" }}>
+            {this.state.loading ? (
+              <div>
+                <Spinner type={SpinnerType.normal} />
               </div>
-            : ''}
+            ) : null}
 
-        <Dialog type={DialogType.close} title={strings.SPFolderPickerDialogTitle} isOpen={this.state.isOpen} isDarkOverlay={true} isBlocking={false} onDismiss={this.onDismiss}>
+            {this.state.loading === false && currentFolderisRoot === false ? (
+              <IconButton onClick={this.onClickParent} iconProps={{ iconName: "Reply" }}>
+                ...
+              </IconButton>
+            ) : null}
 
-            <div style={{ height: '330px'}}>
-                { this.state.loading ? <div><Spinner type={ SpinnerType.normal } /></div> : null }
+            <List items={this.state.childrenFolders.value} onRenderCell={this.onRenderCell} />
+            {this.state.loading === false ? (
+              <IconButton iconProps={{ iconName: "CaretLeft8" }} onClick={this.onClickPrevious} disabled={this.currentPage > 0 ? false : true} />
+            ) : null}
+            {this.state.loading === false ? (
+              <IconButton
+                iconProps={{ iconName: "CaretRight8" }}
+                onClick={this.onClickNext}
+                disabled={this.state.childrenFolders.value.length < this.pageItemCount ? true : false}
+              />
+            ) : null}
+          </div>
 
-                { this.state.loading === false && currentFolderisRoot === false ? <IconButton onClick={this.onClickParent} iconProps={ { iconName: 'Reply' } }>...</IconButton> : null }
-
-                <List items={this.state.childrenFolders.value}  onRenderCell={this.onRenderCell} />
-                { this.state.loading === false ?
-                <IconButton iconProps={ { iconName: 'CaretLeft8' } } onClick={this.onClickPrevious}
-                  disabled={ this.currentPage > 0 ? false : true }
-                  />
-                : null }
-                { this.state.loading === false ?
-                <IconButton iconProps={ { iconName: 'CaretRight8' } } onClick={this.onClickNext}
-                  disabled={ this.state.childrenFolders.value.length < this.pageItemCount ? true : false }
-                   />
-                : null }
-            </div>
-
-            <div style={{marginTop: '20px'}}>
-
-              <PrimaryButton disabled={this.state.selectedFolder != null && this.state.selectedFolder != '' ? false : true }
-                onClick={this.onClickSelect}>{strings.SPFolderPickerSelectButton}</PrimaryButton>
-              <DefaultButton onClick={this.onDismiss}>{strings.SPFolderPickerCancelButton}</DefaultButton>
-            </div>
-
+          <div style={{ marginTop: "20px" }}>
+            <PrimaryButton
+              disabled={this.state.selectedFolder != null && this.state.selectedFolder != "" ? false : true}
+              onClick={this.onClickSelect}
+            >
+              {strings.SPFolderPickerSelectButton}
+            </PrimaryButton>
+            <DefaultButton onClick={this.onDismiss}>{strings.SPFolderPickerCancelButton}</DefaultButton>
+          </div>
         </Dialog>
       </div>
     );
@@ -375,22 +420,26 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
    * Renders a list cell
    */
   private onRenderCell(item?: any, index?: number): React.ReactNode {
-    var idUnique: string = 'radio-' + item.ServerRelativeUrl;
+    var idUnique: string = "radio-" + item.ServerRelativeUrl;
     return (
-      <div style={{fontSize: '14px', padding: '4px'}}>
+      <div style={{ fontSize: "14px", padding: "4px" }}>
         <div className="ms-ChoiceField">
-          <input id={idUnique} style={{width: '18px', height: '18px'}}
-            defaultChecked={item.ServerRelativeUrl === this.state.confirmFolder ? true: false}
-            aria-checked={item.ServerRelativeUrl === this.state.confirmFolder ? true: false}
-            onChange={this.onFolderChecked} type="radio" name="radio1" value={item.ServerRelativeUrl}/>
-          <label htmlFor={idUnique} >
+          <input
+            id={idUnique}
+            style={{ width: "18px", height: "18px" }}
+            defaultChecked={item.ServerRelativeUrl === this.state.confirmFolder ? true : false}
+            aria-checked={item.ServerRelativeUrl === this.state.confirmFolder ? true : false}
+            onChange={this.onFolderChecked}
+            type="radio"
+            name="radio1"
+            value={item.ServerRelativeUrl}
+          />
+          <label htmlFor={idUnique}>
             <span className="ms-Label">
-              <i className="ms-Icon ms-Icon--FolderFill" style={{color: '#0062AF', fontSize: '22px'}}></i>
-              <span style={{paddingLeft: '5px'}}>
-                <CommandButton style={{paddingBottom: '0', height: '27px'}} value={item.ServerRelativeUrl} onClick={this.onClickLink}>
-                  <span className="ms-Button-label">
-                    {item.Name}
-                  </span>
+              <i className="ms-Icon ms-Icon--FolderFill" style={{ color: "#0062AF", fontSize: "22px" }} />
+              <span style={{ paddingLeft: "5px" }}>
+                <CommandButton style={{ paddingBottom: "0", height: "27px" }} value={item.ServerRelativeUrl} onClick={this.onClickLink}>
+                  <span className="ms-Button-label">{item.Name}</span>
                 </CommandButton>
               </span>
             </span>
@@ -399,9 +448,7 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<IPr
       </div>
     );
   }
-
 }
-
 
 /**
  * @interface
@@ -425,15 +472,14 @@ export interface ISPFolder {
  * Service implementation to get folders from current SharePoint site
  */
 class SPFolderPickerService {
-
   private context: IWebPartContext;
 
   /**
    * @function
    * Service constructor
    */
-  constructor(pageContext: IWebPartContext){
-      this.context = pageContext;
+  constructor(pageContext: IWebPartContext) {
+    this.context = pageContext;
   }
 
   /**
@@ -444,19 +490,17 @@ class SPFolderPickerService {
     if (Environment.type === EnvironmentType.Local) {
       //If the running environment is local, load the data from the mock
       return this.getFoldersMock(parentFolderServerRelativeUrl);
-    }
-    else {
+    } else {
       //If the running environment is SharePoint, request the folders REST service
       var queryUrl: string = this.context.pageContext.web.absoluteUrl;
       var skipNumber = currentPage * pageItemCount;
-      if (parentFolderServerRelativeUrl == null || parentFolderServerRelativeUrl == '' || parentFolderServerRelativeUrl == '/') {
+      if (parentFolderServerRelativeUrl == null || parentFolderServerRelativeUrl == "" || parentFolderServerRelativeUrl == "/") {
         //The folder is the web root site
         queryUrl += "/_api/web/folders?$select=Name,ServerRelativeUrl&$orderBy=Name&$top=";
         queryUrl += pageItemCount;
         queryUrl += "&$skip=";
         queryUrl += skipNumber;
-      }
-      else {
+      } else {
         //Loads sub folders
         queryUrl += "/_api/web/GetFolderByServerRelativeUrl('";
         queryUrl += parentFolderServerRelativeUrl;
@@ -466,7 +510,7 @@ class SPFolderPickerService {
         queryUrl += skipNumber;
       }
       return this.context.spHttpClient.get(queryUrl, SPHttpClient.configurations.v1).then((response: SPHttpClientResponse) => {
-          return response.json();
+        return response.json();
       });
     }
   }
@@ -477,41 +521,36 @@ class SPFolderPickerService {
    */
   private getFoldersMock(parentFolderServerRelativeUrl?: string): Promise<ISPFolders> {
     return SPFolderPickerMockHttpClient.getFolders(this.context.pageContext.web.absoluteUrl).then(() => {
-          const listData: ISPFolders = {
-              value:
-              [
-                  { Name: 'Mock Folder One', ServerRelativeUrl: '/mockfolderone' },
-                  { Name: 'Mock Folder Two', ServerRelativeUrl: '/mockfoldertwo' },
-                  { Name: 'Mock Folder Three', ServerRelativeUrl: '/mockfolderthree' }
-              ]
-          };
-          return listData;
-      }) as Promise<ISPFolders>;
+      const listData: ISPFolders = {
+        value: [
+          { Name: "Mock Folder One", ServerRelativeUrl: "/mockfolderone" },
+          { Name: "Mock Folder Two", ServerRelativeUrl: "/mockfoldertwo" },
+          { Name: "Mock Folder Three", ServerRelativeUrl: "/mockfolderthree" },
+        ],
+      };
+      return listData;
+    }) as Promise<ISPFolders>;
   }
-
 }
-
 
 /**
  * @class
  * Defines a http client to request mock data to use the web part with the local workbench
  */
 class SPFolderPickerMockHttpClient {
+  /**
+   * @var
+   * Mock SharePoint result sample
+   */
+  private static _results: ISPFolders = { value: [] };
 
-    /**
-     * @var
-     * Mock SharePoint result sample
-     */
-    private static _results: ISPFolders = { value: []};
-
-    /**
-     * @function
-     * Mock get folders method
-     */
-    public static getFolders(restUrl: string, options?: any): Promise<ISPFolders> {
-      return new Promise<ISPFolders>((resolve) => {
-            resolve(SPFolderPickerMockHttpClient._results);
-        });
-    }
-
+  /**
+   * @function
+   * Mock get folders method
+   */
+  public static getFolders(restUrl: string, options?: any): Promise<ISPFolders> {
+    return new Promise<ISPFolders>(resolve => {
+      resolve(SPFolderPickerMockHttpClient._results);
+    });
+  }
 }

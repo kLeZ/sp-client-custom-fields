@@ -6,14 +6,10 @@
  * @copyright 2017 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldTagPickerHost, { IPropertyFieldTagPickerHostProps } from './PropertyFieldTagPickerHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldTagPickerHost, { IPropertyFieldTagPickerHostProps } from "./PropertyFieldTagPickerHost";
 
 /**
  * @interface
@@ -112,12 +108,12 @@ export interface IPropertyFieldTagPickerProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: IPropertyFieldTag[]) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: IPropertyFieldTag[]) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -153,7 +149,6 @@ export interface IPropertyFieldTagPickerPropsInternal extends IPropertyPaneCusto
  *
  */
 class PropertyFieldTagPickerBuilder implements IPropertyPaneField<IPropertyFieldTagPickerPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -194,11 +189,9 @@ class PropertyFieldTagPickerBuilder implements IPropertyPaneField<IPropertyField
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -227,7 +220,7 @@ class PropertyFieldTagPickerBuilder implements IPropertyPaneField<IPropertyField
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -237,10 +230,7 @@ class PropertyFieldTagPickerBuilder implements IPropertyPaneField<IPropertyField
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -249,31 +239,31 @@ class PropertyFieldTagPickerBuilder implements IPropertyPaneField<IPropertyField
  * @param targetProperty - Target property the custom field is associated to.
  * @param properties - Strongly typed custom field properties.
  */
-export function PropertyFieldTagPicker(targetProperty: string, properties: IPropertyFieldTagPickerProps): IPropertyPaneField<IPropertyFieldTagPickerPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldTagPickerPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      selectedTags: properties.selectedTags,
-      suggestionsHeaderText: properties.suggestionsHeaderText,
-      noResultsFoundText: properties.noResultsFoundText,
-      loadingText: properties.loadingText,
-      tags: properties.tags,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldTagPicker builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldTagPickerBuilder(targetProperty, newProperties);
+export function PropertyFieldTagPicker(
+  targetProperty: string,
+  properties: IPropertyFieldTagPickerProps
+): IPropertyPaneField<IPropertyFieldTagPickerPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldTagPickerPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    selectedTags: properties.selectedTags,
+    suggestionsHeaderText: properties.suggestionsHeaderText,
+    noResultsFoundText: properties.noResultsFoundText,
+    loadingText: properties.loadingText,
+    tags: properties.tags,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldTagPicker builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldTagPickerBuilder(targetProperty, newProperties);
 }
-
-

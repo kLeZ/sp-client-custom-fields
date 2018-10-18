@@ -6,14 +6,10 @@
  * @copyright 2017 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldSearchPropertiesPickerHost, { IPropertyFieldSearchPropertiesPickerHostProps } from './PropertyFieldSearchPropertiesPickerHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldSearchPropertiesPickerHost, { IPropertyFieldSearchPropertiesPickerHostProps } from "./PropertyFieldSearchPropertiesPickerHost";
 
 /**
  * @interface
@@ -92,12 +88,12 @@ export interface IPropertyFieldSearchPropertiesPickerProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string[]) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string[]) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -132,7 +128,6 @@ export interface IPropertyFieldSearchPropertiesPickerPropsInternal extends IProp
  *
  */
 class PropertyFieldSearchPropertiesPickerBuilder implements IPropertyPaneField<IPropertyFieldSearchPropertiesPickerPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -171,11 +166,9 @@ class PropertyFieldSearchPropertiesPickerBuilder implements IPropertyPaneField<I
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -203,7 +196,7 @@ class PropertyFieldSearchPropertiesPickerBuilder implements IPropertyPaneField<I
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -213,10 +206,7 @@ class PropertyFieldSearchPropertiesPickerBuilder implements IPropertyPaneField<I
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -225,30 +215,30 @@ class PropertyFieldSearchPropertiesPickerBuilder implements IPropertyPaneField<I
  * @param targetProperty - Target property the custom field is associated to.
  * @param properties - Strongly typed custom field properties.
  */
-export function PropertyFieldSearchPropertiesPicker(targetProperty: string, properties: IPropertyFieldSearchPropertiesPickerProps): IPropertyPaneField<IPropertyFieldSearchPropertiesPickerPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldSearchPropertiesPickerPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      selectedProperties: properties.selectedProperties,
-      suggestionsHeaderText: properties.suggestionsHeaderText,
-      noResultsFoundText: properties.noResultsFoundText,
-      loadingText: properties.loadingText,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldSearchPropertiesPicker builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldSearchPropertiesPickerBuilder(targetProperty, newProperties);
+export function PropertyFieldSearchPropertiesPicker(
+  targetProperty: string,
+  properties: IPropertyFieldSearchPropertiesPickerProps
+): IPropertyPaneField<IPropertyFieldSearchPropertiesPickerPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldSearchPropertiesPickerPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    selectedProperties: properties.selectedProperties,
+    suggestionsHeaderText: properties.suggestionsHeaderText,
+    noResultsFoundText: properties.noResultsFoundText,
+    loadingText: properties.loadingText,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldSearchPropertiesPicker builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldSearchPropertiesPickerBuilder(targetProperty, newProperties);
 }
-
-

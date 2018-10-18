@@ -1,11 +1,11 @@
-define([], function() {
+define([], function () {
   return {
-     //Dimension Picker labels
+    //Dimension Picker labels
     "DimensionWidth": "Bredde",
     "DimensionHeight": "Højde",
     "DimensionRatio": "Bevare forholdet",
 
-   //Custom List labels
+    //Custom List labels
     //Copy the following labels in your project if you want to use the SPListQuery
     "CustomListAddItem": "Tilføje",
     "CustomListBack": "Tilbagevenden",
@@ -33,7 +33,7 @@ define([], function() {
     "SPListQueryOperatorNe": "Forskellig fra",
     "SPListQueryOperatorStartsWith": "Begynder med",
     "SPListQueryOperatorSubstringof": "Del af under",
-    "SPListQueryOperatorLt":  "Mindre end",
+    "SPListQueryOperatorLt": "Mindre end",
     "SPListQueryOperatorLe": "Mindre end eller lig",
     "SPListQueryOperatorGt": "Mere end",
     "SPListQueryOperatorGe": "Flere eller lig",

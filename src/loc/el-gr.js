@@ -1,4 +1,4 @@
-define([], function() {
+define([], function () {
   return {
     //Dimension Picker labels
     "DimensionWidth": "Πλάτος",
@@ -33,7 +33,7 @@ define([], function() {
     "SPListQueryOperatorNe": "Δεν ισούται με",
     "SPListQueryOperatorStartsWith": "Ξεκινά με",
     "SPListQueryOperatorSubstringof": "Δευτερεύουσα συμβολοσειρά",
-    "SPListQueryOperatorLt":  "Λιγότερο από",
+    "SPListQueryOperatorLt": "Λιγότερο από",
     "SPListQueryOperatorLe": "Μικρότερη ή ίση με",
     "SPListQueryOperatorGt": "Μεγαλύτερη από",
     "SPListQueryOperatorGe": "Μεγαλύτερη ή ίση με",

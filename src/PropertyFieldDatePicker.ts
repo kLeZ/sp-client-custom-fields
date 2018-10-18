@@ -6,14 +6,10 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldDatePickerHost, { IPropertyFieldDatePickerHostProps } from './PropertyFieldDatePickerHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldDatePickerHost, { IPropertyFieldDatePickerHostProps } from "./PropertyFieldDatePickerHost";
 
 /**
  * @interface
@@ -79,12 +75,12 @@ export interface IPropertyFieldDatePickerProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -116,7 +112,6 @@ export interface IPropertyFieldDatePickerPropsInternal extends IPropertyPaneCust
  *
  */
 export class PropertyFieldDatePickerBuilder implements IPropertyPaneField<IPropertyFieldDatePickerPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -151,8 +146,7 @@ export class PropertyFieldDatePickerBuilder implements IPropertyPaneField<IPrope
     this.customProperties = _properties.properties;
     this.key = _properties.key;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -177,7 +171,7 @@ export class PropertyFieldDatePickerBuilder implements IPropertyPaneField<IPrope
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -187,10 +181,7 @@ export class PropertyFieldDatePickerBuilder implements IPropertyPaneField<IPrope
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -199,27 +190,27 @@ export class PropertyFieldDatePickerBuilder implements IPropertyPaneField<IPrope
  * @param targetProperty - Target property the custom field is associated to.
  * @param properties - Strongly typed custom field properties.
  */
-export function PropertyFieldDatePicker(targetProperty: string, properties: IPropertyFieldDatePickerProps): IPropertyPaneField<IPropertyFieldDatePickerPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldDatePickerPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      initialDate: properties.initialDate,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      formatDate: properties.formatDate,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldDatePicker builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldDatePickerBuilder(targetProperty, newProperties);
+export function PropertyFieldDatePicker(
+  targetProperty: string,
+  properties: IPropertyFieldDatePickerProps
+): IPropertyPaneField<IPropertyFieldDatePickerPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldDatePickerPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    initialDate: properties.initialDate,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    formatDate: properties.formatDate,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldDatePicker builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldDatePickerBuilder(targetProperty, newProperties);
 }
-
-

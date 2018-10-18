@@ -5,94 +5,89 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  BaseClientSideWebPart,
-  IPropertyPaneConfiguration,
-  IWebPartContext
-} from '@microsoft/sp-webpart-base';
-import { Version } from '@microsoft/sp-core-library';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { BaseClientSideWebPart, IPropertyPaneConfiguration, IWebPartContext } from "@microsoft/sp-webpart-base";
+import { Version } from "@microsoft/sp-core-library";
 
-import * as strings from 'testStrings';
-import Test, { ITestProps } from './components/Test';
-import { ITestWebPartProps } from './ITestWebPartProps';
+import * as strings from "testStrings";
+import Test, { ITestProps } from "./components/Test";
+import { ITestWebPartProps } from "./ITestWebPartProps";
 
 //Include the PropertyFieldDatePicker component
-import { PropertyFieldDatePicker } from '../../PropertyFieldDatePicker';
+import { PropertyFieldDatePicker } from "../../PropertyFieldDatePicker";
 //Include the PropertyFieldDateTimePicker component
-import { PropertyFieldDateTimePicker, ITimeConvention } from '../../PropertyFieldDateTimePicker';
+import { PropertyFieldDateTimePicker, ITimeConvention } from "../../PropertyFieldDateTimePicker";
 //Include the PropertyFieldColorPicker component
-import { PropertyFieldColorPicker } from '../../PropertyFieldColorPicker';
+import { PropertyFieldColorPicker } from "../../PropertyFieldColorPicker";
 //Include the PropertyFieldColorPickerMini component
-import { PropertyFieldColorPickerMini } from '../../PropertyFieldColorPickerMini';
+import { PropertyFieldColorPickerMini } from "../../PropertyFieldColorPickerMini";
 //Include the PropertyFieldPeoplePicker component
-import { PropertyFieldPeoplePicker } from '../../PropertyFieldPeoplePicker';
+import { PropertyFieldPeoplePicker } from "../../PropertyFieldPeoplePicker";
 //Include the PropertyFieldSPListPicker component
-import { PropertyFieldSPListPicker, PropertyFieldSPListPickerOrderBy } from '../../PropertyFieldSPListPicker';
+import { PropertyFieldSPListPicker, PropertyFieldSPListPickerOrderBy } from "../../PropertyFieldSPListPicker";
 //Include the PropertyFieldSPListMultiplePicker component
-import { PropertyFieldSPListMultiplePicker, PropertyFieldSPListMultiplePickerOrderBy } from '../../PropertyFieldSPListMultiplePicker';
+import { PropertyFieldSPListMultiplePicker, PropertyFieldSPListMultiplePickerOrderBy } from "../../PropertyFieldSPListMultiplePicker";
 //Include the PropertyFieldSPFolderPicker component
-import { PropertyFieldSPFolderPicker } from '../../PropertyFieldSPFolderPicker';
+import { PropertyFieldSPFolderPicker } from "../../PropertyFieldSPFolderPicker";
 //Include the PropertyFieldPassword component
-import { PropertyFieldPassword } from '../../PropertyFieldPassword';
+import { PropertyFieldPassword } from "../../PropertyFieldPassword";
 //Include the PropertyFieldFontPicker component
-import { PropertyFieldFontPicker } from '../../PropertyFieldFontPicker';
+import { PropertyFieldFontPicker } from "../../PropertyFieldFontPicker";
 //Include the PropertyFieldFontSizePicker component
-import { PropertyFieldFontSizePicker } from '../../PropertyFieldFontSizePicker';
+import { PropertyFieldFontSizePicker } from "../../PropertyFieldFontSizePicker";
 //Include the PropertyFieldPhoneNumber component
-import { PropertyFieldPhoneNumber, IPhoneNumberFormat } from '../../PropertyFieldPhoneNumber';
+import { PropertyFieldPhoneNumber, IPhoneNumberFormat } from "../../PropertyFieldPhoneNumber";
 //Include the PropertyFieldMaskedInput component
-import { PropertyFieldMaskedInput } from '../../PropertyFieldMaskedInput';
+import { PropertyFieldMaskedInput } from "../../PropertyFieldMaskedInput";
 //Include the PropertyFieldMaskedInput component
-import { PropertyFieldMapPicker } from '../../PropertyFieldMapPicker';
+import { PropertyFieldMapPicker } from "../../PropertyFieldMapPicker";
 //Include the PropertyFieldPicturePicker component
-import { PropertyFieldPicturePicker } from '../../PropertyFieldPicturePicker';
+import { PropertyFieldPicturePicker } from "../../PropertyFieldPicturePicker";
 //Include the PropertyFieldIconPicker component
-import { PropertyFieldIconPicker } from '../../PropertyFieldIconPicker';
+import { PropertyFieldIconPicker } from "../../PropertyFieldIconPicker";
 //Include the PropertyFieldDocumentPicker component
-import { PropertyFieldDocumentPicker } from '../../PropertyFieldDocumentPicker';
+import { PropertyFieldDocumentPicker } from "../../PropertyFieldDocumentPicker";
 //Include the PropertyFieldDisplayMode component
-import { PropertyFieldDisplayMode } from '../../PropertyFieldDisplayMode';
+import { PropertyFieldDisplayMode } from "../../PropertyFieldDisplayMode";
 //Include the PropertyFieldCustomList component
-import { PropertyFieldCustomList, CustomListFieldType } from '../../PropertyFieldCustomList';
+import { PropertyFieldCustomList, CustomListFieldType } from "../../PropertyFieldCustomList";
 //Include the PropertyFieldSPListQuery component
-import { PropertyFieldSPListQuery, PropertyFieldSPListQueryOrderBy } from '../../PropertyFieldSPListQuery';
+import { PropertyFieldSPListQuery, PropertyFieldSPListQueryOrderBy } from "../../PropertyFieldSPListQuery";
 //Include the PropertyFieldAlignPicker component
-import { PropertyFieldAlignPicker } from '../../PropertyFieldAlignPicker';
+import { PropertyFieldAlignPicker } from "../../PropertyFieldAlignPicker";
 //Include the PropertyFieldDropDownSelect component
-import { PropertyFieldDropDownSelect } from '../../PropertyFieldDropDownSelect';
+import { PropertyFieldDropDownSelect } from "../../PropertyFieldDropDownSelect";
 //Include the PropertyFieldRichTextBox component
-import { PropertyFieldRichTextBox } from '../../PropertyFieldRichTextBox';
+import { PropertyFieldRichTextBox } from "../../PropertyFieldRichTextBox";
 //Include the PropertyFieldSliderRange component
-import { PropertyFieldSliderRange } from '../../PropertyFieldSliderRange';
+import { PropertyFieldSliderRange } from "../../PropertyFieldSliderRange";
 //Include the PropertyFieldDimensionPicker component
-import { PropertyFieldDimensionPicker } from '../../PropertyFieldDimensionPicker';
+import { PropertyFieldDimensionPicker } from "../../PropertyFieldDimensionPicker";
 //Include the PropertyFieldSortableList component
-import { PropertyFieldSortableList, ISortableListOrder } from '../../PropertyFieldSortableList';
+import { PropertyFieldSortableList, ISortableListOrder } from "../../PropertyFieldSortableList";
 //Include the PropertyFieldTreeView component
-import { PropertyFieldTreeView } from '../../PropertyFieldTreeView';
+import { PropertyFieldTreeView } from "../../PropertyFieldTreeView";
 //Include the PropertyFieldDropDownTreeView component
-import { PropertyFieldDropDownTreeView } from '../../PropertyFieldDropDownTreeView';
+import { PropertyFieldDropDownTreeView } from "../../PropertyFieldDropDownTreeView";
 //Include the PropertyFieldTagPicker component
-import { PropertyFieldTagPicker } from '../../PropertyFieldTagPicker';
+import { PropertyFieldTagPicker } from "../../PropertyFieldTagPicker";
 //Include the PropertyFieldStarRating component
-import { PropertyFieldStarRating } from '../../PropertyFieldStarRating';
+import { PropertyFieldStarRating } from "../../PropertyFieldStarRating";
 //Include the PropertyFieldGroupPicker component
-import { PropertyFieldGroupPicker, IGroupType } from '../../PropertyFieldGroupPicker';
+import { PropertyFieldGroupPicker, IGroupType } from "../../PropertyFieldGroupPicker";
 //Include the PropertyFieldNumericInput component
-import { PropertyFieldNumericInput } from '../../PropertyFieldNumericInput';
+import { PropertyFieldNumericInput } from "../../PropertyFieldNumericInput";
 //Include the PropertyFieldAutoComplete component
-import { PropertyFieldAutoComplete } from '../../PropertyFieldAutoComplete';
+import { PropertyFieldAutoComplete } from "../../PropertyFieldAutoComplete";
 //Include the PropertyFieldSearchPropertiesPicker component
-import { PropertyFieldSearchPropertiesPicker } from '../../PropertyFieldSearchPropertiesPicker';
+import { PropertyFieldSearchPropertiesPicker } from "../../PropertyFieldSearchPropertiesPicker";
 //Include the PropertyFieldSearchPropertiesPicker component
-import { PropertyFieldOfficeVideoPicker } from '../../PropertyFieldOfficeVideoPicker';
+import { PropertyFieldOfficeVideoPicker } from "../../PropertyFieldOfficeVideoPicker";
 //Include the PropertyFieldTermSetPicker component
-import { PropertyFieldTermSetPicker } from '../../PropertyFieldTermSetPicker';
+import { PropertyFieldTermSetPicker } from "../../PropertyFieldTermSetPicker";
 
 export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps> {
-
   public constructor(context: IWebPartContext) {
     super();
 
@@ -100,7 +95,6 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
     //we need to bind this object on it first
     this.onPropertyPaneFieldChanged = this.onPropertyPaneFieldChanged.bind(this);
     this.testPropertyChanged = this.testPropertyChanged.bind(this);
-
   }
 
   public render(): void {
@@ -142,15 +136,15 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
       autoSuggest: this.properties.autoSuggest,
       searchProperties: this.properties.searchProperties,
       officeVideo: this.properties.officeVideo,
-      termSets: this.properties.termSets
+      termSets: this.properties.termSets,
     });
 
     ReactDom.render(element, this.domElement);
   }
 
-	protected get disableReactivePropertyChanges(): boolean {
-		return false;
-	}
+  protected get disableReactivePropertyChanges(): boolean {
+    return false;
+  }
 
   private formatDateIso(date: Date): string {
     //example for ISO date formatting
@@ -160,12 +154,10 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
   private testPropertyChanged(propertyPath: string, oldValue: any, newValue: any): void {
     this.properties.font = newValue;
     this.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
-    if (!this.disableReactivePropertyChanges)
-      this.render();
+    if (!this.disableReactivePropertyChanges) this.render();
   }
 
-
-/*
+  /*
   //Samples of validation method, to use
   //with the onGetErrorMessage function of Propery Fields.
   //See https://dev.office.com/sharepoint/docs/spfx/web-parts/guidance/validate-web-part-property-values
@@ -335,7 +327,7 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
 */
 
   protected get dataVersion(): Version {
-    return Version.parse('1.0');
+    return Version.parse("1.0");
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
@@ -343,15 +335,15 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: strings.PropertyPaneDescription,
           },
           //Display the web part properties as accordion
           displayGroupsAsAccordion: true,
           groups: [
             {
-              groupName: 'Layout Fields',
+              groupName: "Layout Fields",
               groupFields: [
-                PropertyFieldFontPicker('font', {
+                PropertyFieldFontPicker("font", {
                   label: strings.FontFieldLabel,
                   useSafeFont: true,
                   previewFonts: true,
@@ -363,9 +355,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'fontFieldId'
+                  key: "fontFieldId",
                 }),
-                PropertyFieldFontSizePicker('fontSize', {
+                PropertyFieldFontSizePicker("fontSize", {
                   label: strings.FontSizeFieldLabel,
                   usePixels: false,
                   preview: true,
@@ -377,9 +369,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'fontSizeFieldId'
+                  key: "fontSizeFieldId",
                 }),
-                PropertyFieldFontSizePicker('fontSize', {
+                PropertyFieldFontSizePicker("fontSize", {
                   label: strings.FontSizeFieldLabel,
                   usePixels: true,
                   preview: true,
@@ -391,9 +383,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'fontSizeField2Id'
+                  key: "fontSizeField2Id",
                 }),
-                PropertyFieldIconPicker('icon', {
+                PropertyFieldIconPicker("icon", {
                   label: strings.IconFieldLabel,
                   initialValue: this.properties.icon,
                   orderAlphabetical: true,
@@ -404,9 +396,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'iconFieldId'
+                  key: "iconFieldId",
                 }),
-                PropertyFieldColorPickerMini('miniColor', {
+                PropertyFieldColorPickerMini("miniColor", {
                   label: strings.ColorMiniFieldLabel,
                   initialColor: this.properties.miniColor,
                   disabled: false,
@@ -416,9 +408,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   properties: this.properties,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'colorMiniFieldId'
+                  key: "colorMiniFieldId",
                 }),
-                PropertyFieldColorPicker('color', {
+                PropertyFieldColorPicker("color", {
                   label: strings.ColorFieldLabel,
                   initialColor: this.properties.color,
                   onPropertyChange: this.onPropertyPaneFieldChanged,
@@ -427,9 +419,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   properties: this.properties,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'colorFieldId'
+                  key: "colorFieldId",
                 }),
-                PropertyFieldAlignPicker('align', {
+                PropertyFieldAlignPicker("align", {
                   label: strings.AlignFieldLabel,
                   initialValue: this.properties.align,
                   onPropertyChanged: this.onPropertyPaneFieldChanged,
@@ -439,9 +431,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'alignFieldId'
+                  key: "alignFieldId",
                 }),
-                PropertyFieldDimensionPicker('dimension', {
+                PropertyFieldDimensionPicker("dimension", {
                   label: strings.DimensionFieldLabel,
                   initialValue: this.properties.dimension,
                   preserveRatio: true,
@@ -453,40 +445,39 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'dimensionFieldId'
-                })
+                  key: "dimensionFieldId",
+                }),
               ],
             },
             {
-              groupName: 'Text Input Fields',
+              groupName: "Text Input Fields",
               groupFields: [
-
-                PropertyFieldCustomList('customList', {
+                PropertyFieldCustomList("customList", {
                   label: strings.CustomListFieldLabel,
                   value: this.properties.customList,
                   headerText: "Manage News",
                   fields: [
-                    { id: 'NewsTitle', title: 'News Title', required: true, type: CustomListFieldType.string },
-                    { id: 'SubTitle', title: 'Sub title', required: true, type: CustomListFieldType.string },
-                    { id: 'Link', title: 'Link', required: false, type: CustomListFieldType.string, hidden: true },
-                    { id: 'Order', title: 'Order', required: true, type: CustomListFieldType.number },
-                    { id: 'Active', title: 'Active', required: false, type: CustomListFieldType.boolean },
-                    { id: 'StartDate', title: 'Start Date', required: false, type: CustomListFieldType.date, hidden: true },
-                    { id: 'EndDate', title: 'End Date', required: false, type: CustomListFieldType.date, hidden: true },
-                    { id: 'Picture', title: 'Picture', required: false, type: CustomListFieldType.picture, hidden: true },
-                    { id: 'Users', title: 'Users', required: false, type: CustomListFieldType.users, hidden: true },
-                    { id: 'Font', title: 'Font', required: false, type: CustomListFieldType.font, hidden: true },
-                    { id: 'FontSize', title: 'Font size', required: false, type: CustomListFieldType.fontSize, hidden: true },
-                    { id: 'Icon', title: 'Icon', required: false, type: CustomListFieldType.icon, hidden: true },
-                    { id: 'Password', title: 'Password', required: false, type: CustomListFieldType.password, hidden: true },
-                    { id: 'Color', title: 'Color', required: false, type: CustomListFieldType.color, hidden: true },
-                    { id: 'ColorMini', title: 'Color 2', required: false, type: CustomListFieldType.colorMini, hidden: true },
-                    { id: 'List', title: 'List', required: false, type: CustomListFieldType.list, hidden: true },
-                    { id: 'Document', title: 'Document', required: false, type: CustomListFieldType.document, hidden: true },
-                    { id: 'Folder', title: 'Folder', required: false, type: CustomListFieldType.folder, hidden: true },
-                    { id: 'Stars', title: 'Stars', required: false, type: CustomListFieldType.stars, hidden: true },
-                    { id: 'Groups', title: 'Groups', required: false, type: CustomListFieldType.sharePointGroups, hidden: true },
-                    { id: 'Video', title: 'Video', required: false, type: CustomListFieldType.officeVideo, hidden: true }
+                    { id: "NewsTitle", title: "News Title", required: true, type: CustomListFieldType.string },
+                    { id: "SubTitle", title: "Sub title", required: true, type: CustomListFieldType.string },
+                    { id: "Link", title: "Link", required: false, type: CustomListFieldType.string, hidden: true },
+                    { id: "Order", title: "Order", required: true, type: CustomListFieldType.number },
+                    { id: "Active", title: "Active", required: false, type: CustomListFieldType.boolean },
+                    { id: "StartDate", title: "Start Date", required: false, type: CustomListFieldType.date, hidden: true },
+                    { id: "EndDate", title: "End Date", required: false, type: CustomListFieldType.date, hidden: true },
+                    { id: "Picture", title: "Picture", required: false, type: CustomListFieldType.picture, hidden: true },
+                    { id: "Users", title: "Users", required: false, type: CustomListFieldType.users, hidden: true },
+                    { id: "Font", title: "Font", required: false, type: CustomListFieldType.font, hidden: true },
+                    { id: "FontSize", title: "Font size", required: false, type: CustomListFieldType.fontSize, hidden: true },
+                    { id: "Icon", title: "Icon", required: false, type: CustomListFieldType.icon, hidden: true },
+                    { id: "Password", title: "Password", required: false, type: CustomListFieldType.password, hidden: true },
+                    { id: "Color", title: "Color", required: false, type: CustomListFieldType.color, hidden: true },
+                    { id: "ColorMini", title: "Color 2", required: false, type: CustomListFieldType.colorMini, hidden: true },
+                    { id: "List", title: "List", required: false, type: CustomListFieldType.list, hidden: true },
+                    { id: "Document", title: "Document", required: false, type: CustomListFieldType.document, hidden: true },
+                    { id: "Folder", title: "Folder", required: false, type: CustomListFieldType.folder, hidden: true },
+                    { id: "Stars", title: "Stars", required: false, type: CustomListFieldType.stars, hidden: true },
+                    { id: "Groups", title: "Groups", required: false, type: CustomListFieldType.sharePointGroups, hidden: true },
+                    { id: "Video", title: "Video", required: false, type: CustomListFieldType.officeVideo, hidden: true },
                   ],
                   onPropertyChange: this.onPropertyPaneFieldChanged,
                   render: this.render.bind(this),
@@ -494,18 +485,18 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   context: this.context,
                   properties: this.properties,
                   disabled: false,
-                  key: 'customListFieldId'
+                  key: "customListFieldId",
                 }),
-                PropertyFieldDropDownSelect('dropDownSelect', {
+                PropertyFieldDropDownSelect("dropDownSelect", {
                   label: strings.DropDownSelectFieldLabel,
                   options: [
-                    {'key': 'Option1', 'text': 'Option 1'},
-                    {'key': 'Option2', 'text': 'Option 2'},
-                    {'key': 'Option3', 'text': 'Option 3'},
-                    {'key': 'Option4', 'text': 'Option 4'},
-                    {'key': 'Option5', 'text': 'Option 5'},
-                    {'key': 'Option6', 'text': 'Option 6'},
-                    {'key': 'Option7', 'text': 'Option 7'}
+                    { key: "Option1", text: "Option 1" },
+                    { key: "Option2", text: "Option 2" },
+                    { key: "Option3", text: "Option 3" },
+                    { key: "Option4", text: "Option 4" },
+                    { key: "Option5", text: "Option 5" },
+                    { key: "Option6", text: "Option 6" },
+                    { key: "Option7", text: "Option 7" },
                   ],
                   initialValue: this.properties.dropDownSelect,
                   onPropertyChange: this.onPropertyPaneFieldChanged,
@@ -515,16 +506,16 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'dropDownSelectFieldId'
+                  key: "dropDownSelectFieldId",
                 }),
-                PropertyFieldSortableList('sortableList', {
+                PropertyFieldSortableList("sortableList", {
                   label: strings.SortableListFieldLabel,
                   items: [
-                    {'key': 'Option1', 'text': 'Option 1'},
-                    {'key': 'Option2', 'text': 'Option 2'},
-                    {'key': 'Option3', 'text': 'Option 3'},
-                    {'key': 'Option4', 'text': 'Option 4'},
-                    {'key': 'Option5', 'text': 'Option 5'}
+                    { key: "Option1", text: "Option 1" },
+                    { key: "Option2", text: "Option 2" },
+                    { key: "Option3", text: "Option 3" },
+                    { key: "Option4", text: "Option 4" },
+                    { key: "Option5", text: "Option 5" },
                   ],
                   selectedItems: this.properties.sortableList,
                   sortBy: ISortableListOrder.Text,
@@ -535,57 +526,81 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'sortableListFieldId'
+                  key: "sortableListFieldId",
                 }),
-                PropertyFieldDropDownTreeView('dropDownTreeView', {
+                PropertyFieldDropDownTreeView("dropDownTreeView", {
                   label: strings.DropDownTreeViewFieldLabel,
                   tree: [
                     {
-                      id: 'Analytics', label: 'Analytics',
+                      id: "Analytics",
+                      label: "Analytics",
                       children: [
                         {
-                          id: 'Market analyses', label: 'Market analyses',
+                          id: "Market analyses",
+                          label: "Market analyses",
                           collapsed: true,
-                          children: [{
-                            id: 'Key-on-screen.jpg', label: 'Key-on-screen.jpg',
-                            leaf: true
-                          }]
+                          children: [
+                            {
+                              id: "Key-on-screen.jpg",
+                              label: "Key-on-screen.jpg",
+                              leaf: true,
+                            },
+                          ],
                         },
                         {
-                          id: 'Northwind marketing', label: 'Northwind marketing',
-                          children: [{
-                            id: 'New Product Overview.pptx',
-                            label: 'New Product Overview.pptx',
-                            leaf: true
-                          }, {
-                            id: 'RD Expenses Q1 to Q3.xlsx', label: 'RD Expenses Q1 to Q3.xlsx',
-                            leaf: true
-                          }, {
-                            id: 'Sat Survey.xlsx', label: 'Sat Survey.xlsx',
-                            leaf: true
-                          }]
+                          id: "Northwind marketing",
+                          label: "Northwind marketing",
+                          children: [
+                            {
+                              id: "New Product Overview.pptx",
+                              label: "New Product Overview.pptx",
+                              leaf: true,
+                            },
+                            {
+                              id: "RD Expenses Q1 to Q3.xlsx",
+                              label: "RD Expenses Q1 to Q3.xlsx",
+                              leaf: true,
+                            },
+                            {
+                              id: "Sat Survey.xlsx",
+                              label: "Sat Survey.xlsx",
+                              leaf: true,
+                            },
+                          ],
                         },
                         {
-                          id: 'Project Budget Audit.docx', label: 'Project Budget Audit.docx',
-                          leaf: true
-                        }, {
-                          id: 'Engineering Costs Q1.pptx', label: 'Engineering Costs Q1.pptx',
-                          leaf: true
-                        }]
+                          id: "Project Budget Audit.docx",
+                          label: "Project Budget Audit.docx",
+                          leaf: true,
+                        },
+                        {
+                          id: "Engineering Costs Q1.pptx",
+                          label: "Engineering Costs Q1.pptx",
+                          leaf: true,
+                        },
+                      ],
                     },
                     {
-                      id: 'Notebooks', label: 'Notebooks',
-                      children: [{
-                        id: 'New Project Timeline.docx', label: 'New Project Timeline.docx',
-                        leaf: true
-                      }, {
-                        id: 'Marketing Video.mp4', label: 'Marketing Video.mp4',
-                        leaf: true
-                      }, {
-                        id: 'Meeting Audio Record.mp3', label: 'Meeting Audio Record.mp3',
-                        leaf: true
-                      }]
-                    }
+                      id: "Notebooks",
+                      label: "Notebooks",
+                      children: [
+                        {
+                          id: "New Project Timeline.docx",
+                          label: "New Project Timeline.docx",
+                          leaf: true,
+                        },
+                        {
+                          id: "Marketing Video.mp4",
+                          label: "Marketing Video.mp4",
+                          leaf: true,
+                        },
+                        {
+                          id: "Meeting Audio Record.mp3",
+                          label: "Meeting Audio Record.mp3",
+                          leaf: true,
+                        },
+                      ],
+                    },
                   ],
                   selectedNodesIDs: this.properties.dropDownTreeView,
                   allowMultipleSelections: true,
@@ -599,76 +614,100 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'dropDownTreeViewFieldId'
+                  key: "dropDownTreeViewFieldId",
                 }),
-                PropertyFieldTreeView('treeView', {
+                PropertyFieldTreeView("treeView", {
                   label: strings.TreeViewFieldLabel,
                   tree: [
                     {
-                      id: 'Analytics', label: 'Analytics',
-                      pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-1.png',
-                      expandedPictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-20.png',
+                      id: "Analytics",
+                      label: "Analytics",
+                      pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-1.png",
+                      expandedPictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-20.png",
                       children: [
                         {
-                          id: 'Market analyses', label: 'Market analyses',
+                          id: "Market analyses",
+                          label: "Market analyses",
                           collapsed: true,
-                          pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-1.png',
-                          expandedPictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-20.png',
-                          children: [{
-                            id: 'Key-on-screen.jpg', label: 'Key-on-screen.jpg',
-                            pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-picture-1.png',
-                            leaf: true
-                          }]
+                          pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-1.png",
+                          expandedPictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-20.png",
+                          children: [
+                            {
+                              id: "Key-on-screen.jpg",
+                              label: "Key-on-screen.jpg",
+                              pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-picture-1.png",
+                              leaf: true,
+                            },
+                          ],
                         },
                         {
-                          id: 'Northwind marketing', label: 'Northwind marketing',
-                          pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-1.png',
-                          expandedPictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-20.png',
-                          children: [{
-                            id: 'New Product Overview.pptx',
-                            label: 'New Product Overview.pptx',
-                            pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2014/96/iconmonstr-flip-chart-2.png',
-                            leaf: true
-                          }, {
-                            id: 'RD Expenses Q1 to Q3.xlsx', label: 'RD Expenses Q1 to Q3.xlsx',
-                            pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2017/96/iconmonstr-flip-chart-9.png',
-                            leaf: true
-                          }, {
-                            id: 'Sat Survey.xlsx', label: 'Sat Survey.xlsx',
-                            pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2017/96/iconmonstr-flip-chart-9.png',
-                            leaf: true
-                          }]
+                          id: "Northwind marketing",
+                          label: "Northwind marketing",
+                          pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-1.png",
+                          expandedPictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-20.png",
+                          children: [
+                            {
+                              id: "New Product Overview.pptx",
+                              label: "New Product Overview.pptx",
+                              pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2014/96/iconmonstr-flip-chart-2.png",
+                              leaf: true,
+                            },
+                            {
+                              id: "RD Expenses Q1 to Q3.xlsx",
+                              label: "RD Expenses Q1 to Q3.xlsx",
+                              pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2017/96/iconmonstr-flip-chart-9.png",
+                              leaf: true,
+                            },
+                            {
+                              id: "Sat Survey.xlsx",
+                              label: "Sat Survey.xlsx",
+                              pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2017/96/iconmonstr-flip-chart-9.png",
+                              leaf: true,
+                            },
+                          ],
                         },
                         {
-                          id: 'Project Budget Audit.docx', label: 'Project Budget Audit.docx',
-                          pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2013/96/iconmonstr-note-14.png',
-                          selectedPictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2013/96/iconmonstr-note-13.png',
-                          leaf: true
-                        }, {
-                          id: 'Engineering Costs Q1.pptx', label: 'Engineering Costs Q1.pptx',
-                          pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2014/96/iconmonstr-flip-chart-2.png',
-                          leaf: true
-                        }]
+                          id: "Project Budget Audit.docx",
+                          label: "Project Budget Audit.docx",
+                          pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2013/96/iconmonstr-note-14.png",
+                          selectedPictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2013/96/iconmonstr-note-13.png",
+                          leaf: true,
+                        },
+                        {
+                          id: "Engineering Costs Q1.pptx",
+                          label: "Engineering Costs Q1.pptx",
+                          pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2014/96/iconmonstr-flip-chart-2.png",
+                          leaf: true,
+                        },
+                      ],
                     },
                     {
-                      id: 'Notebooks', label: 'Notebooks',
-                      pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-1.png',
-                      expandedPictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-20.png',
-                      children: [{
-                        id: 'New Project Timeline.docx', label: 'New Project Timeline.docx',
-                        pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2013/96/iconmonstr-note-14.png',
-                        selectedPictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2013/96/iconmonstr-note-13.png',
-                        leaf: true
-                      }, {
-                        id: 'Marketing Video.mp4', label: 'Marketing Video.mp4',
-                        pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-video-8.png',
-                        leaf: true
-                      }, {
-                        id: 'Meeting Audio Record.mp3', label: 'Meeting Audio Record.mp3',
-                        pictureUrl: 'http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-equalizer-1.png',
-                        leaf: true
-                      }]
-                    }
+                      id: "Notebooks",
+                      label: "Notebooks",
+                      pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-1.png",
+                      expandedPictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-folder-20.png",
+                      children: [
+                        {
+                          id: "New Project Timeline.docx",
+                          label: "New Project Timeline.docx",
+                          pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2013/96/iconmonstr-note-14.png",
+                          selectedPictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2013/96/iconmonstr-note-13.png",
+                          leaf: true,
+                        },
+                        {
+                          id: "Marketing Video.mp4",
+                          label: "Marketing Video.mp4",
+                          pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-video-8.png",
+                          leaf: true,
+                        },
+                        {
+                          id: "Meeting Audio Record.mp3",
+                          label: "Meeting Audio Record.mp3",
+                          pictureUrl: "http://iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-equalizer-1.png",
+                          leaf: true,
+                        },
+                      ],
+                    },
                   ],
                   selectedNodesIDs: this.properties.treeView,
                   allowMultipleSelections: true,
@@ -682,31 +721,31 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'treeViewFieldId'
+                  key: "treeViewFieldId",
                 }),
-                PropertyFieldTagPicker('tags', {
+                PropertyFieldTagPicker("tags", {
                   label: strings.TagPickerFieldLabel,
                   selectedTags: this.properties.tags,
                   tags: [
-                    {key: 'black', name: 'black'},
-                    {key: 'blue', name: 'blue'},
-                    {key: 'brown', name: 'brown'},
-                    {key: 'cyan', name: 'cyan'},
-                    {key: 'green', name: 'green'},
-                    {key: 'magenta', name: 'magenta'},
-                    {key: 'mauve', name: 'mauve'},
-                    {key: 'orange', name: 'orange'},
-                    {key: 'pink', name: 'pink'},
-                    {key: 'purple', name: 'purple'},
-                    {key: 'red', name: 'red'},
-                    {key: 'rose', name: 'rose'},
-                    {key: 'violet', name: 'violet'},
-                    {key: 'white', name: 'white'},
-                    {key: 'yellow', name: 'yellow'}
+                    { key: "black", name: "black" },
+                    { key: "blue", name: "blue" },
+                    { key: "brown", name: "brown" },
+                    { key: "cyan", name: "cyan" },
+                    { key: "green", name: "green" },
+                    { key: "magenta", name: "magenta" },
+                    { key: "mauve", name: "mauve" },
+                    { key: "orange", name: "orange" },
+                    { key: "pink", name: "pink" },
+                    { key: "purple", name: "purple" },
+                    { key: "red", name: "red" },
+                    { key: "rose", name: "rose" },
+                    { key: "violet", name: "violet" },
+                    { key: "white", name: "white" },
+                    { key: "yellow", name: "yellow" },
                   ],
-                  loadingText: 'Loading...',
-                  noResultsFoundText: 'No tags found',
-                  suggestionsHeaderText: 'Suggested Tags',
+                  loadingText: "Loading...",
+                  noResultsFoundText: "No tags found",
+                  suggestionsHeaderText: "Suggested Tags",
                   onPropertyChange: this.onPropertyPaneFieldChanged,
                   render: this.render.bind(this),
                   disableReactivePropertyChanges: this.disableReactivePropertyChanges,
@@ -714,15 +753,15 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'tagsPickerFieldId'
+                  key: "tagsPickerFieldId",
                 }),
-                PropertyFieldStarRating('starRating', {
+                PropertyFieldStarRating("starRating", {
                   label: strings.StarRatingFieldLabel,
                   initialValue: this.properties.starRating,
                   starCount: 5,
                   starSize: 24,
-                  starColor: '#ffb400',
-                  emptyStarColor: '#333',
+                  starColor: "#ffb400",
+                  emptyStarColor: "#333",
                   onPropertyChange: this.onPropertyPaneFieldChanged,
                   render: this.render.bind(this),
                   disableReactivePropertyChanges: this.disableReactivePropertyChanges,
@@ -730,9 +769,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'starRatingFieldId'
+                  key: "starRatingFieldId",
                 }),
-                PropertyFieldPassword('password', {
+                PropertyFieldPassword("password", {
                   label: strings.PasswordFieldLabel,
                   initialValue: this.properties.password,
                   onPropertyChange: this.onPropertyPaneFieldChanged,
@@ -742,11 +781,11 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'passwordFieldId'
+                  key: "passwordFieldId",
                 }),
-                PropertyFieldAutoComplete('autoSuggest', {
+                PropertyFieldAutoComplete("autoSuggest", {
                   label: strings.AutoSuggestFieldLabel,
-                  placeHolder: 'Select a state',
+                  placeHolder: "Select a state",
                   initialValue: this.properties.autoSuggest,
                   suggestions: [
                     "Alabama",
@@ -798,7 +837,7 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                     "Washington",
                     "West Virginia",
                     "Wisconsin",
-                    "Wyoming"
+                    "Wyoming",
                   ],
                   onPropertyChange: this.onPropertyPaneFieldChanged,
                   render: this.render.bind(this),
@@ -807,9 +846,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'autoSuggestFieldId'
+                  key: "autoSuggestFieldId",
                 }),
-                PropertyFieldNumericInput('numeric', {
+                PropertyFieldNumericInput("numeric", {
                   label: strings.NumericInputFieldLabel,
                   initialValue: this.properties.numeric,
                   min: 0,
@@ -824,14 +863,14 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'passwordFieldId'
+                  key: "passwordFieldId",
                 }),
-                PropertyFieldRichTextBox('richTextBox', {
+                PropertyFieldRichTextBox("richTextBox", {
                   label: strings.RichTextBoxFieldLabel,
                   initialValue: this.properties.richTextBox,
                   inline: false,
                   minHeight: 100,
-                  mode: 'basic', //'basic' or 'standard' or 'full'
+                  mode: "basic", //'basic' or 'standard' or 'full'
                   onPropertyChange: this.onPropertyPaneFieldChanged,
                   render: this.render.bind(this),
                   disableReactivePropertyChanges: this.disableReactivePropertyChanges,
@@ -840,9 +879,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   context: this.context,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'richFieldId'
+                  key: "richFieldId",
                 }),
-                PropertyFieldDatePicker('date', {
+                PropertyFieldDatePicker("date", {
                   label: strings.DateFieldLabel,
                   initialDate: this.properties.date,
                   onPropertyChange: this.onPropertyPaneFieldChanged,
@@ -851,9 +890,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   properties: this.properties,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'dateFieldId'
+                  key: "dateFieldId",
                 }),
-                PropertyFieldDatePicker('date2', {
+                PropertyFieldDatePicker("date2", {
                   label: strings.DateFieldLabel,
                   initialDate: this.properties.date2,
                   formatDate: this.formatDateIso,
@@ -863,9 +902,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   properties: this.properties,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'date2FieldId'
+                  key: "date2FieldId",
                 }),
-                PropertyFieldDateTimePicker('datetime', {
+                PropertyFieldDateTimePicker("datetime", {
                   label: strings.DateTimeFieldLabel,
                   initialDate: this.properties.datetime,
                   //formatDate: this.formatDateIso,
@@ -876,9 +915,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   properties: this.properties,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'dateTimeFieldId'
+                  key: "dateTimeFieldId",
                 }),
-                PropertyFieldSliderRange('sliderRange', {
+                PropertyFieldSliderRange("sliderRange", {
                   label: strings.SliderRangeFieldLabel,
                   initialValue: this.properties.sliderRange,
                   onPropertyChange: this.onPropertyPaneFieldChanged,
@@ -889,13 +928,13 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   min: 0,
                   max: 500,
                   step: 1,
-                  orientation: 'horizontal', //'horizontal' or 'vertical'
+                  orientation: "horizontal", //'horizontal' or 'vertical'
                   properties: this.properties,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'sliderRangeFieldId'
+                  key: "sliderRangeFieldId",
                 }),
-                PropertyFieldPhoneNumber('phone', {
+                PropertyFieldPhoneNumber("phone", {
                   label: strings.PhoneNumberFieldLabel,
                   initialValue: this.properties.phone,
                   phoneNumberFormat: IPhoneNumberFormat.UnitedStates,
@@ -906,14 +945,14 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'phoneFieldId'
+                  key: "phoneFieldId",
                 }),
-                PropertyFieldMaskedInput('maskedInput', {
+                PropertyFieldMaskedInput("maskedInput", {
                   label: strings.MaskedInputFieldLabel,
                   initialValue: this.properties.maskedInput,
-                  pattern: '\d{4} \d{4} \d{4} \d{4}',
-                  placeholder: 'XXXX XXXX XXXX XXXX',
-                  maxLength: '19',
+                  pattern: "d{4} d{4} d{4} d{4}",
+                  placeholder: "XXXX XXXX XXXX XXXX",
+                  maxLength: "19",
                   onPropertyChange: this.onPropertyPaneFieldChanged,
                   render: this.render.bind(this),
                   disableReactivePropertyChanges: this.disableReactivePropertyChanges,
@@ -921,12 +960,19 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'maskedFieldId'
+                  key: "maskedFieldId",
                 }),
-                PropertyFieldMapPicker('geolocation', {
+                PropertyFieldMapPicker("geolocation", {
                   label: strings.GeoLocationFieldLabel,
-                  longitude: this.properties.geolocation != null ? this.properties.geolocation.substr(0, this.properties.geolocation.indexOf(",")) : '0',
-                  latitude: this.properties.geolocation != null ? this.properties.geolocation.substr(this.properties.geolocation.indexOf(",") + 1, this.properties.geolocation.length - this.properties.geolocation.indexOf(",")) : '0',
+                  longitude:
+                    this.properties.geolocation != null ? this.properties.geolocation.substr(0, this.properties.geolocation.indexOf(",")) : "0",
+                  latitude:
+                    this.properties.geolocation != null
+                      ? this.properties.geolocation.substr(
+                          this.properties.geolocation.indexOf(",") + 1,
+                          this.properties.geolocation.length - this.properties.geolocation.indexOf(",")
+                        )
+                      : "0",
                   collapsed: true,
                   onPropertyChange: this.onPropertyPaneFieldChanged,
                   render: this.render.bind(this),
@@ -935,15 +981,14 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'geoLocationFieldId'
-                })
-            ],
+                  key: "geoLocationFieldId",
+                }),
+              ],
             },
             {
-              groupName: 'SharePoint Fields',
+              groupName: "SharePoint Fields",
               groupFields: [
-
-                PropertyFieldPicturePicker('picture', {
+                PropertyFieldPicturePicker("picture", {
                   label: strings.PictureFieldLabel,
                   initialValue: this.properties.picture,
                   onPropertyChange: this.onPropertyPaneFieldChanged,
@@ -954,12 +999,12 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   readOnly: true,
                   previewImage: true,
-                  allowedFileExtensions: '.gif,.jpg,.jpeg,.bmp,.dib,.tif,.tiff,.ico,.png',
+                  allowedFileExtensions: ".gif,.jpg,.jpeg,.bmp,.dib,.tif,.tiff,.ico,.png",
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'pictureFieldId'
+                  key: "pictureFieldId",
                 }),
-                PropertyFieldDocumentPicker('document', {
+                PropertyFieldDocumentPicker("document", {
                   label: strings.DocumentFieldLabel,
                   initialValue: this.properties.document,
                   onPropertyChange: this.onPropertyPaneFieldChanged,
@@ -970,14 +1015,14 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   readOnly: true,
                   previewDocument: true,
-                  allowedFileExtensions: '.doc,.docx,.ppt,.pptx,.xls,.xlsx,.pdf,.txt',
+                  allowedFileExtensions: ".doc,.docx,.ppt,.pptx,.xls,.xlsx,.pdf,.txt",
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'documentFieldId'
+                  key: "documentFieldId",
                 }),
-                PropertyFieldOfficeVideoPicker('officeVideo', {
+                PropertyFieldOfficeVideoPicker("officeVideo", {
                   label: strings.OfficeVideoFieldLabel,
-                  panelTitle: 'Select a video',
+                  panelTitle: "Select a video",
                   initialValue: this.properties.officeVideo,
                   onPropertyChange: this.onPropertyPaneFieldChanged,
                   render: this.render.bind(this),
@@ -988,9 +1033,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   properties: this.properties,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'officeVideoFieldId'
+                  key: "officeVideoFieldId",
                 }),
-                PropertyFieldPeoplePicker('people', {
+                PropertyFieldPeoplePicker("people", {
                   label: strings.PeopleFieldLabel,
                   initialData: this.properties.people,
                   allowDuplicate: true,
@@ -1001,9 +1046,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   properties: this.properties,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'peopleFieldId'
+                  key: "peopleFieldId",
                 }),
-                PropertyFieldGroupPicker('groups', {
+                PropertyFieldGroupPicker("groups", {
                   label: strings.GroupFieldLabel,
                   initialData: this.properties.groups,
                   allowDuplicate: false,
@@ -1015,14 +1060,14 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   properties: this.properties,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'groupsFieldId'
+                  key: "groupsFieldId",
                 }),
-                PropertyFieldSearchPropertiesPicker('searchProperties', {
+                PropertyFieldSearchPropertiesPicker("searchProperties", {
                   label: strings.SearchPropertiesFieldLabel,
                   selectedProperties: this.properties.searchProperties,
-                  loadingText: 'Loading...',
-                  noResultsFoundText: 'No properties found',
-                  suggestionsHeaderText: 'Suggested Properties',
+                  loadingText: "Loading...",
+                  noResultsFoundText: "No properties found",
+                  suggestionsHeaderText: "Suggested Properties",
                   onPropertyChange: this.onPropertyPaneFieldChanged,
                   render: this.render.bind(this),
                   disableReactivePropertyChanges: this.disableReactivePropertyChanges,
@@ -1030,11 +1075,11 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'searchPropertiesPickerFieldId'
+                  key: "searchPropertiesPickerFieldId",
                 }),
-               PropertyFieldTermSetPicker('termSets', {
+                PropertyFieldTermSetPicker("termSets", {
                   label: strings.TermSetsFieldLabel,
-                  panelTitle: 'Select a Term Set',
+                  panelTitle: "Select a Term Set",
                   initialValues: this.properties.termSets,
                   allowMultipleSelections: true,
                   excludeSystemGroup: false,
@@ -1046,9 +1091,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'termSetsPickerFieldId'
+                  key: "termSetsPickerFieldId",
                 }),
-               PropertyFieldSPFolderPicker('folder', {
+                PropertyFieldSPFolderPicker("folder", {
                   label: strings.SPFolderFieldLabel,
                   initialFolder: this.properties.folder,
                   //baseFolder: '/sites/devcenter/_catalogs',
@@ -1060,9 +1105,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'folderFieldId'
+                  key: "folderFieldId",
                 }),
-                PropertyFieldSPListPicker('list', {
+                PropertyFieldSPListPicker("list", {
                   label: strings.SPListFieldLabel,
                   selectedList: this.properties.list,
                   includeHidden: false,
@@ -1076,9 +1121,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'listFieldId'
+                  key: "listFieldId",
                 }),
-                PropertyFieldSPListMultiplePicker('listsCollection', {
+                PropertyFieldSPListMultiplePicker("listsCollection", {
                   label: strings.SPListFieldLabel,
                   selectedLists: this.properties.listsCollection,
                   includeHidden: false,
@@ -1092,14 +1137,14 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'listCollectionFieldId'
-                })
-              ]
+                  key: "listCollectionFieldId",
+                }),
+              ],
             },
             {
-              groupName: 'SharePoint Query',
+              groupName: "SharePoint Query",
               groupFields: [
-                PropertyFieldSPListQuery('query', {
+                PropertyFieldSPListQuery("query", {
                   label: strings.QueryFieldLabel,
                   query: this.properties.query,
                   includeHidden: false,
@@ -1117,9 +1162,9 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'spListFieldId'
+                  key: "spListFieldId",
                 }),
-                 PropertyFieldDisplayMode('displayMode', {
+                PropertyFieldDisplayMode("displayMode", {
                   label: strings.DisplayModeFieldLabel,
                   initialValue: this.properties.displayMode,
                   onPropertyChange: this.onPropertyPaneFieldChanged,
@@ -1129,24 +1174,13 @@ export default class TestWebPart extends BaseClientSideWebPart<ITestWebPartProps
                   disabled: false,
                   onGetErrorMessage: null,
                   deferredValidationTime: 0,
-                  key: 'displayModeFieldId'
-                })
-              ]
-            }
-          ]
-        }
-      ]
+                  key: "displayModeFieldId",
+                }),
+              ],
+            },
+          ],
+        },
+      ],
     };
   }
 }
-
-
-
-
-
-
-
-
-
-
-

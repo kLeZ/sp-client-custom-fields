@@ -6,15 +6,11 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldCustomListHost, { IPropertyFieldCustomListHostProps } from './PropertyFieldCustomListHost';
-import { IWebPartContext } from '@microsoft/sp-webpart-base';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldCustomListHost, { IPropertyFieldCustomListHostProps } from "./PropertyFieldCustomListHost";
+import { IWebPartContext } from "@microsoft/sp-webpart-base";
 
 export enum CustomListFieldType {
   string = 0,
@@ -36,7 +32,7 @@ export enum CustomListFieldType {
   securityGroups = 16,
   officeVideo = 17,
   stars = 18,
-  colorMini = 19
+  colorMini = 19,
 }
 
 export interface ICustomListField {
@@ -143,7 +139,6 @@ export interface IPropertyFieldCustomListPropsInternal extends IPropertyPaneCust
  *
  */
 class PropertyFieldCustomListBuilder implements IPropertyPaneField<IPropertyFieldCustomListPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -180,8 +175,7 @@ class PropertyFieldCustomListBuilder implements IPropertyPaneField<IPropertyFiel
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -207,7 +201,7 @@ class PropertyFieldCustomListBuilder implements IPropertyPaneField<IPropertyFiel
       key: this.key,
       disabled: this.disabled,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -217,10 +211,7 @@ class PropertyFieldCustomListBuilder implements IPropertyPaneField<IPropertyFiel
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -229,28 +220,28 @@ class PropertyFieldCustomListBuilder implements IPropertyPaneField<IPropertyFiel
  * @param targetProperty - Target property the custom field is associated to.
  * @param properties - Strongly typed custom field properties.
  */
-export function PropertyFieldCustomList(targetProperty: string, properties: IPropertyFieldCustomListProps): IPropertyPaneField<IPropertyFieldCustomListPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldCustomListPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      headerText: properties.headerText,
-      value: properties.value,
-      fields: properties.fields,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      context: properties.context,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldCustomList builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldCustomListBuilder(targetProperty, newProperties);
+export function PropertyFieldCustomList(
+  targetProperty: string,
+  properties: IPropertyFieldCustomListProps
+): IPropertyPaneField<IPropertyFieldCustomListPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldCustomListPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    headerText: properties.headerText,
+    value: properties.value,
+    fields: properties.fields,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    context: properties.context,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldCustomList builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldCustomListBuilder(targetProperty, newProperties);
 }
-
-

@@ -6,16 +6,12 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldSliderRangeHost, { IPropertyFieldSliderRangeHostProps } from './PropertyFieldSliderRangeHost';
-import { SPComponentLoader } from '@microsoft/sp-loader';
-import { Async } from 'office-ui-fabric-react/lib/Utilities';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldSliderRangeHost, { IPropertyFieldSliderRangeHostProps } from "./PropertyFieldSliderRangeHost";
+import { SPComponentLoader } from "@microsoft/sp-loader";
+import { Async } from "office-ui-fabric-react/lib/Utilities";
 
 /**
  * @interface
@@ -109,12 +105,12 @@ export interface IPropertyFieldSliderRangeProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -152,7 +148,6 @@ export interface IPropertyFieldSliderRangePropsInternal extends IPropertyPaneCus
  *
  */
 class PropertyFieldSliderRangeBuilder implements IPropertyPaneField<IPropertyFieldSliderRangePropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -204,8 +199,7 @@ class PropertyFieldSliderRangeBuilder implements IPropertyPaneField<IPropertyFie
     this.customProperties = _properties.properties;
     this.key = _properties.key;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -215,16 +209,14 @@ class PropertyFieldSliderRangeBuilder implements IPropertyPaneField<IPropertyFie
     this.notifyAfterValidate = this.notifyAfterValidate.bind(this);
     this.delayedValidate = this.async.debounce(this.validate, this.deferredValidationTime);
 
-    SPComponentLoader.loadCss('//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css');
+    SPComponentLoader.loadCss("//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css");
   }
-
 
   /**
    * @function
    * Renders the ColorPicker field content
    */
   private render(elem: HTMLElement): void {
-
     //Construct the JSX properties
     const element: React.ReactElement<IPropertyFieldSliderRangeHostProps> = React.createElement(PropertyFieldSliderRangeHost, {
       label: this.label,
@@ -245,37 +237,44 @@ class PropertyFieldSliderRangeBuilder implements IPropertyPaneField<IPropertyFie
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
 
-    var jQueryCdn = '//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js';
-    var jQueryUICdn = '//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js';
+    var jQueryCdn = "//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js";
+    var jQueryUICdn = "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js";
 
-    SPComponentLoader.loadScript(jQueryCdn, { globalExportsName: '$' }).then(($: any): void => {
-      SPComponentLoader.loadScript(jQueryUICdn, { globalExportsName: '$' }).then((jqueryui: any): void => {
-          ($ as any)('#' + this.guid + '-slider').slider({
-            range: true,
-            min: this.min != null ? this.min : 0,
-            max: this.max != null ? this.max : 100,
-            step: this.step != null ? this.step : 1,
-            disabled: this.disabled != null ? this.disabled : false,
-            orientation: this.orientation != null ? this.orientation : 'horizontal',
-            values: (this.initialValue != null && this.initialValue != '' && this.initialValue.split(",").length == 2) ? [ Number(this.initialValue.split(",")[0]), Number(this.initialValue.split(",")[1]) ] : [this.min, this.max],
-            slide: function( event, ui ) {
-              var value: string = ui.values[ 0 ] + "," + ui.values[ 1];
-              this.delayedValidate(value);
-              /*if (this.onPropertyChange && value != null) {
+    SPComponentLoader.loadScript(jQueryCdn, { globalExportsName: "$" }).then(
+      ($: any): void => {
+        SPComponentLoader.loadScript(jQueryUICdn, { globalExportsName: "$" }).then(
+          (jqueryui: any): void => {
+            ($ as any)("#" + this.guid + "-slider").slider({
+              range: true,
+              min: this.min != null ? this.min : 0,
+              max: this.max != null ? this.max : 100,
+              step: this.step != null ? this.step : 1,
+              disabled: this.disabled != null ? this.disabled : false,
+              orientation: this.orientation != null ? this.orientation : "horizontal",
+              values:
+                this.initialValue != null && this.initialValue != "" && this.initialValue.split(",").length == 2
+                  ? [Number(this.initialValue.split(",")[0]), Number(this.initialValue.split(",")[1])]
+                  : [this.min, this.max],
+              slide: function(event, ui) {
+                var value: string = ui.values[0] + "," + ui.values[1];
+                this.delayedValidate(value);
+                /*if (this.onPropertyChange && value != null) {
                 this.customProperties[this.targetProperty] = value;
                 this.onPropertyChange(this.targetProperty, this.initialValue, value);
               }*/
-              ($ as any)('#' + this.guid + '-min').html(ui.values[0]);
-              ($ as any)('#' + this.guid + '-max').html(ui.values[1]);
-            }.bind(this)
-          });
-      });
-    });
+                ($ as any)("#" + this.guid + "-min").html(ui.values[0]);
+                ($ as any)("#" + this.guid + "-max").html(ui.values[1]);
+              }.bind(this),
+            });
+          }
+        );
+      }
+    );
   }
 
   /**
@@ -288,28 +287,23 @@ class PropertyFieldSliderRangeBuilder implements IPropertyPaneField<IPropertyFie
       return;
     }
 
-    if (this.latestValidateValue === value)
-      return;
+    if (this.latestValidateValue === value) return;
     this.latestValidateValue = value;
 
-    var result: string | PromiseLike<string> = this.onGetErrorMessage(value || '');
+    var result: string | PromiseLike<string> = this.onGetErrorMessage(value || "");
     if (result !== undefined) {
-      if (typeof result === 'string') {
-        if (result === undefined || result === '')
-          this.notifyAfterValidate(this.initialValue, value);
-        ((document.getElementById(this.guid + '-errorMssg1')) as any).innerHTML = result;
-        ((document.getElementById(this.guid + '-errorMssg2')) as any).innerHTML = result;
-      }
-      else {
+      if (typeof result === "string") {
+        if (result === undefined || result === "") this.notifyAfterValidate(this.initialValue, value);
+        (document.getElementById(this.guid + "-errorMssg1") as any).innerHTML = result;
+        (document.getElementById(this.guid + "-errorMssg2") as any).innerHTML = result;
+      } else {
         result.then((errorMessage: string) => {
-          if (errorMessage === undefined || errorMessage === '')
-            this.notifyAfterValidate(this.initialValue, value);
-          ((document.getElementById(this.guid + '-errorMssg1')) as any).innerHTML = errorMessage;
-          ((document.getElementById(this.guid + '-errorMssg2')) as any).innerHTML = errorMessage;
+          if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.initialValue, value);
+          (document.getElementById(this.guid + "-errorMssg1") as any).innerHTML = errorMessage;
+          (document.getElementById(this.guid + "-errorMssg2") as any).innerHTML = errorMessage;
         });
       }
-    }
-    else {
+    } else {
       this.notifyAfterValidate(this.initialValue, value);
     }
   }
@@ -322,8 +316,7 @@ class PropertyFieldSliderRangeBuilder implements IPropertyPaneField<IPropertyFie
     if (this.onPropertyChange && newValue != null) {
       this.customProperties[this.targetProperty] = newValue;
       this.onPropertyChange(this.targetProperty, this.properties.initialValue, newValue);
-      if (!this.disableReactivePropertyChanges && this.renderWebPart != null)
-        this.renderWebPart();
+      if (!this.disableReactivePropertyChanges && this.renderWebPart != null) this.renderWebPart();
     }
   }
 
@@ -332,20 +325,18 @@ class PropertyFieldSliderRangeBuilder implements IPropertyPaneField<IPropertyFie
    * Disposes the current object
    */
   private dispose(elem: HTMLElement): void {
-    if (this.async !== undefined)
-      this.async.dispose();
+    if (this.async !== undefined) this.async.dispose();
   }
-
 }
 
-
 function s4(): string {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  return Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
 }
 
 function getGuid(): string {
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-      s4() + '-' + s4() + s4() + s4();
+  return s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4();
 }
 
 /**
@@ -354,33 +345,33 @@ function getGuid(): string {
  * @param targetProperty - Target property the custom field is associated to.
  * @param properties - Strongly typed custom field properties.
  */
-export function PropertyFieldSliderRange(targetProperty: string, properties: IPropertyFieldSliderRangeProps): IPropertyPaneField<IPropertyFieldSliderRangePropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldSliderRangePropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      initialValue: properties.initialValue,
-      disabled: properties.disabled,
-      min: properties.min,
-      max: properties.max,
-      step: properties.step,
-      showValue: properties.showValue,
-      orientation: properties.orientation,
-      guid: getGuid(),
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldSliderRange builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldSliderRangeBuilder(targetProperty, newProperties);
+export function PropertyFieldSliderRange(
+  targetProperty: string,
+  properties: IPropertyFieldSliderRangeProps
+): IPropertyPaneField<IPropertyFieldSliderRangePropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldSliderRangePropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    initialValue: properties.initialValue,
+    disabled: properties.disabled,
+    min: properties.min,
+    max: properties.max,
+    step: properties.step,
+    showValue: properties.showValue,
+    orientation: properties.orientation,
+    guid: getGuid(),
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldSliderRange builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldSliderRangeBuilder(targetProperty, newProperties);
 }
-
-

@@ -7,14 +7,10 @@
  * Released under MIT licence
  *
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IWebPartContext
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldTermSetPickerHost, { IPropertyFieldTermSetPickerHostProps } from './PropertyFieldTermSetPickerHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IWebPartContext } from "@microsoft/sp-webpart-base";
+import PropertyFieldTermSetPickerHost, { IPropertyFieldTermSetPickerHostProps } from "./PropertyFieldTermSetPickerHost";
 
 /**
  * @interface
@@ -45,8 +41,7 @@ export interface ISPTermStore extends ISPTermObject {
  * @interface
  * Defines an array of Term Stores
  */
-export interface ISPTermStores extends Array<ISPTermStore> {
-}
+export interface ISPTermStores extends Array<ISPTermStore> {}
 
 /**
  * @interface
@@ -63,8 +58,7 @@ export interface ISPTermGroup extends ISPTermObject {
  * @interface
  * Array of Term Groups
  */
-export interface ISPTermGroups extends Array<ISPTermGroup> {
-}
+export interface ISPTermGroups extends Array<ISPTermGroup> {}
 
 /**
  * @interface
@@ -84,9 +78,7 @@ export interface ISPTermSet extends ISPTermObject {
  * @interface
  * Array of Term Sets
  */
-export interface ISPTermSets extends Array<ISPTermSet> {
-}
-
+export interface ISPTermSets extends Array<ISPTermSet> {}
 
 /**
  * @interface
@@ -181,12 +173,12 @@ export interface IPropertyFieldTermSetPickerProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: ISPTermSets) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: ISPTermSets) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -225,7 +217,6 @@ export interface IPropertyFieldTermSetPickerPropsInternal extends IPropertyField
  *
  */
 class PropertyFieldTermSetPickerBuilder implements IPropertyPaneField<IPropertyFieldTermSetPickerPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -265,19 +256,13 @@ class PropertyFieldTermSetPickerBuilder implements IPropertyPaneField<IPropertyF
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
-    if (_properties.allowMultipleSelections !== undefined)
-      this.allowMultipleSelections = _properties.allowMultipleSelections;
-    if (_properties.initialValues !== undefined)
-      this.initialValues = _properties.initialValues;
-    if (_properties.excludeSystemGroup !== undefined)
-      this.excludeSystemGroup = _properties.excludeSystemGroup;
-    if (_properties.excludeOfflineTermStores !== undefined)
-      this.excludeOfflineTermStores = _properties.excludeOfflineTermStores;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.allowMultipleSelections !== undefined) this.allowMultipleSelections = _properties.allowMultipleSelections;
+    if (_properties.initialValues !== undefined) this.initialValues = _properties.initialValues;
+    if (_properties.excludeSystemGroup !== undefined) this.excludeSystemGroup = _properties.excludeSystemGroup;
+    if (_properties.excludeOfflineTermStores !== undefined) this.excludeOfflineTermStores = _properties.excludeOfflineTermStores;
     if (_properties.displayOnlyTermSetsAvailableForTagging !== undefined)
       this.displayOnlyTermSetsAvailableForTagging = _properties.displayOnlyTermSetsAvailableForTagging;
     this.panelTitle = _properties.panelTitle;
@@ -311,7 +296,7 @@ class PropertyFieldTermSetPickerBuilder implements IPropertyPaneField<IPropertyF
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -321,10 +306,7 @@ class PropertyFieldTermSetPickerBuilder implements IPropertyPaneField<IPropertyF
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -333,31 +315,33 @@ class PropertyFieldTermSetPickerBuilder implements IPropertyPaneField<IPropertyF
  * @param targetProperty - Target property the SharePoint list picker is associated to.
  * @param properties - Strongly typed SPList Picker properties.
  */
-export function PropertyFieldTermSetPicker(targetProperty: string, properties: IPropertyFieldTermSetPickerProps): IPropertyPaneField<IPropertyFieldTermSetPickerPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldTermSetPickerPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      panelTitle: properties.panelTitle,
-      allowMultipleSelections: properties.allowMultipleSelections,
-      initialValues: properties.initialValues,
-      excludeSystemGroup: properties.excludeSystemGroup,
-      excludeOfflineTermStores: properties.excludeOfflineTermStores,
-      displayOnlyTermSetsAvailableForTagging: properties.displayOnlyTermSetsAvailableForTagging,
-      context: properties.context,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldTermSetPicker builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldTermSetPickerBuilder(targetProperty, newProperties);
+export function PropertyFieldTermSetPicker(
+  targetProperty: string,
+  properties: IPropertyFieldTermSetPickerProps
+): IPropertyPaneField<IPropertyFieldTermSetPickerPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldTermSetPickerPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    panelTitle: properties.panelTitle,
+    allowMultipleSelections: properties.allowMultipleSelections,
+    initialValues: properties.initialValues,
+    excludeSystemGroup: properties.excludeSystemGroup,
+    excludeOfflineTermStores: properties.excludeOfflineTermStores,
+    displayOnlyTermSetsAvailableForTagging: properties.displayOnlyTermSetsAvailableForTagging,
+    context: properties.context,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldTermSetPicker builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldTermSetPickerBuilder(targetProperty, newProperties);
 }

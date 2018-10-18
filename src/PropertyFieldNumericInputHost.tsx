@@ -5,21 +5,20 @@
  * @copyright 2017 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import { IPropertyFieldNumericInputPropsInternal } from './PropertyFieldNumericInput';
-import { Label } from 'office-ui-fabric-react/lib/Label';
-import { Async } from 'office-ui-fabric-react/lib/Utilities';
+import * as React from "react";
+import { IPropertyFieldNumericInputPropsInternal } from "./PropertyFieldNumericInput";
+import { Label } from "office-ui-fabric-react/lib/Label";
+import { Async } from "office-ui-fabric-react/lib/Utilities";
 //import 'office-ui-fabric-react/lib/components/TextField/TextField.scss';
-import styles from './PropertyFields.module.scss';
-var NumericInput: any = require('react-numeric-input');
+import styles from "./PropertyFields.module.scss";
+var NumericInput: any = require("react-numeric-input");
 
 /**
  * @interface
  * PropertyFieldNumericInputHost properties interface
  *
  */
-export interface IPropertyFieldNumericInputHostProps extends IPropertyFieldNumericInputPropsInternal {
-}
+export interface IPropertyFieldNumericInputHostProps extends IPropertyFieldNumericInputPropsInternal {}
 
 export interface IPropertyFieldNumericInputState {
   currentValue?: number;
@@ -31,7 +30,6 @@ export interface IPropertyFieldNumericInputState {
  * Renders the controls for PropertyFieldNumericInput component
  */
 export default class PropertyFieldNumericInputHost extends React.Component<IPropertyFieldNumericInputHostProps, IPropertyFieldNumericInputState> {
-
   private async: Async;
   private delayedValidate: (value: number) => void;
 
@@ -43,7 +41,7 @@ export default class PropertyFieldNumericInputHost extends React.Component<IProp
     super(props);
 
     this.async = new Async(this);
-    this.state = ({ errorMessage: '', currentValue: this.props.initialValue} as IPropertyFieldNumericInputState);
+    this.state = { errorMessage: "", currentValue: this.props.initialValue } as IPropertyFieldNumericInputState;
 
     //Bind the current object to the external called onSelectDate method
     this.onValueChanged = this.onValueChanged.bind(this);
@@ -74,20 +72,16 @@ export default class PropertyFieldNumericInputHost extends React.Component<IProp
 
     var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || 0);
     if (result !== undefined) {
-      if (typeof result === 'string') {
-        if (result === undefined || result === '')
-          this.notifyAfterValidate(this.props.initialValue, value);
-        this.setState({ errorMessage: result} as IPropertyFieldNumericInputState);
-      }
-      else {
+      if (typeof result === "string") {
+        if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialValue, value);
+        this.setState({ errorMessage: result } as IPropertyFieldNumericInputState);
+      } else {
         result.then((errorMessage: string) => {
-          if (errorMessage === undefined || errorMessage === '')
-            this.notifyAfterValidate(this.props.initialValue, value);
+          if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialValue, value);
           this.setState({ errorMessage } as IPropertyFieldNumericInputState);
         });
       }
-    }
-    else {
+    } else {
       this.notifyAfterValidate(this.props.initialValue, value);
     }
   }
@@ -99,8 +93,7 @@ export default class PropertyFieldNumericInputHost extends React.Component<IProp
   private notifyAfterValidate(oldValue: number, newValue: number) {
     this.props.properties[this.props.targetProperty] = newValue;
     this.props.onPropertyChange(this.props.targetProperty, oldValue, newValue);
-    if (!this.props.disableReactivePropertyChanges && this.props.render != null)
-        this.props.render();
+    if (!this.props.disableReactivePropertyChanges && this.props.render != null) this.props.render();
   }
 
   /**
@@ -118,7 +111,7 @@ export default class PropertyFieldNumericInputHost extends React.Component<IProp
   public render(): JSX.Element {
     //Renders content
     return (
-      <div style={{ marginBottom: '8px'}}>
+      <div style={{ marginBottom: "8px" }}>
         <Label>{this.props.label}</Label>
         <NumericInput
           className={styles.customTextField}
@@ -131,13 +124,18 @@ export default class PropertyFieldNumericInputHost extends React.Component<IProp
           step={this.props.step}
           precision={this.props.precision}
         />
-        { this.state.errorMessage != null && this.state.errorMessage != '' && this.state.errorMessage != undefined ?
-          <div><div aria-live='assertive' className='ms-u-screenReaderOnly' data-automation-id='error-message'>{  this.state.errorMessage }</div>
-          <span>
-            <p className='ms-TextField-errorMessage ms-u-slideDownIn20'>{ this.state.errorMessage }</p>
-          </span>
+        {this.state.errorMessage != null && this.state.errorMessage != "" && this.state.errorMessage != undefined ? (
+          <div>
+            <div aria-live="assertive" className="ms-u-screenReaderOnly" data-automation-id="error-message">
+              {this.state.errorMessage}
+            </div>
+            <span>
+              <p className="ms-TextField-errorMessage ms-u-slideDownIn20">{this.state.errorMessage}</p>
+            </span>
           </div>
-        : ''}
+        ) : (
+          ""
+        )}
       </div>
     );
   }

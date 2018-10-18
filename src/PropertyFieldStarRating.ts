@@ -6,14 +6,10 @@
  * @copyright 2017 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldStarRatingHost, { IPropertyFieldStarRatingHostProps } from './PropertyFieldStarRatingHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldStarRatingHost, { IPropertyFieldStarRatingHostProps } from "./PropertyFieldStarRatingHost";
 
 /**
  * @interface
@@ -97,12 +93,12 @@ export interface IPropertyFieldStarRatingProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: number) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: number) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -138,7 +134,6 @@ export interface IPropertyFieldStarRatingPropsInternal extends IPropertyPaneCust
  *
  */
 class PropertyFieldStarRatingBuilder implements IPropertyPaneField<IPropertyFieldStarRatingPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -149,8 +144,8 @@ class PropertyFieldStarRatingBuilder implements IPropertyPaneField<IPropertyFiel
   private initialValue: number;
   private starCount: number = 5;
   private starSize: number = 24;
-  private starColor: string = '#ffb400';
-  private emptyStarColor: string = '#333';
+  private starColor: string = "#ffb400";
+  private emptyStarColor: string = "#333";
   private onPropertyChange: (propertyPath: string, oldValue: any, newValue: any) => void;
   private customProperties: any;
   private key: string;
@@ -175,19 +170,13 @@ class PropertyFieldStarRatingBuilder implements IPropertyPaneField<IPropertyFiel
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
-    if (_properties.starCount !== undefined)
-      this.starCount = _properties.starCount;
-    if (_properties.starColor !== undefined)
-      this.starColor = _properties.starColor;
-    if (_properties.emptyStarColor !== undefined)
-      this.emptyStarColor = _properties.emptyStarColor;
-    if (_properties.starSize !== undefined)
-      this.starSize = _properties.starSize;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.starCount !== undefined) this.starCount = _properties.starCount;
+    if (_properties.starColor !== undefined) this.starColor = _properties.starColor;
+    if (_properties.emptyStarColor !== undefined) this.emptyStarColor = _properties.emptyStarColor;
+    if (_properties.starSize !== undefined) this.starSize = _properties.starSize;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -216,7 +205,7 @@ class PropertyFieldStarRatingBuilder implements IPropertyPaneField<IPropertyFiel
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -226,10 +215,7 @@ class PropertyFieldStarRatingBuilder implements IPropertyPaneField<IPropertyFiel
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -238,31 +224,31 @@ class PropertyFieldStarRatingBuilder implements IPropertyPaneField<IPropertyFiel
  * @param targetProperty - Target property the custom field is associated to.
  * @param properties - Strongly typed custom field properties.
  */
-export function PropertyFieldStarRating(targetProperty: string, properties: IPropertyFieldStarRatingProps): IPropertyPaneField<IPropertyFieldStarRatingPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldStarRatingPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      initialValue: properties.initialValue,
-      starCount: properties.starCount,
-      starColor: properties.starColor,
-      starSize: properties.starSize,
-      emptyStarColor: properties.emptyStarColor,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldStarRating builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldStarRatingBuilder(targetProperty, newProperties);
+export function PropertyFieldStarRating(
+  targetProperty: string,
+  properties: IPropertyFieldStarRatingProps
+): IPropertyPaneField<IPropertyFieldStarRatingPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldStarRatingPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    initialValue: properties.initialValue,
+    starCount: properties.starCount,
+    starColor: properties.starColor,
+    starSize: properties.starSize,
+    emptyStarColor: properties.emptyStarColor,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldStarRating builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldStarRatingBuilder(targetProperty, newProperties);
 }
-
-

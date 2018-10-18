@@ -1,5 +1,4 @@
 declare interface IStrings {
-
   //DimensionPicker labels
   DimensionWidth: string;
   DimensionHeight: string;
@@ -107,7 +106,7 @@ declare interface IStrings {
   DateTimePickerTime: string;
 }
 
-declare module 'sp-client-custom-fields/strings' {
+declare module "sp-client-custom-fields/strings" {
   const strings: IStrings;
   export = strings;
 }

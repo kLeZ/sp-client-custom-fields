@@ -6,15 +6,11 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldPicturePickerHost, { IPropertyFieldPicturePickerHostProps } from './PropertyFieldPicturePickerHost';
-import { IWebPartContext } from '@microsoft/sp-webpart-base';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldPicturePickerHost, { IPropertyFieldPicturePickerHostProps } from "./PropertyFieldPicturePickerHost";
+import { IWebPartContext } from "@microsoft/sp-webpart-base";
 
 /**
  * @interface
@@ -97,12 +93,12 @@ export interface IPropertyFieldPicturePickerProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -138,7 +134,6 @@ export interface IPropertyFieldPicturePickerPropsInternal extends IPropertyPaneC
  *
  */
 class PropertyFieldPicturePickerBuilder implements IPropertyPaneField<IPropertyFieldPicturePickerPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -176,16 +171,12 @@ class PropertyFieldPicturePickerBuilder implements IPropertyPaneField<IPropertyF
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
-    if (_properties.previewImage != null && _properties.previewImage != undefined)
-      this.previewImage = _properties.previewImage;
-    if (_properties.readOnly === false)
-      this.readOnly = _properties.readOnly;
-    if (_properties.allowedFileExtensions != null && _properties.allowedFileExtensions !== undefined && _properties.allowedFileExtensions != '')
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.previewImage != null && _properties.previewImage != undefined) this.previewImage = _properties.previewImage;
+    if (_properties.readOnly === false) this.readOnly = _properties.readOnly;
+    if (_properties.allowedFileExtensions != null && _properties.allowedFileExtensions !== undefined && _properties.allowedFileExtensions != "")
       this.allowedFileExtensions = _properties.allowedFileExtensions;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
@@ -215,7 +206,7 @@ class PropertyFieldPicturePickerBuilder implements IPropertyPaneField<IPropertyF
       readOnly: this.readOnly,
       allowedFileExtensions: this.allowedFileExtensions,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -225,10 +216,7 @@ class PropertyFieldPicturePickerBuilder implements IPropertyPaneField<IPropertyF
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -237,31 +225,31 @@ class PropertyFieldPicturePickerBuilder implements IPropertyPaneField<IPropertyF
  * @param targetProperty - Target property the Picture picker is associated to.
  * @param properties - Strongly typed Picture Picker properties.
  */
-export function PropertyFieldPicturePicker(targetProperty: string, properties: IPropertyFieldPicturePickerProps): IPropertyPaneField<IPropertyFieldPicturePickerPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldPicturePickerPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      initialValue: properties.initialValue,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      context: properties.context,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      previewImage: properties.previewImage,
-      readOnly: properties.readOnly,
-      allowedFileExtensions: properties.allowedFileExtensions,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldPicturePicker builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldPicturePickerBuilder(targetProperty, newProperties);
+export function PropertyFieldPicturePicker(
+  targetProperty: string,
+  properties: IPropertyFieldPicturePickerProps
+): IPropertyPaneField<IPropertyFieldPicturePickerPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldPicturePickerPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    initialValue: properties.initialValue,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    context: properties.context,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    previewImage: properties.previewImage,
+    readOnly: properties.readOnly,
+    allowedFileExtensions: properties.allowedFileExtensions,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldPicturePicker builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldPicturePickerBuilder(targetProperty, newProperties);
 }
-
-

@@ -7,18 +7,14 @@
  * Released under MIT licence
  *
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IWebPartContext
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldSPListPickerHost, { IPropertyFieldSPListPickerHostProps } from './PropertyFieldSPListPickerHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IWebPartContext } from "@microsoft/sp-webpart-base";
+import PropertyFieldSPListPickerHost, { IPropertyFieldSPListPickerHostProps } from "./PropertyFieldSPListPickerHost";
 
 export enum PropertyFieldSPListPickerOrderBy {
   Id = 0,
-  Title = 1
+  Title = 1,
 }
 
 /**
@@ -83,12 +79,12 @@ export interface IPropertyFieldSPListPickerProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -125,7 +121,6 @@ export interface IPropertyFieldSPListPickerPropsInternal extends IPropertyFieldS
  *
  */
 class PropertyFieldSPListPickerBuilder implements IPropertyPaneField<IPropertyFieldSPListPickerPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -167,11 +162,9 @@ class PropertyFieldSPListPickerBuilder implements IPropertyPaneField<IPropertyFi
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -200,7 +193,7 @@ class PropertyFieldSPListPickerBuilder implements IPropertyPaneField<IPropertyFi
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -210,10 +203,7 @@ class PropertyFieldSPListPickerBuilder implements IPropertyPaneField<IPropertyFi
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -222,29 +212,31 @@ class PropertyFieldSPListPickerBuilder implements IPropertyPaneField<IPropertyFi
  * @param targetProperty - Target property the SharePoint list picker is associated to.
  * @param properties - Strongly typed SPList Picker properties.
  */
-export function PropertyFieldSPListPicker(targetProperty: string, properties: IPropertyFieldSPListPickerProps): IPropertyPaneField<IPropertyFieldSPListPickerPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldSPListPickerPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      context: properties.context,
-      selectedList: properties.selectedList,
-      baseTemplate: properties.baseTemplate,
-      orderBy: properties.orderBy,
-      includeHidden: properties.includeHidden,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldSPListPicker builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldSPListPickerBuilder(targetProperty, newProperties);
+export function PropertyFieldSPListPicker(
+  targetProperty: string,
+  properties: IPropertyFieldSPListPickerProps
+): IPropertyPaneField<IPropertyFieldSPListPickerPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldSPListPickerPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    context: properties.context,
+    selectedList: properties.selectedList,
+    baseTemplate: properties.baseTemplate,
+    orderBy: properties.orderBy,
+    includeHidden: properties.includeHidden,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldSPListPicker builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldSPListPickerBuilder(targetProperty, newProperties);
 }

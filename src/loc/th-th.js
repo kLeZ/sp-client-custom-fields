@@ -1,4 +1,4 @@
-define([], function() {
+define([], function () {
   return {
     //Dimension Picker labels
     "DimensionWidth": "ความกว้าง",
@@ -33,7 +33,7 @@ define([], function() {
     "SPListQueryOperatorNe": "ไม่เท่ากับ",
     "SPListQueryOperatorStartsWith": "เริ่มต้นด้วย",
     "SPListQueryOperatorSubstringof": "สายอักขระย่อย",
-    "SPListQueryOperatorLt":  "น้อยกว่า",
+    "SPListQueryOperatorLt": "น้อยกว่า",
     "SPListQueryOperatorLe": "น้อยกว่า หรือเท่ากับ",
     "SPListQueryOperatorGt": "มากกว่า",
     "SPListQueryOperatorGe": "มากกว่า หรือเท่ากับ",

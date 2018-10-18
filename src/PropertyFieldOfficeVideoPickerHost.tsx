@@ -5,23 +5,22 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import { IPropertyFieldOfficeVideoPickerPropsInternal } from './PropertyFieldOfficeVideoPicker';
-import { Label } from 'office-ui-fabric-react/lib/Label';
-import { IconButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import { Async } from 'office-ui-fabric-react/lib/Utilities';
-import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
-import GuidHelper from './GuidHelper';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import * as React from "react";
+import { IPropertyFieldOfficeVideoPickerPropsInternal } from "./PropertyFieldOfficeVideoPicker";
+import { Label } from "office-ui-fabric-react/lib/Label";
+import { IconButton, IButtonProps } from "office-ui-fabric-react/lib/Button";
+import { Panel, PanelType } from "office-ui-fabric-react/lib/Panel";
+import { Async } from "office-ui-fabric-react/lib/Utilities";
+import { Spinner, SpinnerType } from "office-ui-fabric-react/lib/Spinner";
+import GuidHelper from "./GuidHelper";
+import { TextField } from "office-ui-fabric-react/lib/TextField";
 
 /**
  * @interface
  * PropertyFieldOfficeVideoPickerHost properties interface
  *
  */
-export interface IPropertyFieldOfficeVideoPickerHostProps extends IPropertyFieldOfficeVideoPickerPropsInternal {
-}
+export interface IPropertyFieldOfficeVideoPickerHostProps extends IPropertyFieldOfficeVideoPickerPropsInternal {}
 
 export interface IPropertyFieldOfficeVideoPickerHostState {
   openPanel?: boolean;
@@ -38,8 +37,10 @@ export interface IPropertyFieldOfficeVideoPickerHostState {
  * @class
  * Renders the controls for PropertyFieldOfficeVideoPicker component
  */
-export default class PropertyFieldOfficeVideoPickerHost extends React.Component<IPropertyFieldOfficeVideoPickerHostProps, IPropertyFieldOfficeVideoPickerHostState> {
-
+export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
+  IPropertyFieldOfficeVideoPickerHostProps,
+  IPropertyFieldOfficeVideoPickerHostState
+> {
   private latestValidateValue: string;
   private async: Async;
   private delayedValidate: (value: string) => void;
@@ -68,7 +69,7 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
       openSite: true,
       openUpload: false,
       recentImages: [],
-      errorMessage: ''
+      errorMessage: "",
     };
 
     this.guid = GuidHelper.getGuid();
@@ -78,12 +79,11 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
     this.delayedValidate = this.async.debounce(this.validate, this.props.deferredValidationTime);
   }
 
-
- /**
-  * @function
-  * Save the image value
-  *
-  */
+  /**
+   * @function
+   * Save the image value
+   *
+   */
   private saveVideoProperty(imageUrl: string): void {
     this.delayedValidate(imageUrl);
   }
@@ -98,28 +98,23 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
       return;
     }
 
-    if (this.latestValidateValue === value)
-      return;
+    if (this.latestValidateValue === value) return;
     this.latestValidateValue = value;
 
-    var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || '');
+    var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || "");
     if (result !== undefined) {
-      if (typeof result === 'string') {
-        if (result === undefined || result === '')
-          this.notifyAfterValidate(this.props.initialValue, value);
+      if (typeof result === "string") {
+        if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialValue, value);
         this.state.errorMessage = result;
         this.setState(this.state);
-      }
-      else {
+      } else {
         result.then((errorMessage: string) => {
-          if (errorMessage === undefined || errorMessage === '')
-            this.notifyAfterValidate(this.props.initialValue, value);
+          if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialValue, value);
           this.state.errorMessage = errorMessage;
           this.setState(this.state);
         });
       }
-    }
-    else {
+    } else {
       this.notifyAfterValidate(this.props.initialValue, value);
     }
   }
@@ -132,38 +127,37 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
     if (this.props.onPropertyChange && newValue != null) {
       this.props.properties[this.props.targetProperty] = newValue;
       this.props.onPropertyChange(this.props.targetProperty, oldValue, newValue);
-      if (!this.props.disableReactivePropertyChanges && this.props.render != null)
-        this.props.render();
+      if (!this.props.disableReactivePropertyChanges && this.props.render != null) this.props.render();
     }
   }
 
- /**
-  * @function
-  * Click on erase button
-  *
-  */
+  /**
+   * @function
+   * Click on erase button
+   *
+   */
   private onEraseButton(): void {
-    this.state.selectedVideo = '';
+    this.state.selectedVideo = "";
     this.setState(this.state);
-    this.saveVideoProperty('');
+    this.saveVideoProperty("");
   }
 
- /**
-  * @function
-  * Open the panel
-  *
-  */
+  /**
+   * @function
+   * Open the panel
+   *
+   */
   private onOpenPanel(element?: any): void {
     this.state.openPanel = true;
     this.state.iframeLoaded = false;
     this.setState(this.state);
   }
 
- /**
-  * @function
-  * The text field value changed
-  *
-  */
+  /**
+   * @function
+   * The text field value changed
+   *
+   */
   private onTextFieldChanged(newValue: string): void {
     this.state.selectedVideo = newValue;
     this.setState(this.state);
@@ -171,10 +165,10 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
   }
 
   /**
-  * @function
-  * Close the panel
-  *
-  */
+   * @function
+   * Close the panel
+   *
+   */
   private onClosePanel(element?: any): void {
     this.state.openPanel = false;
     this.setState(this.state);
@@ -184,19 +178,17 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
     var iframe: any = document.getElementById(this.guid);
 
     if (iframe != null && iframe != undefined) {
-      if (iframe.addEventListener)
-        iframe.addEventListener("load", this.iFrameLoaded, false);
-      else
-        iframe.attachEvent("onload", this.iFrameLoaded);
+      if (iframe.addEventListener) iframe.addEventListener("load", this.iFrameLoaded, false);
+      else iframe.attachEvent("onload", this.iFrameLoaded);
     }
   }
 
   private iFrameLoaded(): void {
     var okButton = window.frames[this.guid].document.getElementById("ctl00_OkButton");
-    okButton.onclick = '';
+    okButton.onclick = "";
     okButton.addEventListener("click", this.iFrameValidation, false);
     var cancelButton = window.frames[this.guid].document.getElementById("CancelButton");
-    cancelButton.onclick = '';
+    cancelButton.onclick = "";
     cancelButton.addEventListener("click", this.onClosePanel, false);
 
     this.state.iframeLoaded = true;
@@ -205,8 +197,7 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
 
   private iFrameValidation(): void {
     var dialogResult = window.frames[this.guid].window.dialogResult;
-    if (dialogResult == null)
-      return;
+    if (dialogResult == null) return;
     if (dialogResult.Url == null) {
       this.onClosePanel();
       return;
@@ -219,55 +210,61 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
   }
 
   /**
-  * @function
-  * When component is mount, attach the iframe event watcher
-  *
-  */
-  public componentDidMount() {
-  }
+   * @function
+   * When component is mount, attach the iframe event watcher
+   *
+   */
+  public componentDidMount() {}
 
   /**
-  * @function
-  * Releases the watcher
-  *
-  */
+   * @function
+   * Releases the watcher
+   *
+   */
   public componentWillUnmount() {
-    if (this.async !== undefined)
-      this.async.dispose();
+    if (this.async !== undefined) this.async.dispose();
   }
-
 
   /**
    * @function
    * Renders the controls
    */
   public render(): JSX.Element {
-
     var iframeUrl = this.props.context.pageContext.web.absoluteUrl;
-    iframeUrl += '/portals/hub/_layouts/15/VideoAssetDialog.aspx?list=&IsDlg=1';
+    iframeUrl += "/portals/hub/_layouts/15/VideoAssetDialog.aspx?list=&IsDlg=1";
 
     //Renders content
     return (
-      <div style={{ marginBottom: '8px'}}>
+      <div style={{ marginBottom: "8px" }}>
         <Label>{this.props.label}</Label>
-        <table style={{width: '100%', borderSpacing: 0}}>
+        <table style={{ width: "100%", borderSpacing: 0 }}>
           <tbody>
             <tr>
               <td width="*">
                 <TextField
                   disabled={this.props.disabled}
                   value={this.state.selectedVideo}
-                  style={{width:'100%'}}
+                  style={{ width: "100%" }}
                   onChanged={this.onTextFieldChanged}
                   readOnly={this.props.readOnly}
                 />
               </td>
               <td width="64">
-                <table style={{width: '100%', borderSpacing: 0}}>
+                <table style={{ width: "100%", borderSpacing: 0 }}>
                   <tbody>
                     <tr>
-                      <td><IconButton disabled={this.props.disabled} iconProps={ { iconName: 'FolderSearch' } }  onClick={this.onOpenPanel} /></td>
-                      <td><IconButton disabled={this.props.disabled === false && (this.state.selectedVideo != null && this.state.selectedVideo != '') ? false: true} iconProps={ { iconName: 'Delete' } } onClick={this.onEraseButton} /></td>
+                      <td>
+                        <IconButton disabled={this.props.disabled} iconProps={{ iconName: "FolderSearch" }} onClick={this.onOpenPanel} />
+                      </td>
+                      <td>
+                        <IconButton
+                          disabled={
+                            this.props.disabled === false && (this.state.selectedVideo != null && this.state.selectedVideo != "") ? false : true
+                          }
+                          iconProps={{ iconName: "Delete" }}
+                          onClick={this.onEraseButton}
+                        />
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -275,46 +272,59 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
             </tr>
           </tbody>
         </table>
-        { this.state.errorMessage != null && this.state.errorMessage != '' && this.state.errorMessage != undefined ?
-              <div><div aria-live='assertive' className='ms-u-screenReaderOnly' data-automation-id='error-message'>{  this.state.errorMessage }</div>
-              <span>
-                <p className='ms-TextField-errorMessage ms-u-slideDownIn20'>{ this.state.errorMessage }</p>
-              </span>
-              </div>
-            : ''}
-
-        { this.state.openPanel === true ?
-
-        <Panel
-          isOpen={this.state.openPanel} hasCloseButton={true} onDismiss={this.onClosePanel}
-          isLightDismiss={true} type={PanelType.large}
-          headerText={this.props.panelTitle}>
-
-          <div style={{visibility: this.state.iframeLoaded === false ? 'visible': 'hidden',
-            display: this.state.iframeLoaded === false ? 'block': 'none',
-            height: this.state.iframeLoaded === false ? 'auto': '0px'}}>
-             <Spinner type={ SpinnerType.normal } />
+        {this.state.errorMessage != null && this.state.errorMessage != "" && this.state.errorMessage != undefined ? (
+          <div>
+            <div aria-live="assertive" className="ms-u-screenReaderOnly" data-automation-id="error-message">
+              {this.state.errorMessage}
+            </div>
+            <span>
+              <p className="ms-TextField-errorMessage ms-u-slideDownIn20">{this.state.errorMessage}</p>
+            </span>
           </div>
+        ) : (
+          ""
+        )}
 
-          <div id="site" style={{width: '100%', height: '700px'}}>
+        {this.state.openPanel === true ? (
+          <Panel
+            isOpen={this.state.openPanel}
+            hasCloseButton={true}
+            onDismiss={this.onClosePanel}
+            isLightDismiss={true}
+            type={PanelType.large}
+            headerText={this.props.panelTitle}
+          >
+            <div
+              style={{
+                visibility: this.state.iframeLoaded === false ? "visible" : "hidden",
+                display: this.state.iframeLoaded === false ? "block" : "none",
+                height: this.state.iframeLoaded === false ? "auto" : "0px",
+              }}
+            >
+              <Spinner type={SpinnerType.normal} />
+            </div>
 
-            <iframe ref="filePickerIFrame" style={{
-              width: '100%', borderWidth:'0',
-              visibility: this.state.iframeLoaded === true ? 'visible': 'hidden',
-              display: this.state.iframeLoaded === true ? 'block': 'none',
-              height: this.state.iframeLoaded === true ? '650px': '0px'}}
-            role="application"
-            src={iframeUrl}
-            id={this.guid}
-            name={this.guid}></iframe>
-
-          </div>
-
-        </Panel>
-        : '' }
-
+            <div id="site" style={{ width: "100%", height: "700px" }}>
+              <iframe
+                ref="filePickerIFrame"
+                style={{
+                  width: "100%",
+                  borderWidth: "0",
+                  visibility: this.state.iframeLoaded === true ? "visible" : "hidden",
+                  display: this.state.iframeLoaded === true ? "block" : "none",
+                  height: this.state.iframeLoaded === true ? "650px" : "0px",
+                }}
+                role="application"
+                src={iframeUrl}
+                id={this.guid}
+                name={this.guid}
+              />
+            </div>
+          </Panel>
+        ) : (
+          ""
+        )}
       </div>
     );
   }
-
 }

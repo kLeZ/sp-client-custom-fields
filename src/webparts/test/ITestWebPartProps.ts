@@ -1,8 +1,8 @@
-import { IPropertyFieldPeople } from '../../PropertyFieldPeoplePicker';
-import { IPropertyFieldGroup } from '../../PropertyFieldGroupPicker';
-import { IPropertyFieldDimension } from '../../PropertyFieldDimensionPicker';
-import { IPropertyFieldTag } from '../../PropertyFieldTagPicker';
-import { ISPTermSets } from '../../PropertyFieldTermSetPicker';
+import { IPropertyFieldPeople } from "../../PropertyFieldPeoplePicker";
+import { IPropertyFieldGroup } from "../../PropertyFieldGroupPicker";
+import { IPropertyFieldDimension } from "../../PropertyFieldDimensionPicker";
+import { IPropertyFieldTag } from "../../PropertyFieldTagPicker";
+import { ISPTermSets } from "../../PropertyFieldTermSetPicker";
 
 export interface ITestWebPartProps {
   description: string;

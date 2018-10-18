@@ -1,4 +1,4 @@
-define([], function() {
+define([], function () {
   return {
     //Dimension Picker labels
     "DimensionWidth": "अनुपात को बचाना",
@@ -33,7 +33,7 @@ define([], function() {
     "SPListQueryOperatorNe": "से अलग",
     "SPListQueryOperatorStartsWith": "के साथ शुरू होता है",
     "SPListQueryOperatorSubstringof": "नीचे का हिस्सा",
-    "SPListQueryOperatorLt":  "कम से कम",
+    "SPListQueryOperatorLt": "कम से कम",
     "SPListQueryOperatorLe": "कम या बराबर",
     "SPListQueryOperatorGt": "से अधिक",
     "SPListQueryOperatorGe": "अधिक या बराबर",

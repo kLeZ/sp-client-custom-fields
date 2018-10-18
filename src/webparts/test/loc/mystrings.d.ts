@@ -40,7 +40,7 @@ declare interface ITestStrings {
   TermSetsFieldLabel: string;
 }
 
-declare module 'testStrings' {
+declare module "testStrings" {
   const strings: ITestStrings;
   export = strings;
 }

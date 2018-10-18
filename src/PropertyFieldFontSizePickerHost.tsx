@@ -5,20 +5,19 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import { IPropertyFieldFontSizePickerPropsInternal } from './PropertyFieldFontSizePicker';
-import { Label } from 'office-ui-fabric-react/lib/Label';
-import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
-import { Async } from 'office-ui-fabric-react/lib/Utilities';
-import GuidHelper from './GuidHelper';
+import * as React from "react";
+import { IPropertyFieldFontSizePickerPropsInternal } from "./PropertyFieldFontSizePicker";
+import { Label } from "office-ui-fabric-react/lib/Label";
+import { Dropdown, IDropdownOption } from "office-ui-fabric-react/lib/Dropdown";
+import { Async } from "office-ui-fabric-react/lib/Utilities";
+import GuidHelper from "./GuidHelper";
 
 /**
  * @interface
  * PropertyFieldFontSizePickerHost properties interface
  *
  */
-export interface IPropertyFieldFontSizePickerHostProps extends IPropertyFieldFontSizePickerPropsInternal {
-}
+export interface IPropertyFieldFontSizePickerHostProps extends IPropertyFieldFontSizePickerPropsInternal {}
 
 /**
  * @interface
@@ -48,36 +47,38 @@ interface ISafeFont {
  * @class
  * Renders the controls for PropertyFieldFontSizePicker component
  */
-export default class PropertyFieldFontSizePickerHost extends React.Component<IPropertyFieldFontSizePickerHostProps, IPropertyFieldFontSizePickerHostState> {
-
+export default class PropertyFieldFontSizePickerHost extends React.Component<
+  IPropertyFieldFontSizePickerHostProps,
+  IPropertyFieldFontSizePickerHostState
+> {
   private fonts: ISafeFont[];
   /**
    * @var
    * Defines the font series
    */
   private fontsPixels: ISafeFont[] = [
-    {Name: "8px", SafeValue: '8px'},
-    {Name: "9px", SafeValue: '9px'},
-    {Name: "10px", SafeValue: '10px'},
-    {Name: "11px", SafeValue: '11px'},
-    {Name: "12px", SafeValue: '12px'},
-    {Name: "14px", SafeValue: '14px'},
-    {Name: "16px", SafeValue: '16px'},
-    {Name: "18px", SafeValue: '18px'},
-    {Name: "20px", SafeValue: '20px'},
-    {Name: "24px", SafeValue: '24px'},
-    {Name: "28px", SafeValue: '28px'},
-    {Name: "36px", SafeValue: '36px'},
-    {Name: "48px", SafeValue: '48px'}
+    { Name: "8px", SafeValue: "8px" },
+    { Name: "9px", SafeValue: "9px" },
+    { Name: "10px", SafeValue: "10px" },
+    { Name: "11px", SafeValue: "11px" },
+    { Name: "12px", SafeValue: "12px" },
+    { Name: "14px", SafeValue: "14px" },
+    { Name: "16px", SafeValue: "16px" },
+    { Name: "18px", SafeValue: "18px" },
+    { Name: "20px", SafeValue: "20px" },
+    { Name: "24px", SafeValue: "24px" },
+    { Name: "28px", SafeValue: "28px" },
+    { Name: "36px", SafeValue: "36px" },
+    { Name: "48px", SafeValue: "48px" },
   ];
   private fontsLabels: ISafeFont[] = [
-    {Name: "xx-small", SafeValue: 'xx-small'},
-    {Name: "x-small", SafeValue: 'x-small'},
-    {Name: "small", SafeValue: 'small'},
-    {Name: "medium", SafeValue: 'medium'},
-    {Name: "large", SafeValue: 'large'},
-    {Name: "x-large", SafeValue: 'x-large'},
-    {Name: "xx-large", SafeValue: 'xx-large'}
+    { Name: "xx-small", SafeValue: "xx-small" },
+    { Name: "x-small", SafeValue: "x-small" },
+    { Name: "small", SafeValue: "small" },
+    { Name: "medium", SafeValue: "medium" },
+    { Name: "large", SafeValue: "large" },
+    { Name: "x-large", SafeValue: "x-large" },
+    { Name: "xx-large", SafeValue: "xx-large" },
   ];
 
   private latestValidateValue: string;
@@ -92,10 +93,8 @@ export default class PropertyFieldFontSizePickerHost extends React.Component<IPr
   constructor(props: IPropertyFieldFontSizePickerHostProps) {
     super(props);
 
-    if (props.usePixels === true)
-      this.fonts = this.fontsPixels;
-    else
-      this.fonts = this.fontsLabels;
+    if (props.usePixels === true) this.fonts = this.fontsPixels;
+    else this.fonts = this.fontsLabels;
 
     //Bind the current object to the external called onSelectDate method
     this.onOpenDialog = this.onOpenDialog.bind(this);
@@ -109,10 +108,10 @@ export default class PropertyFieldFontSizePickerHost extends React.Component<IPr
 
     //Init the state
     this.state = {
-        isOpen: false,
-        isHoverDropdown: false,
-        errorMessage: ''
-      };
+      isOpen: false,
+      isHoverDropdown: false,
+      errorMessage: "",
+    };
 
     this.async = new Async(this);
     this.validate = this.validate.bind(this);
@@ -120,15 +119,14 @@ export default class PropertyFieldFontSizePickerHost extends React.Component<IPr
     this.delayedValidate = this.async.debounce(this.validate, this.props.deferredValidationTime);
 
     //Inits the default value
-    if (props.initialValue != null && props.initialValue != '') {
+    if (props.initialValue != null && props.initialValue != "") {
       for (var i = 0; i < this.fonts.length; i++) {
         var font = this.fonts[i];
         //Checks if we must use the font name or the font safe value
         if (props.usePixels === false && props.initialValue === font.Name) {
           this.state.selectedFont = font.Name;
           this.state.safeSelectedFont = font.SafeValue;
-        }
-        else if (props.initialValue === font.SafeValue) {
+        } else if (props.initialValue === font.SafeValue) {
           this.state.selectedFont = font.Name;
           this.state.safeSelectedFont = font.SafeValue;
         }
@@ -154,28 +152,23 @@ export default class PropertyFieldFontSizePickerHost extends React.Component<IPr
       return;
     }
 
-    if (this.latestValidateValue === value)
-      return;
+    if (this.latestValidateValue === value) return;
     this.latestValidateValue = value;
 
-    var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || '');
+    var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || "");
     if (result !== undefined) {
-      if (typeof result === 'string') {
-        if (result === undefined || result === '')
-          this.notifyAfterValidate(this.props.initialValue, value);
+      if (typeof result === "string") {
+        if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialValue, value);
         this.state.errorMessage = result;
         this.setState(this.state);
-      }
-      else {
+      } else {
         result.then((errorMessage: string) => {
-          if (errorMessage === undefined || errorMessage === '')
-            this.notifyAfterValidate(this.props.initialValue, value);
+          if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialValue, value);
           this.state.errorMessage = errorMessage;
           this.setState(this.state);
         });
       }
-    }
-    else {
+    } else {
       this.notifyAfterValidate(this.props.initialValue, value);
     }
   }
@@ -188,8 +181,7 @@ export default class PropertyFieldFontSizePickerHost extends React.Component<IPr
     if (this.props.onPropertyChange && newValue != null) {
       this.props.properties[this.props.targetProperty] = newValue;
       this.props.onPropertyChange(this.props.targetProperty, oldValue, newValue);
-      if (!this.props.disableReactivePropertyChanges && this.props.render != null)
-        this.props.render();
+      if (!this.props.disableReactivePropertyChanges && this.props.render != null) this.props.render();
     }
   }
 
@@ -206,8 +198,7 @@ export default class PropertyFieldFontSizePickerHost extends React.Component<IPr
    * Function to open the dialog
    */
   private onOpenDialog(): void {
-    if (this.props.disabled === true)
-      return;
+    if (this.props.disabled === true) return;
     this.state.isOpen = !this.state.isOpen;
     this.setState(this.state);
   }
@@ -227,7 +218,7 @@ export default class PropertyFieldFontSizePickerHost extends React.Component<IPr
    * Mouse is leaving a font
    */
   private toggleHoverLeave(element?: any) {
-    this.state.hoverFont = '';
+    this.state.hoverFont = "";
     this.setState(this.state);
   }
 
@@ -260,8 +251,7 @@ export default class PropertyFieldFontSizePickerHost extends React.Component<IPr
     this.onOpenDialog();
     if (this.props.usePixels === false) {
       this.changeSelectedFont(this.state.selectedFont);
-    }
-    else {
+    } else {
       this.changeSelectedFont(this.state.safeSelectedFont);
     }
   }
@@ -273,10 +263,9 @@ export default class PropertyFieldFontSizePickerHost extends React.Component<IPr
   private getSafeFont(fontName: string): string {
     for (var i = 0; i < this.fonts.length; i++) {
       var font = this.fonts[i];
-      if (font.Name === fontName)
-        return font.SafeValue;
+      if (font.Name === fontName) return font.SafeValue;
     }
-    return '';
+    return "";
   }
 
   /**
@@ -292,7 +281,6 @@ export default class PropertyFieldFontSizePickerHost extends React.Component<IPr
    * Renders the controls
    */
   public render(): JSX.Element {
-
     if (this.props.preview === false) {
       //If the user don't want to use the preview font picker,
       //we're building a classical drop down picker
@@ -303,161 +291,181 @@ export default class PropertyFieldFontSizePickerHost extends React.Component<IPr
         if (this.props.usePixels === false && font.Name == this.props.initialValue) {
           isSelected = true;
           selectedKey = font.Name;
-        }
-        else if (font.SafeValue == this.props.initialValue) {
+        } else if (font.SafeValue == this.props.initialValue) {
           isSelected = true;
           selectedKey = font.SafeValue;
         }
-        dropDownOptions.push(
-          {
-            key: this.props.usePixels === false ? font.Name : font.SafeValue,
-            text: font.Name,
-            isSelected: isSelected
-          }
-        );
+        dropDownOptions.push({
+          key: this.props.usePixels === false ? font.Name : font.SafeValue,
+          text: font.Name,
+          isSelected: isSelected,
+        });
       });
       return (
         <div>
-          <Dropdown label={this.props.label} options={dropDownOptions} selectedKey={selectedKey}
-            onChanged={this.onFontDropdownChanged} disabled={this.props.disabled} />
-          { this.state.errorMessage != null && this.state.errorMessage != '' && this.state.errorMessage != undefined ?
-              <div><div aria-live='assertive' className='ms-u-screenReaderOnly' data-automation-id='error-message'>{  this.state.errorMessage }</div>
-              <span>
-                <p className='ms-TextField-errorMessage ms-u-slideDownIn20'>{ this.state.errorMessage }</p>
-              </span>
+          <Dropdown
+            label={this.props.label}
+            options={dropDownOptions}
+            selectedKey={selectedKey}
+            onChanged={this.onFontDropdownChanged}
+            disabled={this.props.disabled}
+          />
+          {this.state.errorMessage != null && this.state.errorMessage != "" && this.state.errorMessage != undefined ? (
+            <div>
+              <div aria-live="assertive" className="ms-u-screenReaderOnly" data-automation-id="error-message">
+                {this.state.errorMessage}
               </div>
-            : ''}
+              <span>
+                <p className="ms-TextField-errorMessage ms-u-slideDownIn20">{this.state.errorMessage}</p>
+              </span>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       );
-    }
-    else {
+    } else {
       //User wants to use the preview font picker, so just build it
       var fontSelect = {
-        fontSize: '16px',
-        width: '100%',
-        position: 'relative',
-        display: 'inline-block',
-        zoom: 1
+        fontSize: "16px",
+        width: "100%",
+        position: "relative",
+        display: "inline-block",
+        zoom: 1,
       };
-      var dropdownColor = '1px solid #c8c8c8';
-      if (this.props.disabled === true)
-        dropdownColor = '1px solid #f4f4f4';
-      else if (this.state.isOpen === true)
-        dropdownColor = '1px solid #3091DE';
-      else if (this.state.isHoverDropdown === true)
-        dropdownColor = '1px solid #767676';
+      var dropdownColor = "1px solid #c8c8c8";
+      if (this.props.disabled === true) dropdownColor = "1px solid #f4f4f4";
+      else if (this.state.isOpen === true) dropdownColor = "1px solid #3091DE";
+      else if (this.state.isHoverDropdown === true) dropdownColor = "1px solid #767676";
       var fontSelectA = {
-        backgroundColor: this.props.disabled === true ? '#f4f4f4' : '#fff',
-        borderRadius        : '0px',
-        backgroundClip        : 'padding-box',
+        backgroundColor: this.props.disabled === true ? "#f4f4f4" : "#fff",
+        borderRadius: "0px",
+        backgroundClip: "padding-box",
         border: dropdownColor,
-        display: 'block',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        position: 'relative',
-        height: '26px',
-        lineHeight: '26px',
-        padding: '0 0 0 8px',
-        color: this.props.disabled === true ? '#a6a6a6' : '#444',
-        textDecoration: 'none',
-        cursor: this.props.disabled === true ? 'default' : 'pointer'
+        display: "block",
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        position: "relative",
+        height: "26px",
+        lineHeight: "26px",
+        padding: "0 0 0 8px",
+        color: this.props.disabled === true ? "#a6a6a6" : "#444",
+        textDecoration: "none",
+        cursor: this.props.disabled === true ? "default" : "pointer",
       };
       var fontSelectASpan = {
-        marginRight: '26px',
-        display: 'block',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        lineHeight: '1.8',
-        textOverflow: 'ellipsis',
-        cursor: this.props.disabled === true ? 'default' : 'pointer',
+        marginRight: "26px",
+        display: "block",
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        lineHeight: "1.8",
+        textOverflow: "ellipsis",
+        cursor: this.props.disabled === true ? "default" : "pointer",
         //fontFamily: this.state.safeSelectedFont != null && this.state.safeSelectedFont != '' ? this.state.safeSelectedFont : 'Arial',
         //fontSize: this.state.safeSelectedFont,
-        fontWeight: 400
+        fontWeight: 400,
       };
       var fontSelectADiv = {
-        borderRadius        : '0 0px 0px 0',
-        backgroundClip        : 'padding-box',
-        border: '0px',
-        position: 'absolute',
-        right: '0',
-        top: '0',
-        display: 'block',
-        height: '100%',
-        width: '22px'
+        borderRadius: "0 0px 0px 0",
+        backgroundClip: "padding-box",
+        border: "0px",
+        position: "absolute",
+        right: "0",
+        top: "0",
+        display: "block",
+        height: "100%",
+        width: "22px",
       };
       var fontSelectADivB = {
-        display: 'block',
-        width: '100%',
-        height: '100%',
-        cursor: this.props.disabled === true ? 'default' : 'pointer',
-        marginTop: '2px'
+        display: "block",
+        width: "100%",
+        height: "100%",
+        cursor: this.props.disabled === true ? "default" : "pointer",
+        marginTop: "2px",
       };
       var fsDrop = {
-        background: '#fff',
-        border: '1px solid #aaa',
-        borderTop: '0',
-        position: 'absolute',
-        top: '29px',
-        left: '0',
-        width: 'calc(100% - 2px)',
+        background: "#fff",
+        border: "1px solid #aaa",
+        borderTop: "0",
+        position: "absolute",
+        top: "29px",
+        left: "0",
+        width: "calc(100% - 2px)",
         //boxShadow: '0 4px 5px rgba(0,0,0,.15)',
         zIndex: 999,
-        display: this.state.isOpen ? 'block' : 'none'
+        display: this.state.isOpen ? "block" : "none",
       };
       var fsResults = {
-        margin: '0 4px 4px 0',
-        maxHeight: '190px',
-        width: 'calc(100% - 4px)',
-        padding: '0 0 0 4px',
-        position: 'relative',
-        overflowX: 'hidden',
-        overflowY: 'auto'
+        margin: "0 4px 4px 0",
+        maxHeight: "190px",
+        width: "calc(100% - 4px)",
+        padding: "0 0 0 4px",
+        position: "relative",
+        overflowX: "hidden",
+        overflowY: "auto",
       };
-      var carret: string = this.state.isOpen ? 'ms-Icon ms-Icon--ChevronUp' : 'ms-Icon ms-Icon--ChevronDown';
+      var carret: string = this.state.isOpen ? "ms-Icon ms-Icon--ChevronUp" : "ms-Icon ms-Icon--ChevronDown";
       //Renders content
       return (
-        <div style={{ marginBottom: '8px'}}>
+        <div style={{ marginBottom: "8px" }}>
           <Label>{this.props.label}</Label>
           <div style={fontSelect}>
-            <a style={fontSelectA} onClick={this.onOpenDialog}
-              onMouseEnter={this.mouseEnterDropDown} onMouseLeave={this.mouseLeaveDropDown} role="menuitem">
+            <a
+              style={fontSelectA}
+              onClick={this.onOpenDialog}
+              onMouseEnter={this.mouseEnterDropDown}
+              onMouseLeave={this.mouseLeaveDropDown}
+              role="menuitem"
+            >
               <span style={fontSelectASpan}>{this.state.selectedFont}</span>
               <div style={fontSelectADiv}>
-                <i style={fontSelectADivB} className={carret}></i>
+                <i style={fontSelectADivB} className={carret} />
               </div>
             </a>
             <div style={fsDrop}>
               <ul style={fsResults}>
                 {this.fonts.map((font: ISafeFont, index: number) => {
-                  var backgroundColor: string = 'transparent';
-                  if (this.state.selectedFont === font.Name)
-                    backgroundColor = '#c7e0f4';
-                  else if (this.state.hoverFont === font.Name)
-                    backgroundColor = '#eaeaea';
+                  var backgroundColor: string = "transparent";
+                  if (this.state.selectedFont === font.Name) backgroundColor = "#c7e0f4";
+                  else if (this.state.hoverFont === font.Name) backgroundColor = "#eaeaea";
                   var innerStyle = {
-                    lineHeight: '80%',
-                    padding: '7px 7px 8px',
-                    margin: '0',
-                    listStyle: 'none',
+                    lineHeight: "80%",
+                    padding: "7px 7px 8px",
+                    margin: "0",
+                    listStyle: "none",
                     fontSize: font.SafeValue,
                     backgroundColor: backgroundColor,
-                    cursor: 'pointer'
+                    cursor: "pointer",
                   };
                   return (
-                    <li value={font.Name} key={this._key + '-fontsizepicker-' + index} role="menuitem" onMouseEnter={this.toggleHover} onClick={this.onClickFont} onMouseLeave={this.toggleHoverLeave} style={innerStyle}>{font.Name}</li>
+                    <li
+                      value={font.Name}
+                      key={this._key + "-fontsizepicker-" + index}
+                      role="menuitem"
+                      onMouseEnter={this.toggleHover}
+                      onClick={this.onClickFont}
+                      onMouseLeave={this.toggleHoverLeave}
+                      style={innerStyle}
+                    >
+                      {font.Name}
+                    </li>
                   );
-                })
-                }
+                })}
               </ul>
             </div>
           </div>
-          { this.state.errorMessage != null && this.state.errorMessage != '' && this.state.errorMessage != undefined ?
-              <div><div aria-live='assertive' className='ms-u-screenReaderOnly' data-automation-id='error-message'>{  this.state.errorMessage }</div>
-              <span>
-                <p className='ms-TextField-errorMessage ms-u-slideDownIn20'>{ this.state.errorMessage }</p>
-              </span>
+          {this.state.errorMessage != null && this.state.errorMessage != "" && this.state.errorMessage != undefined ? (
+            <div>
+              <div aria-live="assertive" className="ms-u-screenReaderOnly" data-automation-id="error-message">
+                {this.state.errorMessage}
               </div>
-            : ''}
+              <span>
+                <p className="ms-TextField-errorMessage ms-u-slideDownIn20">{this.state.errorMessage}</p>
+              </span>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       );
     }

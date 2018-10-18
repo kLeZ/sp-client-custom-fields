@@ -6,23 +6,22 @@
  * Released under MIT licence
  *
  */
-import * as React from 'react';
-import { Label } from 'office-ui-fabric-react/lib/Label';
-import { IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
-import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
-import { IconButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
-import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import { Async } from 'office-ui-fabric-react/lib/Utilities';
-import GuidHelper from './GuidHelper';
-import { IPropertyFieldSortableListPropsInternal, ISortableListOrder } from './PropertyFieldSortableList';
+import * as React from "react";
+import { Label } from "office-ui-fabric-react/lib/Label";
+import { IChoiceGroupOption } from "office-ui-fabric-react/lib/ChoiceGroup";
+import { Spinner, SpinnerType } from "office-ui-fabric-react/lib/Spinner";
+import { IconButton, IButtonProps } from "office-ui-fabric-react/lib/Button";
+import { Checkbox } from "office-ui-fabric-react/lib/Checkbox";
+import { Async } from "office-ui-fabric-react/lib/Utilities";
+import GuidHelper from "./GuidHelper";
+import { IPropertyFieldSortableListPropsInternal, ISortableListOrder } from "./PropertyFieldSortableList";
 
 /**
  * @interface
  * PropertyFieldSortableListHost properties interface
  *
  */
-export interface IPropertyFieldSortableListHostProps extends IPropertyFieldSortableListPropsInternal {
-}
+export interface IPropertyFieldSortableListHostProps extends IPropertyFieldSortableListPropsInternal {}
 
 /**
  * @interface
@@ -40,7 +39,6 @@ export interface IPropertyFieldSortableListHostState {
  * Renders the controls for PropertyFieldSortableList component
  */
 export default class PropertyFieldSortableListHost extends React.Component<IPropertyFieldSortableListHostProps, IPropertyFieldSortableListHostState> {
-
   private async: Async;
   private delayedValidate: (value: string[]) => void;
   private _key: string;
@@ -55,9 +53,9 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
     this._key = GuidHelper.getGuid();
     this.onChanged = this.onChanged.bind(this);
     this.state = {
-			results: this.props.items !== undefined ? this.props.items : [],
+      results: this.props.items !== undefined ? this.props.items : [],
       selectedKeys: this.props.selectedItems !== undefined ? this.props.selectedItems : [],
-      errorMessage: ''
+      errorMessage: "",
     };
 
     this.sortDescending = this.sortDescending.bind(this);
@@ -92,8 +90,7 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
   private getStateItemFromKey(key: string): IChoiceGroupOption {
     for (var i = 0; i < this.state.results.length; i++) {
       var currItem = this.state.results[i];
-      if (currItem.key === key)
-        return currItem;
+      if (currItem.key === key) return currItem;
     }
     return null;
   }
@@ -105,8 +102,7 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
   private removeSelected(element: string): void {
     var res = [];
     for (var i = 0; i < this.state.selectedKeys.length; i++) {
-      if (this.state.selectedKeys[i] !== element)
-        res.push(this.state.selectedKeys[i]);
+      if (this.state.selectedKeys[i] !== element) res.push(this.state.selectedKeys[i]);
     }
     this.state.selectedKeys = res;
     this.getStateItemFromKey(element).isChecked = false;
@@ -123,8 +119,7 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
 
       if (isChecked === false) {
         this.removeSelected(value);
-      }
-      else {
+      } else {
         this.getStateItemFromKey(value).isChecked = true;
         this.state.selectedKeys.push(value);
         this.setState(this.state);
@@ -145,22 +140,18 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
 
     var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || []);
     if (result !== undefined) {
-      if (typeof result === 'string') {
-        if (result === undefined || result === '')
-          this.notifyAfterValidate(this.props.selectedItems, value);
+      if (typeof result === "string") {
+        if (result === undefined || result === "") this.notifyAfterValidate(this.props.selectedItems, value);
         this.state.errorMessage = result;
         this.setState(this.state);
-      }
-      else {
+      } else {
         result.then((errorMessage: string) => {
-          if (errorMessage === undefined || errorMessage === '')
-            this.notifyAfterValidate(this.props.selectedItems, value);
+          if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.selectedItems, value);
           this.state.errorMessage = errorMessage;
           this.setState(this.state);
         });
       }
-    }
-    else {
+    } else {
       this.notifyAfterValidate(this.props.selectedItems, value);
     }
   }
@@ -173,8 +164,7 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
     if (this.props.onPropertyChange && newValue != null) {
       this.props.properties[this.props.targetProperty] = newValue;
       this.props.onPropertyChange(this.props.targetProperty, oldValue, newValue);
-      if (!this.props.disableReactivePropertyChanges && this.props.render != null)
-        this.props.render();
+      if (!this.props.disableReactivePropertyChanges && this.props.render != null) this.props.render();
     }
   }
 
@@ -187,26 +177,28 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
   }
 
   private sortDescending(elm?: any): void {
-    this.state.results.sort((a: IChoiceGroupOption, b: IChoiceGroupOption): any => {
-      if (this.props.sortBy == ISortableListOrder.Key) {
-        return (a.key > b.key) ? 1 : ((b.key > a.key) ? -1 : 0);
+    this.state.results.sort(
+      (a: IChoiceGroupOption, b: IChoiceGroupOption): any => {
+        if (this.props.sortBy == ISortableListOrder.Key) {
+          return a.key > b.key ? 1 : b.key > a.key ? -1 : 0;
+        } else {
+          return a.text > b.text ? 1 : b.text > a.text ? -1 : 0;
+        }
       }
-      else {
-        return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0);
-      }
-    });
+    );
     this.setState(this.state);
   }
 
   private sortAscending(elm?: any): void {
-    this.state.results.sort((a: IChoiceGroupOption, b: IChoiceGroupOption): any => {
-      if (this.props.sortBy == ISortableListOrder.Key) {
-        return (a.key > b.key) ? -1 : ((b.key > a.key) ? 1 : 0);
+    this.state.results.sort(
+      (a: IChoiceGroupOption, b: IChoiceGroupOption): any => {
+        if (this.props.sortBy == ISortableListOrder.Key) {
+          return a.key > b.key ? -1 : b.key > a.key ? 1 : 0;
+        } else {
+          return a.text > b.text ? -1 : b.text > a.text ? 1 : 0;
+        }
       }
-      else {
-        return (a.text > b.text) ? -1 : ((b.text > a.text) ? 1 : 0);
-      }
-    });
+    );
     this.setState(this.state);
   }
 
@@ -215,53 +207,59 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
    * Renders the SPListMultiplePicker controls with Office UI  Fabric
    */
   public render(): JSX.Element {
-
-        var styleOfLabel: any = {
-          color: this.props.disabled === true ? '#A6A6A6' : 'auto',
-          width: '160px',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap'
-        };
-        //Renders content
-        return (
-          <div>
-            <Label>{this.props.label}</Label>
-            <div style={{position: 'absolute', right: '0', marginRight: '20px', zIndex: 998}}>
-              <table style={{width: '100%', borderSpacing: 0}}>
-                  <tbody>
-                    <tr>
-                      <td><IconButton iconProps={ { iconName: 'ChevronUp' } } onClick={this.sortDescending} disabled={this.props.disabled}></IconButton></td>
-                      <td><IconButton iconProps={ { iconName: 'ChevronDown' } } onClick={this.sortAscending} disabled={this.props.disabled}></IconButton></td>
-                    </tr>
-                  </tbody>
-              </table>
+    var styleOfLabel: any = {
+      color: this.props.disabled === true ? "#A6A6A6" : "auto",
+      width: "160px",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+    };
+    //Renders content
+    return (
+      <div>
+        <Label>{this.props.label}</Label>
+        <div style={{ position: "absolute", right: "0", marginRight: "20px", zIndex: 998 }}>
+          <table style={{ width: "100%", borderSpacing: 0 }}>
+            <tbody>
+              <tr>
+                <td>
+                  <IconButton iconProps={{ iconName: "ChevronUp" }} onClick={this.sortDescending} disabled={this.props.disabled} />
+                </td>
+                <td>
+                  <IconButton iconProps={{ iconName: "ChevronDown" }} onClick={this.sortAscending} disabled={this.props.disabled} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        {this.state.results.map((item: IChoiceGroupOption, index: number) => {
+          var uniqueKey = this.props.targetProperty + "-" + item.key;
+          var checked = item.isChecked != null && item.isChecked !== undefined ? item.isChecked : false;
+          return (
+            <div className="ms-ChoiceField" key={this._key + "-sortablelistpicker-" + index}>
+              <Checkbox
+                checked={checked}
+                disabled={this.props.disabled}
+                label={item.text}
+                onChange={this.onChanged}
+                inputProps={{ value: item.key }}
+              />
             </div>
-            {this.state.results.map((item: IChoiceGroupOption, index: number) => {
-              var uniqueKey = this.props.targetProperty + '-' + item.key;
-              var checked = item.isChecked != null && item.isChecked !== undefined ? item.isChecked : false;
-              return (
-                <div className="ms-ChoiceField" key={this._key + '-sortablelistpicker-' + index}>
-                  <Checkbox
-                    checked={checked}
-                    disabled={this.props.disabled}
-                    label={item.text}
-                    onChange={this.onChanged}
-                    inputProps={{value: item.key}}
-                  />
-                </div>
-              );
-            })
-            }
-            { this.state.errorMessage != null && this.state.errorMessage != '' && this.state.errorMessage != undefined ?
-              <div style={{paddingBottom: '8px'}}><div aria-live='assertive' className='ms-u-screenReaderOnly' data-automation-id='error-message'>{  this.state.errorMessage }</div>
-              <span>
-                <p className='ms-TextField-errorMessage ms-u-slideDownIn20'>{ this.state.errorMessage }</p>
-              </span>
-              </div>
-            : ''}
+          );
+        })}
+        {this.state.errorMessage != null && this.state.errorMessage != "" && this.state.errorMessage != undefined ? (
+          <div style={{ paddingBottom: "8px" }}>
+            <div aria-live="assertive" className="ms-u-screenReaderOnly" data-automation-id="error-message">
+              {this.state.errorMessage}
+            </div>
+            <span>
+              <p className="ms-TextField-errorMessage ms-u-slideDownIn20">{this.state.errorMessage}</p>
+            </span>
           </div>
-        );
+        ) : (
+          ""
+        )}
+      </div>
+    );
   }
-
 }

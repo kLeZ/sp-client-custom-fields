@@ -6,14 +6,10 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldDropDownTreeViewHost, { IPropertyFieldDropDownTreeViewHostProps } from './PropertyFieldDropDownTreeViewHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldDropDownTreeViewHost, { IPropertyFieldDropDownTreeViewHostProps } from "./PropertyFieldDropDownTreeViewHost";
 
 /**
  * @interface
@@ -149,12 +145,12 @@ export interface IPropertyFieldDropDownTreeViewProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string[]) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string[]) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -191,7 +187,6 @@ export interface IPropertyFieldDropDownTreeViewPropsInternal extends IPropertyPa
  *
  */
 class PropertyFieldDropDownTreeViewBuilder implements IPropertyPaneField<IPropertyFieldDropDownTreeViewPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -229,25 +224,18 @@ class PropertyFieldDropDownTreeViewBuilder implements IPropertyPaneField<IProper
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
-    if (_properties.selectedNodesIDs !== undefined && _properties.selectedNodesIDs != null)
-      this.selectedNodesIDs = _properties.selectedNodesIDs;
-    if (_properties.allowMultipleSelections !== undefined)
-      this.allowMultipleSelections = _properties.allowMultipleSelections;
-    if (_properties.allowFoldersSelections !== undefined)
-      this.allowFoldersSelections = _properties.allowFoldersSelections;
-    if (_properties.nodesPaddingLeft !== undefined && _properties.nodesPaddingLeft != null)
-      this.nodesPaddingLeft = _properties.nodesPaddingLeft;
-    if (_properties.checkboxEnabled !== undefined && _properties.checkboxEnabled != null)
-      this.checkboxEnabled = _properties.checkboxEnabled;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.selectedNodesIDs !== undefined && _properties.selectedNodesIDs != null) this.selectedNodesIDs = _properties.selectedNodesIDs;
+    if (_properties.allowMultipleSelections !== undefined) this.allowMultipleSelections = _properties.allowMultipleSelections;
+    if (_properties.allowFoldersSelections !== undefined) this.allowFoldersSelections = _properties.allowFoldersSelections;
+    if (_properties.nodesPaddingLeft !== undefined && _properties.nodesPaddingLeft != null) this.nodesPaddingLeft = _properties.nodesPaddingLeft;
+    if (_properties.checkboxEnabled !== undefined && _properties.checkboxEnabled != null) this.checkboxEnabled = _properties.checkboxEnabled;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
-}
+  }
 
   /**
    * @function
@@ -273,7 +261,7 @@ class PropertyFieldDropDownTreeViewBuilder implements IPropertyPaneField<IProper
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -283,10 +271,7 @@ class PropertyFieldDropDownTreeViewBuilder implements IPropertyPaneField<IProper
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -295,31 +280,31 @@ class PropertyFieldDropDownTreeViewBuilder implements IPropertyPaneField<IProper
  * @param targetProperty - Target property the Font picker is associated to.
  * @param properties - Strongly typed Font Picker properties.
  */
-export function PropertyFieldDropDownTreeView(targetProperty: string, properties: IPropertyFieldDropDownTreeViewProps): IPropertyPaneField<IPropertyFieldDropDownTreeViewPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldDropDownTreeViewPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      tree: properties.tree,
-      selectedNodesIDs: properties.selectedNodesIDs,
-      allowMultipleSelections: properties.allowMultipleSelections,
-      allowFoldersSelections: properties.allowFoldersSelections,
-      nodesPaddingLeft: properties.nodesPaddingLeft,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldDropDownTreeView builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldDropDownTreeViewBuilder(targetProperty, newProperties);
+export function PropertyFieldDropDownTreeView(
+  targetProperty: string,
+  properties: IPropertyFieldDropDownTreeViewProps
+): IPropertyPaneField<IPropertyFieldDropDownTreeViewPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldDropDownTreeViewPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    tree: properties.tree,
+    selectedNodesIDs: properties.selectedNodesIDs,
+    allowMultipleSelections: properties.allowMultipleSelections,
+    allowFoldersSelections: properties.allowFoldersSelections,
+    nodesPaddingLeft: properties.nodesPaddingLeft,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldDropDownTreeView builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldDropDownTreeViewBuilder(targetProperty, newProperties);
 }
-
-

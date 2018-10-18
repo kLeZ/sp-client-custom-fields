@@ -6,14 +6,10 @@
  * @copyright 2017 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldNumericInputHost, { IPropertyFieldNumericInputHostProps } from './PropertyFieldNumericInputHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldNumericInputHost, { IPropertyFieldNumericInputHostProps } from "./PropertyFieldNumericInputHost";
 
 /**
  * @interface
@@ -97,12 +93,12 @@ export interface IPropertyFieldNumericInputProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: number) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: number) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -139,7 +135,6 @@ export interface IPropertyFieldNumericInputPropsInternal extends IPropertyPaneCu
  *
  */
 class PropertyFieldNumericInputBuilder implements IPropertyPaneField<IPropertyFieldNumericInputPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -171,28 +166,20 @@ class PropertyFieldNumericInputBuilder implements IPropertyPaneField<IPropertyFi
     this.targetProperty = _properties.targetProperty;
     this.properties = _properties;
     this.label = _properties.label;
-    if (_properties.initialValue !== undefined)
-      this.initialValue = _properties.initialValue;
+    if (_properties.initialValue !== undefined) this.initialValue = _properties.initialValue;
     this.properties.onDispose = this.dispose;
     this.properties.onRender = this.render;
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
-    if (_properties.min !== undefined)
-      this.min = _properties.min;
-    if (_properties.max !== undefined)
-      this.max = _properties.max;
-    if (_properties.step !== undefined)
-      this.step = _properties.step;
-    if (_properties.precision !== undefined)
-      this.precision = _properties.precision;
-    if (_properties.size !== undefined)
-      this.size = _properties.size;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.min !== undefined) this.min = _properties.min;
+    if (_properties.max !== undefined) this.max = _properties.max;
+    if (_properties.step !== undefined) this.step = _properties.step;
+    if (_properties.precision !== undefined) this.precision = _properties.precision;
+    if (_properties.size !== undefined) this.size = _properties.size;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -222,7 +209,7 @@ class PropertyFieldNumericInputBuilder implements IPropertyPaneField<IPropertyFi
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -232,10 +219,7 @@ class PropertyFieldNumericInputBuilder implements IPropertyPaneField<IPropertyFi
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -244,32 +228,32 @@ class PropertyFieldNumericInputBuilder implements IPropertyPaneField<IPropertyFi
  * @param targetProperty - Target property the custom field is associated to.
  * @param properties - Strongly typed custom field properties.
  */
-export function PropertyFieldNumericInput(targetProperty: string, properties: IPropertyFieldNumericInputProps): IPropertyPaneField<IPropertyFieldNumericInputPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldNumericInputPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      initialValue: properties.initialValue,
-      min: properties.min,
-      max: properties.max,
-      step: properties.step,
-      precision: properties.precision,
-      size: properties.size,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldNumericInput builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldNumericInputBuilder(targetProperty, newProperties);
+export function PropertyFieldNumericInput(
+  targetProperty: string,
+  properties: IPropertyFieldNumericInputProps
+): IPropertyPaneField<IPropertyFieldNumericInputPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldNumericInputPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    initialValue: properties.initialValue,
+    min: properties.min,
+    max: properties.max,
+    step: properties.step,
+    precision: properties.precision,
+    size: properties.size,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldNumericInput builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldNumericInputBuilder(targetProperty, newProperties);
 }
-
-

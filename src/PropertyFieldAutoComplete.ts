@@ -6,14 +6,10 @@
  * @copyright 2017 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldAutoCompleteHost, { IPropertyFieldAutoCompleteHostProps } from './PropertyFieldAutoCompleteHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldAutoCompleteHost, { IPropertyFieldAutoCompleteHostProps } from "./PropertyFieldAutoCompleteHost";
 
 /**
  * @interface
@@ -87,12 +83,12 @@ export interface IPropertyFieldAutoCompleteProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -126,7 +122,6 @@ export interface IPropertyFieldAutoCompletePropsInternal extends IPropertyPaneCu
  *
  */
 class PropertyFieldAutoCompleteBuilder implements IPropertyPaneField<IPropertyFieldAutoCompletePropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -146,7 +141,6 @@ class PropertyFieldAutoCompleteBuilder implements IPropertyPaneField<IPropertyFi
   private renderWebPart: () => void;
   private disableReactivePropertyChanges: boolean = false;
 
-
   /**
    * @function
    * Ctor
@@ -162,11 +156,9 @@ class PropertyFieldAutoCompleteBuilder implements IPropertyPaneField<IPropertyFi
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
     this.suggestions = _properties.suggestions;
     this.placeHolder = _properties.placeHolder;
     this.renderWebPart = _properties.render;
@@ -195,7 +187,7 @@ class PropertyFieldAutoCompleteBuilder implements IPropertyPaneField<IPropertyFi
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -205,10 +197,7 @@ class PropertyFieldAutoCompleteBuilder implements IPropertyPaneField<IPropertyFi
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -217,29 +206,29 @@ class PropertyFieldAutoCompleteBuilder implements IPropertyPaneField<IPropertyFi
  * @param targetProperty - Target property the custom field is associated to.
  * @param properties - Strongly typed custom field properties.
  */
-export function PropertyFieldAutoComplete(targetProperty: string, properties: IPropertyFieldAutoCompleteProps): IPropertyPaneField<IPropertyFieldAutoCompletePropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldAutoCompletePropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      initialValue: properties.initialValue,
-      suggestions: properties.suggestions,
-      placeHolder: properties.placeHolder,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldAutoComplete builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldAutoCompleteBuilder(targetProperty, newProperties);
+export function PropertyFieldAutoComplete(
+  targetProperty: string,
+  properties: IPropertyFieldAutoCompleteProps
+): IPropertyPaneField<IPropertyFieldAutoCompletePropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldAutoCompletePropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    initialValue: properties.initialValue,
+    suggestions: properties.suggestions,
+    placeHolder: properties.placeHolder,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldAutoComplete builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldAutoCompleteBuilder(targetProperty, newProperties);
 }
-
-

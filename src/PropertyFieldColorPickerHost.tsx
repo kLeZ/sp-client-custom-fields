@@ -5,19 +5,18 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import { IPropertyFieldColorPickerPropsInternal } from './PropertyFieldColorPicker';
-import { ColorPicker } from 'office-ui-fabric-react/lib/ColorPicker';
-import { Label } from 'office-ui-fabric-react/lib/Label';
-import { Async } from 'office-ui-fabric-react/lib/Utilities';
+import * as React from "react";
+import { IPropertyFieldColorPickerPropsInternal } from "./PropertyFieldColorPicker";
+import { ColorPicker } from "office-ui-fabric-react/lib/ColorPicker";
+import { Label } from "office-ui-fabric-react/lib/Label";
+import { Async } from "office-ui-fabric-react/lib/Utilities";
 
 /**
  * @interface
  * PropertyFieldColorPickerHost properties interface
  *
  */
-export interface IPropertyFieldColorPickerHostProps extends IPropertyFieldColorPickerPropsInternal {
-}
+export interface IPropertyFieldColorPickerHostProps extends IPropertyFieldColorPickerPropsInternal {}
 
 export interface IPropertyFieldColorPickerHostState {
   color?: string;
@@ -29,7 +28,6 @@ export interface IPropertyFieldColorPickerHostState {
  * Renders the controls for PropertyFieldColorPicker component
  */
 export default class PropertyFieldColorPickerHost extends React.Component<IPropertyFieldColorPickerHostProps, IPropertyFieldColorPickerHostState> {
-
   private latestValidateValue: string;
   private async: Async;
   private delayedValidate: (value: string) => void;
@@ -42,12 +40,11 @@ export default class PropertyFieldColorPickerHost extends React.Component<IPrope
     super(props);
 
     //Inits state
-    var defaultColor: string = '#FFFFFF';
-    if (this.props.initialColor && this.props.initialColor != '')
-      defaultColor = this.props.initialColor;
+    var defaultColor: string = "#FFFFFF";
+    if (this.props.initialColor && this.props.initialColor != "") defaultColor = this.props.initialColor;
     this.state = {
-        color: defaultColor,
-        errorMessage: ''
+      color: defaultColor,
+      errorMessage: "",
     };
 
     this.async = new Async(this);
@@ -79,28 +76,23 @@ export default class PropertyFieldColorPickerHost extends React.Component<IPrope
       return;
     }
 
-    if (this.latestValidateValue === value)
-      return;
+    if (this.latestValidateValue === value) return;
     this.latestValidateValue = value;
 
-    var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || '');
+    var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || "");
     if (result !== undefined) {
-      if (typeof result === 'string') {
-        if (result === undefined || result === '')
-          this.notifyAfterValidate(this.props.initialColor, value);
+      if (typeof result === "string") {
+        if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialColor, value);
         this.state.errorMessage = result;
         this.setState(this.state);
-      }
-      else {
+      } else {
         result.then((errorMessage: string) => {
-          if (errorMessage === undefined || errorMessage === '')
-            this.notifyAfterValidate(this.props.initialColor, value);
+          if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialColor, value);
           this.state.errorMessage = errorMessage;
           this.setState(this.state);
         });
       }
-    }
-    else {
+    } else {
       this.notifyAfterValidate(this.props.initialColor, value);
     }
   }
@@ -113,8 +105,7 @@ export default class PropertyFieldColorPickerHost extends React.Component<IPrope
     if (this.props.onPropertyChange && newValue != null) {
       this.props.properties[this.props.targetProperty] = newValue;
       this.props.onPropertyChange(this.props.targetProperty, oldValue, newValue);
-      if (!this.props.disableReactivePropertyChanges && this.props.render != null)
-        this.props.render();
+      if (!this.props.disableReactivePropertyChanges && this.props.render != null) this.props.render();
     }
   }
 
@@ -135,17 +126,19 @@ export default class PropertyFieldColorPickerHost extends React.Component<IPrope
     return (
       <div>
         <Label>{this.props.label}</Label>
-        <ColorPicker
-          color={this.state.color}
-          onColorChanged={this.onColorChanged}
-        />
-        { this.state.errorMessage != null && this.state.errorMessage != '' && this.state.errorMessage != undefined ?
-              <div style={{paddingBottom: '8px'}}><div aria-live='assertive' className='ms-u-screenReaderOnly' data-automation-id='error-message'>{  this.state.errorMessage }</div>
-              <span>
-                <p className='ms-TextField-errorMessage ms-u-slideDownIn20'>{ this.state.errorMessage }</p>
-              </span>
-              </div>
-            : ''}
+        <ColorPicker color={this.state.color} onColorChanged={this.onColorChanged} />
+        {this.state.errorMessage != null && this.state.errorMessage != "" && this.state.errorMessage != undefined ? (
+          <div style={{ paddingBottom: "8px" }}>
+            <div aria-live="assertive" className="ms-u-screenReaderOnly" data-automation-id="error-message">
+              {this.state.errorMessage}
+            </div>
+            <span>
+              <p className="ms-TextField-errorMessage ms-u-slideDownIn20">{this.state.errorMessage}</p>
+            </span>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   }

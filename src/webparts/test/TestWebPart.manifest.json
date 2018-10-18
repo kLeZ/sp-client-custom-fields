@@ -9,9 +9,15 @@
 
   "preconfiguredEntries": [{
     "groupId": "d688e552-a2fb-4904-af1c-c28aa1ee79d3",
-    "group": { "default": "Under Development" },
-    "title": { "default": "Test" },
-    "description": { "default": "Test description" },
+    "group": {
+      "default": "Under Development"
+    },
+    "title": {
+      "default": "Test"
+    },
+    "description": {
+      "default": "Test description"
+    },
     "officeFabricIconFontName": "Page",
     "properties": {
       "description": "CustomFieldsWebPart",

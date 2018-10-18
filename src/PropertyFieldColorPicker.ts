@@ -6,14 +6,10 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldColorPickerHost, { IPropertyFieldColorPickerHostProps } from './PropertyFieldColorPickerHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldColorPickerHost, { IPropertyFieldColorPickerHostProps } from "./PropertyFieldColorPickerHost";
 
 /**
  * @interface
@@ -55,7 +51,7 @@ export interface IPropertyFieldColorPickerProps {
    * Parent Web Part properties
    */
   properties: any;
-   /**
+  /**
    * @var
    * An UNIQUE key indicates the identity of this control
    */
@@ -73,12 +69,12 @@ export interface IPropertyFieldColorPickerProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -109,7 +105,6 @@ export interface IPropertyFieldColorPickerPropsInternal extends IPropertyPaneCus
  *
  */
 class PropertyFieldColorPickerBuilder implements IPropertyPaneField<IPropertyFieldColorPickerPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -142,8 +137,7 @@ class PropertyFieldColorPickerBuilder implements IPropertyPaneField<IPropertyFie
     this.customProperties = _properties.properties;
     this.key = _properties.key;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -167,7 +161,7 @@ class PropertyFieldColorPickerBuilder implements IPropertyPaneField<IPropertyFie
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -177,10 +171,7 @@ class PropertyFieldColorPickerBuilder implements IPropertyPaneField<IPropertyFie
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -189,26 +180,26 @@ class PropertyFieldColorPickerBuilder implements IPropertyPaneField<IPropertyFie
  * @param targetProperty - Target property the Color picker is associated to.
  * @param properties - Strongly typed Color Picker properties.
  */
-export function PropertyFieldColorPicker(targetProperty: string, properties: IPropertyFieldColorPickerProps): IPropertyPaneField<IPropertyFieldColorPickerPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldColorPickerPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      initialColor: properties.initialColor,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldColorPicker builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldColorPickerBuilder(targetProperty, newProperties);
+export function PropertyFieldColorPicker(
+  targetProperty: string,
+  properties: IPropertyFieldColorPickerProps
+): IPropertyPaneField<IPropertyFieldColorPickerPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldColorPickerPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    initialColor: properties.initialColor,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldColorPicker builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldColorPickerBuilder(targetProperty, newProperties);
 }
-
-

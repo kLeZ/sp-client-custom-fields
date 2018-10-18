@@ -5,23 +5,22 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import { IPropertyFieldDropDownTreeViewPropsInternal, IDropDownTreeViewNode } from './PropertyFieldDropDownTreeView';
-import { Label } from 'office-ui-fabric-react/lib/Label';
-import { Async } from 'office-ui-fabric-react/lib/Utilities';
-import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import GuidHelper from './GuidHelper';
+import * as React from "react";
+import { IPropertyFieldDropDownTreeViewPropsInternal, IDropDownTreeViewNode } from "./PropertyFieldDropDownTreeView";
+import { Label } from "office-ui-fabric-react/lib/Label";
+import { Async } from "office-ui-fabric-react/lib/Utilities";
+import { Checkbox } from "office-ui-fabric-react/lib/Checkbox";
+import GuidHelper from "./GuidHelper";
 
-require('react-ui-tree-draggable/dist/react-ui-tree.css');
-var Tree: any = require('react-ui-tree-draggable/dist/react-ui-tree');
+require("react-ui-tree-draggable/dist/react-ui-tree.css");
+var Tree: any = require("react-ui-tree-draggable/dist/react-ui-tree");
 
 /**
  * @interface
  * PropertyFieldDropDownTreeViewHost properties interface
  *
  */
-export interface IPropertyFieldDropDownTreeViewHostProps extends IPropertyFieldDropDownTreeViewPropsInternal {
-}
+export interface IPropertyFieldDropDownTreeViewHostProps extends IPropertyFieldDropDownTreeViewPropsInternal {}
 
 /**
  * @interface
@@ -40,8 +39,10 @@ export interface IPropertyFieldDropDownTreeViewHostState {
  * @class
  * Renders the controls for PropertyFieldDropDownTreeView component
  */
-export default class PropertyFieldDropDownTreeViewHost extends React.Component<IPropertyFieldDropDownTreeViewHostProps, IPropertyFieldDropDownTreeViewHostState> {
-
+export default class PropertyFieldDropDownTreeViewHost extends React.Component<
+  IPropertyFieldDropDownTreeViewHostProps,
+  IPropertyFieldDropDownTreeViewHostState
+> {
   private async: Async;
   private delayedValidate: (value: string[]) => void;
   private _key: string;
@@ -61,12 +62,12 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<I
 
     //Init the state
     this.state = {
-        isOpen: false,
-        isHoverDropdown: false,
-        errorMessage: '',
-        tree: this.props.tree,
-        activeNodes: this.getDefaultActiveNodesFromTree()
-      };
+      isOpen: false,
+      isHoverDropdown: false,
+      errorMessage: "",
+      tree: this.props.tree,
+      activeNodes: this.getDefaultActiveNodesFromTree(),
+    };
 
     this.renderNode = this.renderNode.bind(this);
     this.onClickNode = this.onClickNode.bind(this);
@@ -97,10 +98,8 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<I
    */
   private getDefaultActiveNodes(node: IDropDownTreeViewNode): IDropDownTreeViewNode[] {
     var res: IDropDownTreeViewNode[] = [];
-    if (node === undefined || node == null || this.props.selectedNodesIDs === undefined || this.props.selectedNodesIDs == null)
-      return res;
-    if (this.props.selectedNodesIDs.indexOf(node.id) != -1)
-      res.push(node);
+    if (node === undefined || node == null || this.props.selectedNodesIDs === undefined || this.props.selectedNodesIDs == null) return res;
+    if (this.props.selectedNodesIDs.indexOf(node.id) != -1) res.push(node);
     if (node.children !== undefined) {
       for (var i = 0; i < node.children.length; i++) {
         var subTreeViewNodes: IDropDownTreeViewNode[] = this.getDefaultActiveNodes(node.children[i]);
@@ -119,8 +118,7 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<I
    */
   private getSelectedNodePosition(node: IDropDownTreeViewNode): number {
     for (var i = 0; i < this.state.activeNodes.length; i++) {
-      if (node === this.state.activeNodes[i])
-        return i;
+      if (node === this.state.activeNodes[i]) return i;
     }
     return -1;
   }
@@ -137,22 +135,18 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<I
 
     var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || []);
     if (result !== undefined) {
-      if (typeof result === 'string') {
-        if (result === undefined || result === '')
-          this.notifyAfterValidate(this.props.selectedNodesIDs, value);
+      if (typeof result === "string") {
+        if (result === undefined || result === "") this.notifyAfterValidate(this.props.selectedNodesIDs, value);
         this.state.errorMessage = result;
         this.setState(this.state);
-      }
-      else {
+      } else {
         result.then((errorMessage: string) => {
-          if (errorMessage === undefined || errorMessage === '')
-            this.notifyAfterValidate(this.props.selectedNodesIDs, value);
+          if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.selectedNodesIDs, value);
           this.state.errorMessage = errorMessage;
           this.setState(this.state);
         });
       }
-    }
-    else {
+    } else {
       this.notifyAfterValidate(this.props.selectedNodesIDs, value);
     }
   }
@@ -165,8 +159,7 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<I
     if (this.props.onPropertyChange && newValue != null) {
       this.props.properties[this.props.targetProperty] = newValue;
       this.props.onPropertyChange(this.props.targetProperty, oldValue, newValue);
-      if (!this.props.disableReactivePropertyChanges && this.props.render != null)
-        this.props.render();
+      if (!this.props.disableReactivePropertyChanges && this.props.render != null) this.props.render();
     }
   }
 
@@ -175,8 +168,7 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<I
    * Called when the component will unmount
    */
   public componentWillUnmount() {
-    if (this.async !== undefined)
-      this.async.dispose();
+    if (this.async !== undefined) this.async.dispose();
   }
 
   /**
@@ -184,8 +176,7 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<I
    * Function to open the dialog
    */
   private onOpenDialog(): void {
-    if (this.props.disabled === true)
-      return;
+    if (this.props.disabled === true) return;
     this.state.isOpen = !this.state.isOpen;
     this.setState(this.state);
   }
@@ -213,17 +204,13 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<I
    * @param node
    */
   private onClickNode(node: IDropDownTreeViewNode): void {
-    if (this.props.allowFoldersSelections === false && (node.children !== undefined && node.children.length != 0))
-      return;
+    if (this.props.allowFoldersSelections === false && (node.children !== undefined && node.children.length != 0)) return;
     if (this.props.allowMultipleSelections === false) {
       this.state.activeNodes = [node];
-    }
-    else {
+    } else {
       var index = this.getSelectedNodePosition(node);
-      if (index != -1)
-        this.state.activeNodes.splice(index, 1);
-      else
-        this.state.activeNodes.push(node);
+      if (index != -1) this.state.activeNodes.splice(index, 1);
+      else this.state.activeNodes.push(node);
     }
     this.setState(this.state);
     this.saveSelectedNodes();
@@ -246,45 +233,34 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<I
    * @param node
    */
   private renderNode(node: IDropDownTreeViewNode): JSX.Element {
-    var style: any = { padding: '4px 5px', width: '100%', display: 'flex'};
+    var style: any = { padding: "4px 5px", width: "100%", display: "flex" };
     var selected: boolean = this.getSelectedNodePosition(node) != -1;
     if (selected === true) {
-      style.backgroundColor = '#EAEAEA';
+      style.backgroundColor = "#EAEAEA";
     }
     var isFolder: boolean = false;
-    if (node.leaf === false || (node.children !== undefined && node.children.length != 0))
-      isFolder = true;
+    if (node.leaf === false || (node.children !== undefined && node.children.length != 0)) isFolder = true;
     var checkBoxAvailable: boolean = this.props.checkboxEnabled;
-    if (this.props.allowFoldersSelections === false && isFolder === true)
-      checkBoxAvailable = false;
-    var picUrl: string = '';
-    if (selected === true && node.selectedPictureUrl !== undefined)
-      picUrl = node.selectedPictureUrl;
-    else if (node.collapsed !== true && node.expandedPictureUrl !== undefined)
-      picUrl = node.expandedPictureUrl;
-    else if (node.pictureUrl !== undefined)
-      picUrl = node.pictureUrl;
+    if (this.props.allowFoldersSelections === false && isFolder === true) checkBoxAvailable = false;
+    var picUrl: string = "";
+    if (selected === true && node.selectedPictureUrl !== undefined) picUrl = node.selectedPictureUrl;
+    else if (node.collapsed !== true && node.expandedPictureUrl !== undefined) picUrl = node.expandedPictureUrl;
+    else if (node.pictureUrl !== undefined) picUrl = node.pictureUrl;
     return (
-        <div style={style} onClick={this.onClickNode.bind(null, node)} role="menuitem">
-          { checkBoxAvailable ?
-              <div style={{marginRight: '5px'}}> <Checkbox
-                    checked={selected}
-                    disabled={this.props.disabled}
-                    label=''
-                    onChange={this.onClickNode.bind(null, node)}
-                  />
-                </div>
-            : ''
-          }
-          <div style={{paddingTop: '7px'}}>
-          {
-            picUrl !== undefined && picUrl != '' ?
-              <img src={picUrl} width="18" height="18" style={{paddingRight: '5px'}} alt={node.label}/>
-            : ''
-          }
-          {node.label}
+      <div style={style} onClick={this.onClickNode.bind(null, node)} role="menuitem">
+        {checkBoxAvailable ? (
+          <div style={{ marginRight: "5px" }}>
+            {" "}
+            <Checkbox checked={selected} disabled={this.props.disabled} label="" onChange={this.onClickNode.bind(null, node)} />
           </div>
+        ) : (
+          ""
+        )}
+        <div style={{ paddingTop: "7px" }}>
+          {picUrl !== undefined && picUrl != "" ? <img src={picUrl} width="18" height="18" style={{ paddingRight: "5px" }} alt={node.label} /> : ""}
+          {node.label}
         </div>
+      </div>
     );
   }
 
@@ -303,142 +279,141 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<I
    * Renders the control
    */
   public render(): JSX.Element {
-
-      //User wants to use the preview font picker, so just build it
-      var fontSelect = {
-        fontSize: '16px',
-        width: '100%',
-        position: 'relative',
-        display: 'inline-block',
-        zoom: 1
-      };
-      var dropdownColor = '1px solid #c8c8c8';
-      if (this.props.disabled === true)
-        dropdownColor = '1px solid #f4f4f4';
-      else if (this.state.isOpen === true)
-        dropdownColor = '1px solid #3091DE';
-      else if (this.state.isHoverDropdown === true)
-        dropdownColor = '1px solid #767676';
-      var fontSelectA = {
-        backgroundColor: this.props.disabled === true ? '#f4f4f4' : '#fff',
-        borderRadius        : '0px',
-        backgroundClip        : 'padding-box',
-        border: dropdownColor,
-        display: 'block',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        position: 'relative',
-        height: '26px',
-        lineHeight: '26px',
-        padding: '0 0 0 8px',
-        color: this.props.disabled === true ? '#a6a6a6' : '#444',
-        textDecoration: 'none',
-        cursor: this.props.disabled === true ? 'default' : 'pointer'
-      };
-      var fontSelectASpan = {
-        marginRight: '26px',
-        display: 'block',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        lineHeight: '1.8',
-        textOverflow: 'ellipsis',
-        cursor: this.props.disabled === true ? 'default' : 'pointer',
-        fontWeight: 400
-      };
-      var fontSelectADiv = {
-        borderRadius        : '0 0px 0px 0',
-        backgroundClip        : 'padding-box',
-        border: '0px',
-        position: 'absolute',
-        right: '0',
-        top: '0',
-        display: 'block',
-        height: '100%',
-        width: '22px'
-      };
-      var fontSelectADivB = {
-        display: 'block',
-        width: '100%',
-        height: '100%',
-        cursor: this.props.disabled === true ? 'default' : 'pointer',
-        marginTop: '2px'
-      };
-      var fsDrop = {
-        background: '#fff',
-        border: '1px solid #aaa',
-        borderTop: '0',
-        position: 'absolute',
-        top: '29px',
-        left: '0',
-        width: 'calc(100% - 2px)',
-        //boxShadow: '0 4px 5px rgba(0,0,0,.15)',
-        zIndex: 999,
-        display: this.state.isOpen ? 'block' : 'none'
-      };
-      var fsResults = {
-        margin: '0 4px 4px 0',
-        maxHeight: '360px',
-        width: 'calc(100% - 4px)',
-        padding: '0 0 0 4px',
-        position: 'relative',
-        overflowX: 'auto',
-        overflowY: 'auto'
-      };
-      var carret: string = this.state.isOpen ? 'ms-Icon ms-Icon--ChevronUp' : 'ms-Icon ms-Icon--ChevronDown';
-      var foundSelected = false;
-      //Renders content
-      return (
-        <div style={{ marginBottom: '8px'}}>
-          <Label>{this.props.label}</Label>
-          <div style={fontSelect}>
-            <a style={fontSelectA} onClick={this.onOpenDialog}
-              onMouseEnter={this.mouseEnterDropDown} onMouseLeave={this.mouseLeaveDropDown} role="menuitem">
-              <span style={fontSelectASpan}>
-                {this.state.activeNodes.map((elm: IDropDownTreeViewNode, index?: number) => {
-                    if (index !== undefined && index == 0) {
-                      return (
-                            <span key={this._key + '-spanselect-' + index}>{elm.label}</span>
-                      );
-                    }
-                    else {
-                      return (
-                            <span key={this._key + '-spanselect-' + index}>, {elm.label}</span>
-                      );
-                    }
-                  })
+    //User wants to use the preview font picker, so just build it
+    var fontSelect = {
+      fontSize: "16px",
+      width: "100%",
+      position: "relative",
+      display: "inline-block",
+      zoom: 1,
+    };
+    var dropdownColor = "1px solid #c8c8c8";
+    if (this.props.disabled === true) dropdownColor = "1px solid #f4f4f4";
+    else if (this.state.isOpen === true) dropdownColor = "1px solid #3091DE";
+    else if (this.state.isHoverDropdown === true) dropdownColor = "1px solid #767676";
+    var fontSelectA = {
+      backgroundColor: this.props.disabled === true ? "#f4f4f4" : "#fff",
+      borderRadius: "0px",
+      backgroundClip: "padding-box",
+      border: dropdownColor,
+      display: "block",
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      position: "relative",
+      height: "26px",
+      lineHeight: "26px",
+      padding: "0 0 0 8px",
+      color: this.props.disabled === true ? "#a6a6a6" : "#444",
+      textDecoration: "none",
+      cursor: this.props.disabled === true ? "default" : "pointer",
+    };
+    var fontSelectASpan = {
+      marginRight: "26px",
+      display: "block",
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      lineHeight: "1.8",
+      textOverflow: "ellipsis",
+      cursor: this.props.disabled === true ? "default" : "pointer",
+      fontWeight: 400,
+    };
+    var fontSelectADiv = {
+      borderRadius: "0 0px 0px 0",
+      backgroundClip: "padding-box",
+      border: "0px",
+      position: "absolute",
+      right: "0",
+      top: "0",
+      display: "block",
+      height: "100%",
+      width: "22px",
+    };
+    var fontSelectADivB = {
+      display: "block",
+      width: "100%",
+      height: "100%",
+      cursor: this.props.disabled === true ? "default" : "pointer",
+      marginTop: "2px",
+    };
+    var fsDrop = {
+      background: "#fff",
+      border: "1px solid #aaa",
+      borderTop: "0",
+      position: "absolute",
+      top: "29px",
+      left: "0",
+      width: "calc(100% - 2px)",
+      //boxShadow: '0 4px 5px rgba(0,0,0,.15)',
+      zIndex: 999,
+      display: this.state.isOpen ? "block" : "none",
+    };
+    var fsResults = {
+      margin: "0 4px 4px 0",
+      maxHeight: "360px",
+      width: "calc(100% - 4px)",
+      padding: "0 0 0 4px",
+      position: "relative",
+      overflowX: "auto",
+      overflowY: "auto",
+    };
+    var carret: string = this.state.isOpen ? "ms-Icon ms-Icon--ChevronUp" : "ms-Icon ms-Icon--ChevronDown";
+    var foundSelected = false;
+    //Renders content
+    return (
+      <div style={{ marginBottom: "8px" }}>
+        <Label>{this.props.label}</Label>
+        <div style={fontSelect}>
+          <a
+            style={fontSelectA}
+            onClick={this.onOpenDialog}
+            onMouseEnter={this.mouseEnterDropDown}
+            onMouseLeave={this.mouseLeaveDropDown}
+            role="menuitem"
+          >
+            <span style={fontSelectASpan}>
+              {this.state.activeNodes.map((elm: IDropDownTreeViewNode, index?: number) => {
+                if (index !== undefined && index == 0) {
+                  return <span key={this._key + "-spanselect-" + index}>{elm.label}</span>;
+                } else {
+                  return <span key={this._key + "-spanselect-" + index}>, {elm.label}</span>;
                 }
-              </span>
-              <div style={fontSelectADiv}>
-                <i style={fontSelectADivB} className={carret}></i>
-              </div>
-            </a>
-            <div style={fsDrop}>
-              <div style={fsResults}>
-                { this.state.tree.map((rootNode: IDropDownTreeViewNode, index: number) => {
-                    return (
-                      <Tree
-                        paddingLeft={this.props.nodesPaddingLeft}
-                        tree={rootNode}
-                        isNodeCollapsed={false}
-                        onChange={this.handleTreeChange.bind(null, rootNode, index)}
-                        renderNode={this.renderNode}
-                        draggable={false}
-                        key={'rootNode-' + index}
-                      />
-                    );
-                  })
-                }
-              </div>
+              })}
+            </span>
+            <div style={fontSelectADiv}>
+              <i style={fontSelectADivB} className={carret} />
+            </div>
+          </a>
+          <div style={fsDrop}>
+            <div style={fsResults}>
+              {this.state.tree.map((rootNode: IDropDownTreeViewNode, index: number) => {
+                return (
+                  <Tree
+                    paddingLeft={this.props.nodesPaddingLeft}
+                    tree={rootNode}
+                    isNodeCollapsed={false}
+                    onChange={this.handleTreeChange.bind(null, rootNode, index)}
+                    renderNode={this.renderNode}
+                    draggable={false}
+                    key={"rootNode-" + index}
+                  />
+                );
+              })}
             </div>
           </div>
-          { this.state.errorMessage != null && this.state.errorMessage != '' && this.state.errorMessage != undefined ?
-              <div><div aria-live='assertive' className='ms-u-screenReaderOnly' data-automation-id='error-message'>{  this.state.errorMessage }</div>
-              <span>
-                <p className='ms-TextField-errorMessage ms-u-slideDownIn20'>{ this.state.errorMessage }</p>
-              </span>
-              </div>
-            : ''}
         </div>
-      );
+        {this.state.errorMessage != null && this.state.errorMessage != "" && this.state.errorMessage != undefined ? (
+          <div>
+            <div aria-live="assertive" className="ms-u-screenReaderOnly" data-automation-id="error-message">
+              {this.state.errorMessage}
+            </div>
+            <span>
+              <p className="ms-TextField-errorMessage ms-u-slideDownIn20">{this.state.errorMessage}</p>
+            </span>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    );
   }
 }

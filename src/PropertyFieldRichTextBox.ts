@@ -6,17 +6,13 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldRichTextBoxHost, { IPropertyFieldRichTextBoxHostProps } from './PropertyFieldRichTextBoxHost';
-import { SPComponentLoader } from '@microsoft/sp-loader';
-import { Async } from 'office-ui-fabric-react/lib/Utilities';
-import { IWebPartContext} from '@microsoft/sp-webpart-base';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldRichTextBoxHost, { IPropertyFieldRichTextBoxHostProps } from "./PropertyFieldRichTextBoxHost";
+import { SPComponentLoader } from "@microsoft/sp-loader";
+import { Async } from "office-ui-fabric-react/lib/Utilities";
+import { IWebPartContext } from "@microsoft/sp-webpart-base";
 
 /**
  * @interface
@@ -100,12 +96,12 @@ export interface IPropertyFieldRichTextBoxProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -141,7 +137,6 @@ export interface IPropertyFieldRichTextBoxPropsInternal extends IPropertyPaneCus
  *
  */
 class PropertyFieldRichTextBoxBuilder implements IPropertyPaneField<IPropertyFieldRichTextBoxPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -193,11 +188,9 @@ class PropertyFieldRichTextBoxBuilder implements IPropertyPaneField<IPropertyFie
     this.key = _properties.key;
     this.keyCopy = _properties.key;
     this.context = _properties.context;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -213,7 +206,6 @@ class PropertyFieldRichTextBoxBuilder implements IPropertyPaneField<IPropertyFie
    * Renders the ColorPicker field content
    */
   private render(elem: HTMLElement): void {
-
     //Construct the JSX properties
     const element: React.ReactElement<IPropertyFieldRichTextBoxHostProps> = React.createElement(PropertyFieldRichTextBoxHost, {
       label: this.label,
@@ -233,15 +225,14 @@ class PropertyFieldRichTextBoxBuilder implements IPropertyPaneField<IPropertyFie
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
 
-    var fMode = 'basic';
-    if (this.mode != null)
-      fMode = this.mode;
-    var ckEditorCdn = '//cdn.ckeditor.com/4.6.2/{0}/ckeditor.js'.replace("{0}", fMode);
+    var fMode = "basic";
+    if (this.mode != null) fMode = this.mode;
+    var ckEditorCdn = "//cdn.ckeditor.com/4.6.2/{0}/ckeditor.js".replace("{0}", fMode);
 
     //Checks if the web part is loaded or reloaded to reload the CKEditor
     let shouldReloadCKEditor: boolean = false;
@@ -258,28 +249,28 @@ class PropertyFieldRichTextBoxBuilder implements IPropertyPaneField<IPropertyFie
     }
     PropertyFieldRichTextBoxBuilder.FIELD_KEY_INSTANCES[this.key] = true;
 
-    SPComponentLoader.loadScript(ckEditorCdn, { globalExportsName: 'CKEDITOR' }).then((CKEDITOR: any): void => {
-      if (shouldReloadCKEditor || CKEDITOR.instances[this.key + '-' + this.context.instanceId + '-editor'] == null) {
-        if (this.inline == null || this.inline === false) {
-          CKEDITOR.replace( this.key + '-' + this.context.instanceId + '-editor', {
-              skin: 'moono-lisa,//cdn.ckeditor.com/4.6.2/full-all/skins/moono-lisa/'
-          }  );
-        }
-        else {
-          CKEDITOR.inline( this.key + '-' + this.context.instanceId + '-editor', {
-              skin: 'moono-lisa,//cdn.ckeditor.com/4.6.2/full-all/skins/moono-lisa/'
-          }   );
-        }
-        for (var i in CKEDITOR.instances) {
-          CKEDITOR.instances[i].on('change', (elm?, val?) =>
-          {
-            CKEDITOR.instances[i].updateElement();
-            var value = ((document.getElementById(this.key + '-' + this.context.instanceId + '-editor')) as any).value;
-            this.delayedValidate(value);
-          });
+    SPComponentLoader.loadScript(ckEditorCdn, { globalExportsName: "CKEDITOR" }).then(
+      (CKEDITOR: any): void => {
+        if (shouldReloadCKEditor || CKEDITOR.instances[this.key + "-" + this.context.instanceId + "-editor"] == null) {
+          if (this.inline == null || this.inline === false) {
+            CKEDITOR.replace(this.key + "-" + this.context.instanceId + "-editor", {
+              skin: "moono-lisa,//cdn.ckeditor.com/4.6.2/full-all/skins/moono-lisa/",
+            });
+          } else {
+            CKEDITOR.inline(this.key + "-" + this.context.instanceId + "-editor", {
+              skin: "moono-lisa,//cdn.ckeditor.com/4.6.2/full-all/skins/moono-lisa/",
+            });
+          }
+          for (var i in CKEDITOR.instances) {
+            CKEDITOR.instances[i].on("change", (elm?, val?) => {
+              CKEDITOR.instances[i].updateElement();
+              var value = (document.getElementById(this.key + "-" + this.context.instanceId + "-editor") as any).value;
+              this.delayedValidate(value);
+            });
+          }
         }
       }
-    });
+    );
   }
 
   /**
@@ -292,28 +283,23 @@ class PropertyFieldRichTextBoxBuilder implements IPropertyPaneField<IPropertyFie
       return;
     }
 
-    if (this.latestValidateValue === value)
-      return;
+    if (this.latestValidateValue === value) return;
     this.latestValidateValue = value;
 
-    var result: string | PromiseLike<string> = this.onGetErrorMessage(value || '');
+    var result: string | PromiseLike<string> = this.onGetErrorMessage(value || "");
     if (result !== undefined) {
-      if (typeof result === 'string') {
-        if (result === undefined || result === '')
-          this.notifyAfterValidate(this.initialValue, value);
-        ((document.getElementById(this.key + '-' + this.context.instanceId + '-errorMssg1')) as any).innerHTML = result;
-        ((document.getElementById(this.key + '-' + this.context.instanceId + '-errorMssg2')) as any).innerHTML = result;
-      }
-      else {
+      if (typeof result === "string") {
+        if (result === undefined || result === "") this.notifyAfterValidate(this.initialValue, value);
+        (document.getElementById(this.key + "-" + this.context.instanceId + "-errorMssg1") as any).innerHTML = result;
+        (document.getElementById(this.key + "-" + this.context.instanceId + "-errorMssg2") as any).innerHTML = result;
+      } else {
         result.then((errorMessage: string) => {
-          if (errorMessage === undefined || errorMessage === '')
-            this.notifyAfterValidate(this.initialValue, value);
-          ((document.getElementById(this.key + '-' + this.context.instanceId + '-errorMssg1')) as any).innerHTML = errorMessage;
-          ((document.getElementById(this.key + '-' + this.context.instanceId + '-errorMssg2')) as any).innerHTML = errorMessage;
+          if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.initialValue, value);
+          (document.getElementById(this.key + "-" + this.context.instanceId + "-errorMssg1") as any).innerHTML = errorMessage;
+          (document.getElementById(this.key + "-" + this.context.instanceId + "-errorMssg2") as any).innerHTML = errorMessage;
         });
       }
-    }
-    else {
+    } else {
       this.notifyAfterValidate(this.initialValue, value);
     }
   }
@@ -326,8 +312,7 @@ class PropertyFieldRichTextBoxBuilder implements IPropertyPaneField<IPropertyFie
     if (this.onPropertyChange && newValue != null) {
       this.customProperties[this.targetProperty] = newValue;
       this.onPropertyChange(this.targetProperty, this.properties.initialValue, newValue);
-      if (!this.disableReactivePropertyChanges && this.renderWebPart != null)
-        this.renderWebPart();
+      if (!this.disableReactivePropertyChanges && this.renderWebPart != null) this.renderWebPart();
     }
   }
 
@@ -336,10 +321,8 @@ class PropertyFieldRichTextBoxBuilder implements IPropertyPaneField<IPropertyFie
    * Disposes the current object
    */
   private dispose(elem: HTMLElement): void {
-    if (this.async != null && this.async != undefined)
-      this.async.dispose();
+    if (this.async != null && this.async != undefined) this.async.dispose();
   }
-
 }
 
 /**
@@ -348,31 +331,31 @@ class PropertyFieldRichTextBoxBuilder implements IPropertyPaneField<IPropertyFie
  * @param targetProperty - Target property the custom field is associated to.
  * @param properties - Strongly typed custom field properties.
  */
-export function PropertyFieldRichTextBox(targetProperty: string, properties: IPropertyFieldRichTextBoxProps): IPropertyPaneField<IPropertyFieldRichTextBoxPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldRichTextBoxPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      initialValue: properties.initialValue,
-      mode: properties.mode,
-      inline: properties.inline,
-      minHeight: properties.minHeight,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      context: properties.context,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldRichTextBox builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldRichTextBoxBuilder(targetProperty, newProperties);
+export function PropertyFieldRichTextBox(
+  targetProperty: string,
+  properties: IPropertyFieldRichTextBoxProps
+): IPropertyPaneField<IPropertyFieldRichTextBoxPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldRichTextBoxPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    initialValue: properties.initialValue,
+    mode: properties.mode,
+    inline: properties.inline,
+    minHeight: properties.minHeight,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    context: properties.context,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldRichTextBox builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldRichTextBoxBuilder(targetProperty, newProperties);
 }
-
-

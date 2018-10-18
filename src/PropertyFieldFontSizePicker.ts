@@ -6,14 +6,10 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldFontSizePickerHost, { IPropertyFieldFontSizePickerHostProps } from './PropertyFieldFontSizePickerHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldFontSizePickerHost, { IPropertyFieldFontSizePickerHostProps } from "./PropertyFieldFontSizePickerHost";
 
 /**
  * @interface
@@ -87,12 +83,12 @@ export interface IPropertyFieldFontSizePickerProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -126,7 +122,6 @@ export interface IPropertyFieldFontSizePickerPropsInternal extends IPropertyPane
  *
  */
 class PropertyFieldFontSizePickerBuilder implements IPropertyPaneField<IPropertyFieldFontSizePickerPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -163,11 +158,9 @@ class PropertyFieldFontSizePickerBuilder implements IPropertyPaneField<IProperty
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -194,7 +187,7 @@ class PropertyFieldFontSizePickerBuilder implements IPropertyPaneField<IProperty
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -204,10 +197,7 @@ class PropertyFieldFontSizePickerBuilder implements IPropertyPaneField<IProperty
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -216,29 +206,29 @@ class PropertyFieldFontSizePickerBuilder implements IPropertyPaneField<IProperty
  * @param targetProperty - Target property the Font picker is associated to.
  * @param properties - Strongly typed Font Picker properties.
  */
-export function PropertyFieldFontSizePicker(targetProperty: string, properties: IPropertyFieldFontSizePickerProps): IPropertyPaneField<IPropertyFieldFontSizePickerPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldFontSizePickerPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      initialValue: properties.initialValue,
-      usePixels: properties.usePixels,
-      preview: properties.preview,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldFontSizePicker builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldFontSizePickerBuilder(targetProperty, newProperties);
+export function PropertyFieldFontSizePicker(
+  targetProperty: string,
+  properties: IPropertyFieldFontSizePickerProps
+): IPropertyPaneField<IPropertyFieldFontSizePickerPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldFontSizePickerPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    initialValue: properties.initialValue,
+    usePixels: properties.usePixels,
+    preview: properties.preview,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldFontSizePicker builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldFontSizePickerBuilder(targetProperty, newProperties);
 }
-
-

@@ -6,15 +6,11 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldOfficeVideoPickerHost, { IPropertyFieldOfficeVideoPickerHostProps } from './PropertyFieldOfficeVideoPickerHost';
-import { IWebPartContext } from '@microsoft/sp-webpart-base';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldOfficeVideoPickerHost, { IPropertyFieldOfficeVideoPickerHostProps } from "./PropertyFieldOfficeVideoPickerHost";
+import { IWebPartContext } from "@microsoft/sp-webpart-base";
 
 /**
  * @interface
@@ -92,12 +88,12 @@ export interface IPropertyFieldOfficeVideoPickerProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -132,7 +128,6 @@ export interface IPropertyFieldOfficeVideoPickerPropsInternal extends IPropertyP
  *
  */
 class PropertyFieldOfficeVideoPickerBuilder implements IPropertyPaneField<IPropertyFieldOfficeVideoPickerPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -169,13 +164,10 @@ class PropertyFieldOfficeVideoPickerBuilder implements IPropertyPaneField<IPrope
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
-    if (_properties.readOnly === false)
-      this.readOnly = _properties.readOnly;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.readOnly === false) this.readOnly = _properties.readOnly;
     this.panelTitle = _properties.panelTitle;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
@@ -204,7 +196,7 @@ class PropertyFieldOfficeVideoPickerBuilder implements IPropertyPaneField<IPrope
       readOnly: this.readOnly,
       panelTitle: this.panelTitle,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -214,10 +206,7 @@ class PropertyFieldOfficeVideoPickerBuilder implements IPropertyPaneField<IPrope
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -226,30 +215,30 @@ class PropertyFieldOfficeVideoPickerBuilder implements IPropertyPaneField<IPrope
  * @param targetProperty - Target property the Picture picker is associated to.
  * @param properties - Strongly typed Picture Picker properties.
  */
-export function PropertyFieldOfficeVideoPicker(targetProperty: string, properties: IPropertyFieldOfficeVideoPickerProps): IPropertyPaneField<IPropertyFieldOfficeVideoPickerPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldOfficeVideoPickerPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      initialValue: properties.initialValue,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      context: properties.context,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      readOnly: properties.readOnly,
-      panelTitle: properties.panelTitle,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldOfficeVideoPicker builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldOfficeVideoPickerBuilder(targetProperty, newProperties);
+export function PropertyFieldOfficeVideoPicker(
+  targetProperty: string,
+  properties: IPropertyFieldOfficeVideoPickerProps
+): IPropertyPaneField<IPropertyFieldOfficeVideoPickerPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldOfficeVideoPickerPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    initialValue: properties.initialValue,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    context: properties.context,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    readOnly: properties.readOnly,
+    panelTitle: properties.panelTitle,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldOfficeVideoPicker builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldOfficeVideoPickerBuilder(targetProperty, newProperties);
 }
-
-

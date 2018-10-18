@@ -6,14 +6,10 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldPhoneNumberHost, { IPropertyFieldPhoneNumberHostProps } from './PropertyFieldPhoneNumberHost';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldPhoneNumberHost, { IPropertyFieldPhoneNumberHostProps } from "./PropertyFieldPhoneNumberHost";
 
 export enum IPhoneNumberFormat {
   UnitedStates = 0,
@@ -58,7 +54,7 @@ export enum IPhoneNumberFormat {
   HondurasMobile = 40,
   BrazilLandLine = 41,
   BrazilMobile = 42,
-  Peru = 43
+  Peru = 43,
 }
 
 /**
@@ -128,12 +124,12 @@ export interface IPropertyFieldPhoneNumberProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: string) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: string) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -166,7 +162,6 @@ export interface IPropertyFieldPhoneNumberPropsInternal extends IPropertyPaneCus
  *
  */
 class PropertyFieldPhoneNumberBuilder implements IPropertyPaneField<IPropertyFieldPhoneNumberPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -201,11 +196,9 @@ class PropertyFieldPhoneNumberBuilder implements IPropertyPaneField<IPropertyFie
     this.onPropertyChange = _properties.onPropertyChange;
     this.customProperties = _properties.properties;
     this.key = _properties.key;
-    if (_properties.disabled === true)
-      this.disabled = _properties.disabled;
+    if (_properties.disabled === true) this.disabled = _properties.disabled;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -231,7 +224,7 @@ class PropertyFieldPhoneNumberBuilder implements IPropertyPaneField<IPropertyFie
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -241,10 +234,7 @@ class PropertyFieldPhoneNumberBuilder implements IPropertyPaneField<IPropertyFie
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -253,28 +243,28 @@ class PropertyFieldPhoneNumberBuilder implements IPropertyPaneField<IPropertyFie
  * @param targetProperty - Target property the custom field is associated to.
  * @param properties - Strongly typed custom field properties.
  */
-export function PropertyFieldPhoneNumber(targetProperty: string, properties: IPropertyFieldPhoneNumberProps): IPropertyPaneField<IPropertyFieldPhoneNumberPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldPhoneNumberPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      phoneNumberFormat: properties.phoneNumberFormat,
-      initialValue: properties.initialValue,
-      onPropertyChange: properties.onPropertyChange,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      disabled: properties.disabled,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldPhoneNumber builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldPhoneNumberBuilder(targetProperty, newProperties);
+export function PropertyFieldPhoneNumber(
+  targetProperty: string,
+  properties: IPropertyFieldPhoneNumberProps
+): IPropertyPaneField<IPropertyFieldPhoneNumberPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldPhoneNumberPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    phoneNumberFormat: properties.phoneNumberFormat,
+    initialValue: properties.initialValue,
+    onPropertyChange: properties.onPropertyChange,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    disabled: properties.disabled,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldPhoneNumber builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldPhoneNumberBuilder(targetProperty, newProperties);
 }
-
-

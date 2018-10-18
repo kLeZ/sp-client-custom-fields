@@ -1,4 +1,4 @@
-define([], function() {
+define([], function () {
   return {
     "PropertyPaneDescription": "Customize your web part",
     "BasicGroupName": "Group Name",

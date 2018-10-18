@@ -7,15 +7,11 @@
  * Released under MIT licence
  *
  */
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import {
-  IPropertyPaneField,
-  PropertyPaneFieldType,
-  IPropertyPaneCustomFieldProps
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldPeoplePickerHost, { IPropertyFieldPeoplePickerHostProps } from './PropertyFieldPeoplePickerHost';
-import { IWebPartContext} from '@microsoft/sp-webpart-base';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
+import PropertyFieldPeoplePickerHost, { IPropertyFieldPeoplePickerHostProps } from "./PropertyFieldPeoplePickerHost";
+import { IWebPartContext } from "@microsoft/sp-webpart-base";
 
 /**
  * @interface
@@ -123,12 +119,12 @@ export interface IPropertyFieldPeoplePickerProps {
    *   - The rejected, the value is thrown away.
    *
    */
-   onGetErrorMessage?: (value: IPropertyFieldPeople[]) => string | Promise<string>;
-   /**
-    * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
-    * Default value is 200.
-    */
-   deferredValidationTime?: number;
+  onGetErrorMessage?: (value: IPropertyFieldPeople[]) => string | Promise<string>;
+  /**
+   * Custom Field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+   * Default value is 200.
+   */
+  deferredValidationTime?: number;
 }
 
 /**
@@ -161,7 +157,6 @@ export interface IPropertyFieldPeoplePickerPropsInternal extends IPropertyPaneCu
  *
  */
 class PropertyFieldPeoplePickerBuilder implements IPropertyPaneField<IPropertyFieldPeoplePickerPropsInternal> {
-
   //Properties defined by IPropertyPaneField
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
@@ -198,8 +193,7 @@ class PropertyFieldPeoplePickerBuilder implements IPropertyPaneField<IPropertyFi
     this.customProperties = _properties.properties;
     this.key = _properties.key;
     this.onGetErrorMessage = _properties.onGetErrorMessage;
-    if (_properties.deferredValidationTime !== undefined)
-      this.deferredValidationTime = _properties.deferredValidationTime;
+    if (_properties.deferredValidationTime !== undefined) this.deferredValidationTime = _properties.deferredValidationTime;
     this.renderWebPart = _properties.render;
     if (_properties.disableReactivePropertyChanges !== undefined && _properties.disableReactivePropertyChanges != null)
       this.disableReactivePropertyChanges = _properties.disableReactivePropertyChanges;
@@ -225,7 +219,7 @@ class PropertyFieldPeoplePickerBuilder implements IPropertyPaneField<IPropertyFi
       onGetErrorMessage: this.onGetErrorMessage,
       deferredValidationTime: this.deferredValidationTime,
       render: this.renderWebPart,
-      disableReactivePropertyChanges: this.disableReactivePropertyChanges
+      disableReactivePropertyChanges: this.disableReactivePropertyChanges,
     });
     //Calls the REACT content generator
     ReactDom.render(element, elem);
@@ -235,10 +229,7 @@ class PropertyFieldPeoplePickerBuilder implements IPropertyPaneField<IPropertyFi
    * @function
    * Disposes the current object
    */
-  private dispose(elem: HTMLElement): void {
-
-  }
-
+  private dispose(elem: HTMLElement): void {}
 }
 
 /**
@@ -247,28 +238,28 @@ class PropertyFieldPeoplePickerBuilder implements IPropertyPaneField<IPropertyFi
  * @param targetProperty - Target property the people picker is associated to.
  * @param properties - Strongly typed people Picker properties.
  */
-export function PropertyFieldPeoplePicker(targetProperty: string, properties: IPropertyFieldPeoplePickerProps): IPropertyPaneField<IPropertyFieldPeoplePickerPropsInternal> {
-
-    //Create an internal properties object from the given properties
-    var newProperties: IPropertyFieldPeoplePickerPropsInternal = {
-      label: properties.label,
-      targetProperty: targetProperty,
-      onPropertyChange: properties.onPropertyChange,
-      context: properties.context,
-      initialData: properties.initialData,
-      allowDuplicate: properties.allowDuplicate,
-      properties: properties.properties,
-      onDispose: null,
-      onRender: null,
-      key: properties.key,
-      onGetErrorMessage: properties.onGetErrorMessage,
-      deferredValidationTime: properties.deferredValidationTime,
-      render: properties.render,
-      disableReactivePropertyChanges: properties.disableReactivePropertyChanges
-    };
-    //Calls the PropertyFieldPeoplePicker builder object
-    //This object will simulate a PropertyFieldCustom to manage his rendering process
-    return new PropertyFieldPeoplePickerBuilder(targetProperty, newProperties);
+export function PropertyFieldPeoplePicker(
+  targetProperty: string,
+  properties: IPropertyFieldPeoplePickerProps
+): IPropertyPaneField<IPropertyFieldPeoplePickerPropsInternal> {
+  //Create an internal properties object from the given properties
+  var newProperties: IPropertyFieldPeoplePickerPropsInternal = {
+    label: properties.label,
+    targetProperty: targetProperty,
+    onPropertyChange: properties.onPropertyChange,
+    context: properties.context,
+    initialData: properties.initialData,
+    allowDuplicate: properties.allowDuplicate,
+    properties: properties.properties,
+    onDispose: null,
+    onRender: null,
+    key: properties.key,
+    onGetErrorMessage: properties.onGetErrorMessage,
+    deferredValidationTime: properties.deferredValidationTime,
+    render: properties.render,
+    disableReactivePropertyChanges: properties.disableReactivePropertyChanges,
+  };
+  //Calls the PropertyFieldPeoplePicker builder object
+  //This object will simulate a PropertyFieldCustom to manage his rendering process
+  return new PropertyFieldPeoplePickerBuilder(targetProperty, newProperties);
 }
-
-

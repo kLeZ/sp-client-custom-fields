@@ -1,4 +1,4 @@
-define([], function() {
+define([], function () {
   return {
     //Dimension Picker labels
     "DimensionWidth": "Ancho",
@@ -33,7 +33,7 @@ define([], function() {
     "SPListQueryOperatorNe": "A diferencia de",
     "SPListQueryOperatorStartsWith": "Comienza con",
     "SPListQueryOperatorSubstringof": "Parte de bajo",
-    "SPListQueryOperatorLt":  "Menos de",
+    "SPListQueryOperatorLt": "Menos de",
     "SPListQueryOperatorLe": "Menor o igual",
     "SPListQueryOperatorGt": "Más de",
     "SPListQueryOperatorGe": "Mayor o igual",

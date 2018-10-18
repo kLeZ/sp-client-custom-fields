@@ -1,8 +1,8 @@
 /// <reference types="mocha" />
-import { assert } from 'chai';
+import { assert } from "chai";
 
-describe('TestWebPart', () => {
-  it('should do something', () => {
+describe("TestWebPart", () => {
+  it("should do something", () => {
     assert.ok(true);
   });
 });

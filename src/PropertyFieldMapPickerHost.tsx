@@ -1,4 +1,3 @@
-
 /**
  * @file PropertyFieldMapPickerHost.tsx
  * Renders the controls for PropertyFieldMapPicker component
@@ -6,22 +5,21 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from 'react';
-import { IPropertyFieldMapPickerPropsInternal } from './PropertyFieldMapPicker';
-import { Label } from 'office-ui-fabric-react/lib/Label';
-import { IconButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
-import { Async } from 'office-ui-fabric-react/lib/Utilities';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import 'office-ui-fabric-react/lib/components/TextField/TextField.scss';
-import Map from 'react-cartographer/lib/components/Map';
+import * as React from "react";
+import { IPropertyFieldMapPickerPropsInternal } from "./PropertyFieldMapPicker";
+import { Label } from "office-ui-fabric-react/lib/Label";
+import { IconButton, IButtonProps } from "office-ui-fabric-react/lib/Button";
+import { Async } from "office-ui-fabric-react/lib/Utilities";
+import { TextField } from "office-ui-fabric-react/lib/TextField";
+import "office-ui-fabric-react/lib/components/TextField/TextField.scss";
+import Map from "react-cartographer/lib/components/Map";
 
 /**
  * @interface
  * PropertyFieldMapPickerHost properties interface
  *
  */
-export interface IPropertyFieldMapPickerHostProps extends IPropertyFieldMapPickerPropsInternal {
-}
+export interface IPropertyFieldMapPickerHostProps extends IPropertyFieldMapPickerPropsInternal {}
 
 export interface IPropertyFieldMapPickerHostState {
   longitude: string;
@@ -35,7 +33,6 @@ export interface IPropertyFieldMapPickerHostState {
  * Renders the controls for PropertyFieldMapPicker component
  */
 export default class PropertyFieldMapPickerHost extends React.Component<IPropertyFieldMapPickerHostProps, IPropertyFieldMapPickerHostState> {
-
   private latestValidateValue: string;
   private async: Async;
   private delayedValidate: (value: string) => void;
@@ -57,7 +54,7 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
       longitude: this.props.longitude,
       latitude: this.props.latitude,
       isOpen: this.props.collapsed !== undefined ? !this.props.collapsed : true,
-      errorMessage: ''
+      errorMessage: "",
     };
 
     this.async = new Async(this);
@@ -73,7 +70,7 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
 
   private onGetCurrentLocation(element: any): void {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(this.showPosition);
+      navigator.geolocation.getCurrentPosition(this.showPosition);
     }
   }
 
@@ -82,7 +79,7 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
     this.state.longitude = position.coords.longitude;
     this.setState(this.state);
 
-    var newValue: string = this.state.longitude + ',' + this.state.latitude;
+    var newValue: string = this.state.longitude + "," + this.state.latitude;
     this.delayedValidate(newValue);
   }
 
@@ -90,7 +87,7 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
     this.state.longitude = value;
     this.setState(this.state);
 
-    var newValue: string = this.state.longitude + ',' + this.state.latitude;
+    var newValue: string = this.state.longitude + "," + this.state.latitude;
     this.delayedValidate(newValue);
   }
 
@@ -98,7 +95,7 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
     this.state.latitude = value;
     this.setState(this.state);
 
-    var newValue: string = this.state.longitude + ',' + this.state.latitude;
+    var newValue: string = this.state.longitude + "," + this.state.latitude;
     this.delayedValidate(newValue);
   }
 
@@ -112,28 +109,23 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
       return;
     }
 
-    if (this.latestValidateValue === value)
-      return;
+    if (this.latestValidateValue === value) return;
     this.latestValidateValue = value;
 
-    var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || '');
+    var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || "");
     if (result !== undefined) {
-      if (typeof result === 'string') {
-        if (result === undefined || result === '')
-          this.notifyAfterValidate(this.props.initialValue, value);
+      if (typeof result === "string") {
+        if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialValue, value);
         this.state.errorMessage = result;
         this.setState(this.state);
-      }
-      else {
+      } else {
         result.then((errorMessage: string) => {
-          if (errorMessage === undefined || errorMessage === '')
-            this.notifyAfterValidate(this.props.initialValue, value);
+          if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialValue, value);
           this.state.errorMessage = errorMessage;
           this.setState(this.state);
         });
       }
-    }
-    else {
+    } else {
       this.notifyAfterValidate(this.props.initialValue, value);
     }
   }
@@ -146,8 +138,7 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
     if (this.props.onPropertyChange && newValue != null) {
       this.props.properties[this.props.targetProperty] = newValue;
       this.props.onPropertyChange(this.props.targetProperty, oldValue, newValue);
-      if (!this.props.disableReactivePropertyChanges && this.props.render != null)
-        this.props.render();
+      if (!this.props.disableReactivePropertyChanges && this.props.render != null) this.props.render();
     }
   }
 
@@ -164,41 +155,56 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
    * Renders the controls
    */
   public render(): JSX.Element {
-
     //Renders content
     return (
-      <div style={{ marginBottom: '8px'}}>
+      <div style={{ marginBottom: "8px" }}>
         <Label>{this.props.label}</Label>
 
-        <table style={{width: '100%', borderSpacing: 0}}>
+        <table style={{ width: "100%", borderSpacing: 0 }}>
           <tbody>
             <tr>
-              <td width="100" style={{marginRight: '10px'}}>
-                 <span style={{paddingBottom:'6px', display:'block', fontFamily: '"Segoe UI Regular WestEuropean","Segoe UI",Tahoma,Arial,sans-serif',fontSize: '12px', fontWeight: 400}}>
+              <td width="100" style={{ marginRight: "10px" }}>
+                <span
+                  style={{
+                    paddingBottom: "6px",
+                    display: "block",
+                    fontFamily: '"Segoe UI Regular WestEuropean","Segoe UI",Tahoma,Arial,sans-serif',
+                    fontSize: "12px",
+                    fontWeight: 400,
+                  }}
+                >
                   Longitude
-                  </span>
-                  <TextField
-                    style={{width:'90px'}}
-                    value={this.state.longitude}
-                    disabled={this.props.disabled}
-                    onChanged={this.onLongitudeChange} />
-              </td>
-              <td width="100" style={{marginRight: '10px'}}>
-                <span style={{paddingBottom:'6px', display:'block', fontFamily: '"Segoe UI Regular WestEuropean","Segoe UI",Tahoma,Arial,sans-serif',fontSize: '12px', fontWeight: 400}}>
-                Latitude
                 </span>
-                <TextField
-                  style={{width:'90px'}}
-                  value={this.state.latitude}
-                  onChanged={this.onLatitudeChange}
-                  disabled={this.props.disabled}/>
+                <TextField style={{ width: "90px" }} value={this.state.longitude} disabled={this.props.disabled} onChanged={this.onLongitudeChange} />
               </td>
-              <td style={{verticalAlign: 'bottom', paddingBottom: '10px'}}>
-                <table style={{width: '100%', borderSpacing: 0}}>
+              <td width="100" style={{ marginRight: "10px" }}>
+                <span
+                  style={{
+                    paddingBottom: "6px",
+                    display: "block",
+                    fontFamily: '"Segoe UI Regular WestEuropean","Segoe UI",Tahoma,Arial,sans-serif',
+                    fontSize: "12px",
+                    fontWeight: 400,
+                  }}
+                >
+                  Latitude
+                </span>
+                <TextField style={{ width: "90px" }} value={this.state.latitude} onChanged={this.onLatitudeChange} disabled={this.props.disabled} />
+              </td>
+              <td style={{ verticalAlign: "bottom", paddingBottom: "10px" }}>
+                <table style={{ width: "100%", borderSpacing: 0 }}>
                   <tbody>
                     <tr>
-                      <td><IconButton iconProps={ { iconName: 'MapPin' } } disabled={this.props.disabled} onClick={this.onGetCurrentLocation}  /></td>
-                      <td><IconButton disabled={this.props.disabled} iconProps={ { iconName: this.state.isOpen ? 'ChevronUpSmall': 'ChevronDownSmall' } } onClick={this.onClickChevron}  /></td>
+                      <td>
+                        <IconButton iconProps={{ iconName: "MapPin" }} disabled={this.props.disabled} onClick={this.onGetCurrentLocation} />
+                      </td>
+                      <td>
+                        <IconButton
+                          disabled={this.props.disabled}
+                          iconProps={{ iconName: this.state.isOpen ? "ChevronUpSmall" : "ChevronDownSmall" }}
+                          onClick={this.onClickChevron}
+                        />
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -207,29 +213,35 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
           </tbody>
         </table>
 
-        { this.state.errorMessage != null && this.state.errorMessage != '' && this.state.errorMessage != undefined ?
-              <div><div aria-live='assertive' className='ms-u-screenReaderOnly' data-automation-id='error-message'>{  this.state.errorMessage }</div>
-              <span>
-                <p className='ms-TextField-errorMessage ms-u-slideDownIn20'>{ this.state.errorMessage }</p>
-              </span>
-              </div>
-            : ''}
-        { this.state.isOpen === true ?
+        {this.state.errorMessage != null && this.state.errorMessage != "" && this.state.errorMessage != undefined ? (
+          <div>
+            <div aria-live="assertive" className="ms-u-screenReaderOnly" data-automation-id="error-message">
+              {this.state.errorMessage}
+            </div>
+            <span>
+              <p className="ms-TextField-errorMessage ms-u-slideDownIn20">{this.state.errorMessage}</p>
+            </span>
+          </div>
+        ) : (
+          ""
+        )}
+        {this.state.isOpen === true ? (
           <div>
             <Map
-                provider='bing'
-                providerKey='Ag3-9ixwWbFk4BdNzkj6MCnFN2_pQiL2hedXxiiuaF_DSuzDqAVp2mW9wPE0coeL'
-                mapId='map'
-                latitude={+this.state.latitude}
-                longitude={+this.state.longitude}
-                zoom={15}
-                height={250}
-                width={283}
-                />
+              provider="bing"
+              providerKey="Ag3-9ixwWbFk4BdNzkj6MCnFN2_pQiL2hedXxiiuaF_DSuzDqAVp2mW9wPE0coeL"
+              mapId="map"
+              latitude={+this.state.latitude}
+              longitude={+this.state.longitude}
+              zoom={15}
+              height={250}
+              width={283}
+            />
           </div>
-          : ''}
+        ) : (
+          ""
+        )}
       </div>
     );
-
   }
 }
