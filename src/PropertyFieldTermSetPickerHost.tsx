@@ -6,27 +6,28 @@
  * Released under MIT licence
  *
  */
-import * as React from "react";
+import { Environment, EnvironmentType } from "@microsoft/sp-core-library";
+import { ISPHttpClientOptions, SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import { IWebPartContext } from "@microsoft/sp-webpart-base";
-import { Async } from "office-ui-fabric-react/lib/Utilities";
-import { IconButton, IButtonProps } from "office-ui-fabric-react/lib/Button";
+import { IconButton } from "office-ui-fabric-react/lib/Button";
+import { Checkbox } from "office-ui-fabric-react/lib/Checkbox";
+import { Label } from "office-ui-fabric-react/lib/Label";
 import { Panel, PanelType } from "office-ui-fabric-react/lib/Panel";
 import { Spinner, SpinnerType } from "office-ui-fabric-react/lib/Spinner";
-import { Environment, EnvironmentType } from "@microsoft/sp-core-library";
+import { TextField } from "office-ui-fabric-react/lib/TextField";
+import { Async } from "office-ui-fabric-react/lib/Utilities";
+import * as React from "react";
 import {
   IPropertyFieldTermSetPickerPropsInternal,
-  ISPTermStores,
-  ISPTermStore,
-  ISPTermGroups,
   ISPTermGroup,
-  ISPTermSets,
-  ISPTermSet,
+  ISPTermGroups,
   ISPTermObject,
+  ISPTermSet,
+  ISPTermSets,
+  ISPTermStore,
+  ISPTermStores,
 } from "./PropertyFieldTermSetPicker";
-import { SPHttpClient, SPHttpClientResponse, ISPHttpClientOptions } from "@microsoft/sp-http";
-import { Label } from "office-ui-fabric-react/lib/Label";
-import { Checkbox } from "office-ui-fabric-react/lib/Checkbox";
-import { TextField } from "office-ui-fabric-react/lib/TextField";
+import update from "immutability-helper";
 
 require("react-ui-tree-draggable/dist/react-ui-tree.css");
 var Tree: any = require("react-ui-tree-draggable/dist/react-ui-tree");
@@ -86,31 +87,6 @@ export default class PropertyFieldTermSetPickerHost extends React.Component<IPro
 
   /**
    * @function
-   * Loads the list from SharePoint current web site
-   */
-  private loadTermStores(): void {
-    var termsService: SPTermStorePickerService = new SPTermStorePickerService(this.props, this.props.context);
-    termsService.getTermStores().then((response: ISPTermStores) => {
-      this.state.termStores = response;
-      this.state.loaded = true;
-      this.setState(this.state);
-      response.map((termStore: ISPTermStore, index: number) => {
-        termsService.getTermStoresGroups(termStore).then((groupsResponse: ISPTermGroups) => {
-          termStore.children = groupsResponse;
-          this.setState(this.state);
-          groupsResponse.map((group: ISPTermGroup) => {
-            termsService.getTermSets(termStore, group).then((termSetsResponse: ISPTermSets) => {
-              group.children = termSetsResponse;
-              this.setState(this.state);
-            });
-          });
-        });
-      });
-    });
-  }
-
-  /**
-   * @function
    * Validates the new custom field value
    */
   private validate(value: ISPTermSets): void {
@@ -123,13 +99,11 @@ export default class PropertyFieldTermSetPickerHost extends React.Component<IPro
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialValues, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialValues, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -155,10 +129,29 @@ export default class PropertyFieldTermSetPickerHost extends React.Component<IPro
    */
   private onOpenPanel(): void {
     if (this.props.disabled === true) return;
-    this.state.openPanel = true;
-    this.state.loaded = false;
-    this.loadTermStores();
-    this.setState(this.state);
+    this.setState({
+      openPanel: true,
+      loaded: false,
+    });
+    var termsService: SPTermStorePickerService = new SPTermStorePickerService(this.props, this.props.context);
+    termsService.getTermStores().then((response: ISPTermStores) => {
+      this.setState({
+        termStores: response,
+        loaded: true,
+      });
+      response.map((termStore: ISPTermStore, index: number) => {
+        termsService.getTermStoresGroups(termStore).then((groupsResponse: ISPTermGroups) => {
+          termStore.children = groupsResponse;
+          this.setState(this.state);
+          groupsResponse.map((group: ISPTermGroup) => {
+            termsService.getTermSets(termStore, group).then((termSetsResponse: ISPTermSets) => {
+              group.children = termSetsResponse;
+              this.setState(this.state);
+            });
+          });
+        });
+      });
+    });
   }
 
   /**
@@ -166,9 +159,10 @@ export default class PropertyFieldTermSetPickerHost extends React.Component<IPro
    * Close the panel
    */
   private onClosePanel(): void {
-    this.state.openPanel = false;
-    this.state.loaded = false;
-    this.setState(this.state);
+    this.setState({
+      openPanel: false,
+      loaded: false,
+    });
   }
 
   /**
@@ -177,14 +171,21 @@ export default class PropertyFieldTermSetPickerHost extends React.Component<IPro
    */
   private onClickNode(node: ISPTermSet): void {
     if (node.children !== undefined && node.children.length != 0) return;
+    let activeNodes = this.state.activeNodes;
     if (this.props.allowMultipleSelections === false) {
-      this.state.activeNodes = [node];
+      activeNodes = [node];
     } else {
       var index = this.getSelectedNodePosition(node);
-      if (index != -1) this.state.activeNodes.splice(index, 1);
-      else this.state.activeNodes.push(node);
+      if (index != -1)
+        activeNodes = update(this.state.activeNodes, {
+          $splice: [[index, 1]],
+        });
+      else
+        activeNodes = update(this.state.activeNodes, {
+          $push: [node],
+        });
     }
-    this.setState(this.state);
+    this.setState({ activeNodes });
     this.delayedValidate(this.state.activeNodes);
   }
 
@@ -233,7 +234,7 @@ export default class PropertyFieldTermSetPickerHost extends React.Component<IPro
       }
     }
     return (
-      <div style={style} onClick={this.onClickNode.bind(null, node)} name={node.Guid} id={node.Guid} role="menuitem">
+      <div style={style} onClick={this.onClickNode.bind(null, node)} id={node.Guid} role="menuitem">
         {checkBoxAvailable ? (
           <div style={{ marginRight: "5px" }}>
             <Checkbox checked={selected} disabled={this.props.disabled} label="" onChange={this.onClickNode.bind(null, node)} />
@@ -268,10 +269,10 @@ export default class PropertyFieldTermSetPickerHost extends React.Component<IPro
         <table style={{ width: "100%", borderSpacing: 0 }}>
           <tbody>
             <tr>
-              <td width="*">
+              <td>
                 <TextField disabled={this.props.disabled} style={{ width: "100%" }} onChanged={null} readOnly={true} value={termSetsString} />
               </td>
-              <td width="32">
+              <td>
                 <IconButton disabled={this.props.disabled} iconProps={{ iconName: "Tag" }} onClick={this.onOpenPanel} />
               </td>
             </tr>

@@ -129,7 +129,7 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
     this._key = GuidHelper.getGuid();
 
     //Init the state
-    this.state = {
+    let initState = {
       isOpen: false,
       isHoverDropdown: false,
       errorMessage: "",
@@ -146,14 +146,15 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
         var font = this.fonts[i];
         //Checks if we must use the font name or the font safe value
         if (props.useSafeFont === false && props.initialValue === font.Name) {
-          this.state.selectedFont = font.Name;
-          this.state.safeSelectedFont = font.SafeValue;
+          initState["selectedFont"] = font.Name;
+          initState["safeSelectedFont"] = font.SafeValue;
         } else if (props.initialValue === font.SafeValue) {
-          this.state.selectedFont = font.Name;
-          this.state.safeSelectedFont = font.SafeValue;
+          initState["selectedFont"] = font.Name;
+          initState["safeSelectedFont"] = font.SafeValue;
         }
       }
     }
+    this.state = initState;
   }
 
   /**
@@ -181,13 +182,11 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialValue, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialValue, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -221,8 +220,9 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
    */
   private onOpenDialog(): void {
     if (this.props.disabled === true) return;
-    this.state.isOpen = !this.state.isOpen;
-    this.setState(this.state);
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
   }
 
   /**
@@ -231,8 +231,9 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
    */
   private toggleHover(element?: any) {
     var hoverFont: string = element.currentTarget.textContent;
-    this.state.hoverFont = hoverFont;
-    this.setState(this.state);
+    this.setState({
+      hoverFont,
+    });
   }
 
   /**
@@ -240,8 +241,9 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
    * Mouse is leaving a font
    */
   private toggleHoverLeave(element?: any) {
-    this.state.hoverFont = "";
-    this.setState(this.state);
+    this.setState({
+      hoverFont: "",
+    });
   }
 
   /**
@@ -249,8 +251,9 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
    * Mouse is hover the fontpicker
    */
   private mouseEnterDropDown(element?: any) {
-    this.state.isHoverDropdown = true;
-    this.setState(this.state);
+    this.setState({
+      isHoverDropdown: true,
+    });
   }
 
   /**
@@ -258,8 +261,9 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
    * Mouse is leaving the fontpicker
    */
   private mouseLeaveDropDown(element?: any) {
-    this.state.isHoverDropdown = false;
-    this.setState(this.state);
+    this.setState({
+      isHoverDropdown: false,
+    });
   }
 
   /**
@@ -268,8 +272,10 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
    */
   private onClickFont(element?: any) {
     var clickedFont: string = element.currentTarget.textContent;
-    this.state.selectedFont = clickedFont;
-    this.state.safeSelectedFont = this.getSafeFont(clickedFont);
+    this.setState({
+      selectedFont: clickedFont,
+      safeSelectedFont: this.getSafeFont(clickedFont),
+    });
     this.onOpenDialog();
     if (this.props.useSafeFont === false) {
       this.changeSelectedFont(this.state.selectedFont);
@@ -348,7 +354,7 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
       );
     } else {
       //User wants to use the preview font picker, so just build it
-      var fontSelect = {
+      var fontSelect: React.CSSProperties = {
         fontSize: "16px",
         width: "100%",
         position: "relative",
@@ -360,7 +366,7 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
       else if (this.state.isOpen === true) dropdownColor = "1px solid #3091DE";
       else if (this.state.isHoverDropdown === true) dropdownColor = "1px solid #767676";
 
-      var fontSelectA = {
+      var fontSelectA: React.CSSProperties = {
         backgroundColor: this.props.disabled === true ? "#f4f4f4" : "#fff",
         borderRadius: "0px",
         backgroundClip: "padding-box",
@@ -376,7 +382,7 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
         textDecoration: "none",
         cursor: this.props.disabled === true ? "default" : "pointer",
       };
-      var fontSelectASpan = {
+      var fontSelectASpan: React.CSSProperties = {
         marginRight: "26px",
         display: "block",
         overflow: "hidden",
@@ -387,7 +393,7 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
         fontFamily: this.state.safeSelectedFont != null && this.state.safeSelectedFont != "" ? this.state.safeSelectedFont : "Arial",
         fontWeight: 400,
       };
-      var fontSelectADiv = {
+      var fontSelectADiv: React.CSSProperties = {
         borderRadius: "0 0px 0px 0",
         backgroundClip: "padding-box",
         border: "0px",
@@ -398,14 +404,14 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
         height: "100%",
         width: "22px",
       };
-      var fontSelectADivB = {
+      var fontSelectADivB: React.CSSProperties = {
         display: "block",
         width: "100%",
         height: "100%",
         cursor: this.props.disabled === true ? "default" : "pointer",
         marginTop: "2px",
       };
-      var fsDrop = {
+      var fsDrop: React.CSSProperties = {
         background: "#fff",
         border: "1px solid #aaa",
         borderTop: "0",
@@ -417,7 +423,7 @@ export default class PropertyFieldFontPickerHost extends React.Component<IProper
         zIndex: 999,
         display: this.state.isOpen ? "block" : "none",
       };
-      var fsResults = {
+      var fsResults: React.CSSProperties = {
         margin: "0 4px 4px 0",
         maxHeight: "190px",
         width: "calc(100% - 4px)",

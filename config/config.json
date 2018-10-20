@@ -1,12 +1,17 @@
 {
-  "entries": [{
-    "entry": "./lib/webparts/test/TestWebPart.js",
-    "manifest": "./src/webparts/test/TestWebPart.manifest.json",
-    "outputPath": "./dist/sp-client-custom-fields.bundle.js"
-  }],
-  "externals": {},
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "sp-client-custom-fields.bundle": {
+      "components": [{
+        "entrypoint": "./lib/webparts/test/TestWebPart.js",
+        "manifest": "./src/webparts/test/TestWebPart.manifest.json"
+      }]
+    }
+  },
   "localizedResources": {
-    "sp-client-custom-fields/strings": "loc/{locale}.js",
-    "testStrings": "webparts/test/loc/{locale}.js"
-  }
+    "sp-client-custom-fields/strings": "lib/loc/{locale}.js",
+    "testStrings": "lib/webparts/test/loc/{locale}.js"
+  },
+  "externals": {}
 }

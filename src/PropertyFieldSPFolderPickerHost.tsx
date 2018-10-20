@@ -106,7 +106,10 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<
    */
   private onBrowseClick(): void {
     this.currentPage = 0;
-    this.LoadChildrenFolders();
+    this.LoadChildrenFolders({
+      isOpen: true,
+      loading: true,
+    });
   }
 
   /**
@@ -114,16 +117,14 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<
    * Function called when the user erase the current selection
    */
   private onClearSelectionClick(): void {
-    this.state.confirmFolder = "";
-    this.state.currentSPFolder = "";
-    if (this.props.baseFolder != null) this.state.currentSPFolder = this.props.baseFolder;
     this.currentPage = 0;
     this.setState({
       isOpen: false,
       loading: true,
       selectedFolder: this.state.selectedFolder,
-      currentSPFolder: this.state.currentSPFolder,
+      currentSPFolder: this.props.baseFolder != null ? this.props.baseFolder : "",
       childrenFolders: this.state.childrenFolders,
+      confirmFolder: "",
     });
     this.delayedValidate(this.state.confirmFolder);
   }
@@ -132,27 +133,25 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<
    * @function
    * Loads the sub folders from the current
    */
-  private LoadChildrenFolders(): void {
+  private LoadChildrenFolders(newState: IPropertyFieldSPFolderPickerHostState): void {
     //Loading
-    this.state.childrenFolders = { value: [] };
     this.setState({
       isOpen: true,
       loading: true,
-      selectedFolder: this.state.selectedFolder,
-      currentSPFolder: this.state.currentSPFolder,
-      childrenFolders: this.state.childrenFolders,
+      selectedFolder: newState.selectedFolder,
+      currentSPFolder: newState.currentSPFolder,
+      childrenFolders: { value: [] },
     });
     //Inits the service
     var folderService: SPFolderPickerService = new SPFolderPickerService(this.props.context);
-    folderService.getFolders(this.state.currentSPFolder, this.currentPage, this.pageItemCount).then((response: ISPFolders) => {
+    folderService.getFolders(newState.currentSPFolder, this.currentPage, this.pageItemCount).then((response: ISPFolders) => {
       //Binds the results
-      this.state.childrenFolders = response;
       this.setState({
         isOpen: true,
         loading: false,
-        selectedFolder: this.state.selectedFolder,
-        currentSPFolder: this.state.currentSPFolder,
-        childrenFolders: this.state.childrenFolders,
+        selectedFolder: newState.selectedFolder,
+        currentSPFolder: newState.currentSPFolder,
+        childrenFolders: response,
       });
     });
   }
@@ -163,9 +162,12 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<
    */
   private onClickPrevious(): void {
     this.currentPage = this.currentPage - 1;
-    this.state.selectedFolder = "";
     if (this.currentPage < 0) this.currentPage = 0;
-    this.LoadChildrenFolders();
+    this.LoadChildrenFolders({
+      isOpen: true,
+      loading: true,
+      selectedFolder: "",
+    });
   }
 
   /**
@@ -173,9 +175,12 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<
    * User clicks on the next button
    */
   private onClickNext(): void {
-    this.state.selectedFolder = "";
     this.currentPage = this.currentPage + 1;
-    this.LoadChildrenFolders();
+    this.LoadChildrenFolders({
+      isOpen: true,
+      loading: true,
+      selectedFolder: "",
+    });
   }
 
   /**
@@ -184,9 +189,12 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<
    */
   private onClickLink(element?: any): void {
     this.currentPage = 0;
-    this.state.selectedFolder = "";
-    this.state.currentSPFolder = element.currentTarget.value;
-    this.LoadChildrenFolders();
+    this.LoadChildrenFolders({
+      isOpen: true,
+      loading: true,
+      selectedFolder: "",
+      currentSPFolder: element.currentTarget.value,
+    });
   }
 
   /**
@@ -197,9 +205,12 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<
     var parentFolder: string = this.getParentFolder(this.state.currentSPFolder);
     if (parentFolder == this.props.context.pageContext.web.serverRelativeUrl) parentFolder = "";
     this.currentPage = 0;
-    this.state.selectedFolder = "";
-    this.state.currentSPFolder = parentFolder;
-    this.LoadChildrenFolders();
+    this.LoadChildrenFolders({
+      isOpen: true,
+      loading: true,
+      selectedFolder: "",
+      currentSPFolder: parentFolder,
+    });
   }
 
   /**
@@ -224,11 +235,10 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<
    * Occurs when the selected folder changed
    */
   private onFolderChecked(element?: any): void {
-    this.state.selectedFolder = element.currentTarget.value;
     this.setState({
       isOpen: true,
       loading: false,
-      selectedFolder: this.state.selectedFolder,
+      selectedFolder: element.currentTarget.value,
       currentSPFolder: this.state.currentSPFolder,
       childrenFolders: this.state.childrenFolders,
     });
@@ -239,8 +249,7 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<
    * User clicks on Select button
    */
   private onClickSelect(): void {
-    this.state.confirmFolder = this.state.selectedFolder;
-    this.state = {
+    let newState = {
       isOpen: false,
       loading: false,
       selectedFolder: this.state.selectedFolder,
@@ -248,7 +257,7 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<
       currentSPFolder: this.state.currentSPFolder,
       childrenFolders: this.state.childrenFolders,
     };
-    this.setState(this.state);
+    this.setState(newState);
     this.delayedValidate(this.state.confirmFolder);
   }
 
@@ -269,13 +278,11 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialFolder, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialFolder, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -333,10 +340,10 @@ export default class PropertyFieldSPFolderPickerHost extends React.Component<
         <table style={{ width: "100%", borderSpacing: 0 }}>
           <tbody>
             <tr>
-              <td width="*">
+              <td>
                 <TextField disabled={this.props.disabled} style={{ width: "100%" }} readOnly={true} value={this.state.confirmFolder} />
               </td>
-              <td width="64">
+              <td>
                 <table style={{ width: "100%", borderSpacing: 0 }}>
                   <tbody>
                     <tr>

@@ -5,43 +5,35 @@
  * @copyright 2016 Olivier Carpentier
  * Released under MIT licence
  */
-import * as React from "react";
-import styles from "./PropertyFields.module.scss";
-import { IPropertyFieldCustomListPropsInternal, ICustomListField, CustomListFieldType } from "./PropertyFieldCustomList";
-import { Label } from "office-ui-fabric-react/lib/Label";
-import { DefaultButton, PrimaryButton, IButtonProps } from "office-ui-fabric-react/lib/Button";
-import { Dialog, DialogType } from "office-ui-fabric-react/lib/Dialog";
+import { DefaultButton, PrimaryButton } from "office-ui-fabric-react/lib/Button";
 import { CommandBar } from "office-ui-fabric-react/lib/CommandBar";
+import { buildColumns, CheckboxVisibility, ConstrainMode, DetailsList, DetailsListLayoutMode as LayoutMode, Selection, SelectionMode } from "office-ui-fabric-react/lib/DetailsList";
+import { Dialog, DialogType } from "office-ui-fabric-react/lib/Dialog";
+import { Label } from "office-ui-fabric-react/lib/Label";
 import { MessageBar } from "office-ui-fabric-react/lib/MessageBar";
-import {
-  CheckboxVisibility,
-  ConstrainMode,
-  DetailsList,
-  DetailsListLayoutMode as LayoutMode,
-  SelectionMode,
-  Selection,
-  buildColumns,
-} from "office-ui-fabric-react/lib/DetailsList";
-import PropertyFieldDatePickerHost from "./PropertyFieldDatePickerHost";
-import PropertyFieldDateTimePickerHost from "./PropertyFieldDateTimePickerHost";
-import PropertyFieldFontPickerHost from "./PropertyFieldFontPickerHost";
-import PropertyFieldFontSizePickerHost from "./PropertyFieldFontSizePickerHost";
-import PropertyFieldIconPickerHost from "./PropertyFieldIconPickerHost";
+import * as React from "react";
+import * as strings from "sp-client-custom-fields/strings";
+import GuidHelper from "./GuidHelper";
 import PropertyFieldColorPickerHost from "./PropertyFieldColorPickerHost";
 import PropertyFieldColorPickerMiniHost from "./PropertyFieldColorPickerMiniHost";
-import PropertyFieldPasswordHost from "./PropertyFieldPasswordHost";
-import PropertyFieldPicturePickerHost from "./PropertyFieldPicturePickerHost";
+import { CustomListFieldType, ICustomListField, IPropertyFieldCustomListPropsInternal } from "./PropertyFieldCustomList";
+import PropertyFieldDatePickerHost from "./PropertyFieldDatePickerHost";
+import PropertyFieldDateTimePickerHost from "./PropertyFieldDateTimePickerHost";
 import PropertyFieldDocumentPickerHost from "./PropertyFieldDocumentPickerHost";
-import PropertyFieldSPListPickerHost from "./PropertyFieldSPListPickerHost";
-import PropertyFieldSPFolderPickerHost from "./PropertyFieldSPFolderPickerHost";
-import PropertyFieldPeoplePickerHost from "./PropertyFieldPeoplePickerHost";
-import PropertyFieldStarRatingHost from "./PropertyFieldStarRatingHost";
-import PropertyFieldGroupPickerHost from "./PropertyFieldGroupPickerHost";
+import PropertyFieldFontPickerHost from "./PropertyFieldFontPickerHost";
+import PropertyFieldFontSizePickerHost from "./PropertyFieldFontSizePickerHost";
 import { IGroupType } from "./PropertyFieldGroupPicker";
+import PropertyFieldGroupPickerHost from "./PropertyFieldGroupPickerHost";
+import PropertyFieldIconPickerHost from "./PropertyFieldIconPickerHost";
 import PropertyFieldOfficeVideoPickerHost from "./PropertyFieldOfficeVideoPickerHost";
-import GuidHelper from "./GuidHelper";
+import PropertyFieldPasswordHost from "./PropertyFieldPasswordHost";
+import PropertyFieldPeoplePickerHost from "./PropertyFieldPeoplePickerHost";
+import PropertyFieldPicturePickerHost from "./PropertyFieldPicturePickerHost";
+import styles from "./PropertyFields.module.scss";
+import PropertyFieldSPFolderPickerHost from "./PropertyFieldSPFolderPickerHost";
+import PropertyFieldSPListPickerHost from "./PropertyFieldSPListPickerHost";
+import PropertyFieldStarRatingHost from "./PropertyFieldStarRatingHost";
 
-import * as strings from "sp-client-custom-fields/strings";
 
 /**
  * @interface
@@ -100,8 +92,12 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
     this.onActiveItemChanged = this.onActiveItemChanged.bind(this);
     this._key = GuidHelper.getGuid();
 
+    let data = this.props.value != null ? this.props.value : [];
+    let items = this.initItems(data);
+    let columns = this.initColumns(items);
+
     this.state = {
-      data: this.props.value != null ? this.props.value : [],
+      data: data,
       openPanel: false,
       openListView: true,
       openListAdd: false,
@@ -110,20 +106,17 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
       editOpen: false,
       mandatoryOpen: false,
       missingField: "",
-      items: [],
-      columns: [],
+      items: items,
+      columns: columns,
       listKey: GuidHelper.getGuid(),
       selection: new Selection(),
     };
-
-    this.initItems();
-    this.initColumns();
   }
 
-  private initItems() {
+  private initItems(data: any[]): any[] {
     var items = [];
-    if (this.state.data != null) {
-      this.state.data.map((value: any, index: number) => {
+    if (data != null) {
+      data.map((value: any, index: number) => {
         var item = {};
         this.props.fields.map((field: ICustomListField, indexI: number) => {
           if (value != null && field != null && (field.hidden == null || field.hidden === false)) {
@@ -133,11 +126,11 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
         items.push(item);
       });
     }
-    this.state.items = items;
+    return items;
   }
 
-  private initColumns() {
-    this.state.columns = buildColumns(this.state.items, true, null, "", false, "", true);
+  private initColumns(items: any[]): any[] {
+    return buildColumns(items, true, null, "", false, "", true);
   }
 
   /**
@@ -154,44 +147,49 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
   }
 
   private onOpenPanel(element?: any): void {
-    this.state.openPanel = true;
-    this.state.openListView = true;
-    this.state.openListAdd = false;
-    this.state.editOpen = false;
-    this.state.mandatoryOpen = false;
-    this.setState(this.state);
+    this.setState({
+      openPanel: true,
+      openListView: true,
+      openListAdd: false,
+      editOpen: false,
+      mandatoryOpen: false,
+    });
   }
 
   private onCancel(element?: any): void {
-    this.state.openPanel = false;
-    this.state.openListView = false;
-    this.state.openListAdd = false;
-    this.state.editOpen = false;
-    this.state.mandatoryOpen = false;
-    this.setState(this.state);
+    this.setState({
+      openPanel: false,
+      openListView: false,
+      openListAdd: false,
+      editOpen: false,
+      mandatoryOpen: false,
+    });
   }
 
   private onClickAddItem(element?: any): void {
-    this.state.openListView = false;
-    this.state.openListAdd = true;
-    this.state.openListEdit = false;
-    this.state.editOpen = false;
-    this.state.mandatoryOpen = false;
-    this.setState(this.state);
+    this.setState({
+      openListView: false,
+      openListAdd: true,
+      openListEdit: false,
+      editOpen: false,
+      mandatoryOpen: false,
+    });
   }
 
   private onClickDeleteItem(element?: any): void {
-    this.state.deleteOpen = true;
-    this.setState(this.state);
+    this.setState({
+      deleteOpen: true,
+    });
   }
 
   private onClickCancel(): void {
-    this.state.openListView = true;
-    this.state.openListAdd = false;
-    this.state.openListEdit = false;
-    this.state.editOpen = false;
-    this.state.mandatoryOpen = false;
-    this.setState(this.state);
+    this.setState({
+      openListView: true,
+      openListAdd: false,
+      openListEdit: false,
+      editOpen: false,
+      mandatoryOpen: false,
+    });
   }
 
   private onClickAdd(): void {
@@ -204,30 +202,34 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
       if (str.length > 0 && (str[0] == "[" || str[0] == "{")) str = JSON.parse(str);
 
       if (this.props.fields[i].required === true && (str == null || str == "")) {
-        this.state.mandatoryOpen = true;
-        this.state.missingField = this.props.fields[i].id;
-        this.setState(this.state);
+        this.setState({
+          mandatoryOpen: true,
+          missingField: this.props.fields[i].id,
+        });
         document.getElementById("input-" + this.props.fields[i].id).focus();
         return;
       }
 
       result[this.props.fields[i].id] = str;
     }
-    this.state.data.push(result);
-    this.initItems();
+    let newState = {
+      selectedIndex: null,
+      data: this.state.data,
+      items: [],
+    };
+    newState.data.push(result);
+    newState.items = this.initItems(newState.data);
     if (this.state.selectedIndex != null && this.state.selectedIndex > 0)
       this.state.selection.setIndexSelected(this.state.selectedIndex, false, false);
-    this.state.selectedIndex = null;
-    if (this.state.columns == null || this.state.columns.length === 0) this.initColumns();
-    this.setState(this.state);
+    if (this.state.columns == null || this.state.columns.length === 0) newState['columns'] = this.initColumns(newState.items);
+    this.setState(newState);
     this.saveWebPart(this.state.data);
 
     this.onClickCancel();
   }
 
   private onDismissDelete(element?: any): void {
-    this.state.deleteOpen = false;
-    this.setState(this.state);
+    this.setState({ deleteOpen: false });
   }
 
   private onClickMoveUp(element?: any): void {
@@ -237,10 +239,9 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
       this.state.data[indexToMove - 1] = this.state.data[indexToMove];
       this.state.data[indexToMove] = obj;
       this.state.selection.setIndexSelected(this.state.selectedIndex, false, false);
-      this.state.selectedIndex = indexToMove - 1;
+      this.setState({ selectedIndex: indexToMove - 1 });
       this.state.selection.setIndexSelected(this.state.selectedIndex, true, true);
-      this.initItems();
-      this.setState(this.state);
+      this.setState({ data: this.state.data, items: this.initItems(this.state.data) });
       this.saveWebPart(this.state.data);
     }
   }
@@ -252,10 +253,9 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
       this.state.data[indexToMove + 1] = this.state.data[indexToMove];
       this.state.data[indexToMove] = dataRestore;
       this.state.selection.setIndexSelected(this.state.selectedIndex, false, false);
-      this.state.selectedIndex = indexToMove + 1;
+      this.setState({ selectedIndex: indexToMove + 1 });
       this.state.selection.setIndexSelected(this.state.selectedIndex, true, true);
-      this.initItems();
-      this.setState(this.state);
+      this.setState({ data: this.state.data, items: this.initItems(this.state.data) });
       this.saveWebPart(this.state.data);
     }
   }
@@ -267,18 +267,16 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
       if (i != indexToDelete) newData.push(this.state.data[i]);
     }
     this.state.selection.setIndexSelected(this.state.selectedIndex, false, false);
-    this.state.data = newData;
-    this.state.selectedIndex = null;
-    this.initItems();
-    this.setState(this.state);
+    this.setState({ selectedIndex: null, data: newData, items: this.initItems(newData) });
     this.onDismissDelete();
     this.saveWebPart(this.state.data);
   }
 
   private onClickEdit(element?: any): void {
-    this.state.editOpen = true;
-    this.state.openListView = false;
-    this.setState(this.state);
+    this.setState({
+      editOpen: true,
+      openListView: false,
+    });
   }
 
   private onClickUpdate(element?: any): void {
@@ -291,17 +289,17 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
       if (str.length > 0 && (str[0] == "[" || str[0] == "{")) str = JSON.parse(str);
 
       if (this.props.fields[i].required === true && (str == null || str == "")) {
-        this.state.mandatoryOpen = true;
-        this.state.missingField = this.props.fields[i].title;
-        this.setState(this.state);
+        this.setState({
+          mandatoryOpen: true,
+          missingField: this.props.fields[i].title,
+        });
         document.getElementById("input-" + this.props.fields[i].id).focus();
         return;
       }
 
       result[this.props.fields[i].id] = str;
     }
-    this.initItems();
-    this.setState(this.state);
+    this.setState({ data: this.state.data, items: this.initItems(this.state.data) });
     this.saveWebPart(this.state.data);
     this.onClickCancel();
   }
@@ -318,11 +316,13 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
 
   private onActiveItemChanged(item?: any, index?: number, ev?: React.FocusEvent<HTMLElement>): void {
     if (index !== undefined && index >= 0) {
-      this.state.selectedIndex = index;
-      this.setState(this.state);
+      this.setState({
+        selectedIndex: index,
+      });
     } else {
-      this.state.selectedIndex = null;
-      this.setState(this.state);
+      this.setState({
+        selectedIndex: null,
+      });
     }
   }
 
@@ -766,7 +766,7 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
                     />
                     {this.state.mandatoryOpen === true ? (
                       <div className="ms-MessageBar">
-                        <a name="anchorMessageBar" />
+                        <a />
                         <div className="ms-MessageBar-content">
                           <div className="ms-MessageBar-icon">
                             <i className="ms-Icon ms-Icon--Error" />

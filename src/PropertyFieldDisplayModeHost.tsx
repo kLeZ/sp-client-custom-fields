@@ -90,13 +90,11 @@ export default class PropertyFieldDisplayModeHost extends React.Component<IPrope
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialValue, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialValue, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -125,39 +123,45 @@ export default class PropertyFieldDisplayModeHost extends React.Component<IPrope
   }
 
   private onClickBullets(element?: any) {
-    this.state.mode = "list";
-    this.setState(this.state);
+    this.setState({
+      mode: "list",
+    });
     this.onValueChanged(this, this.state.mode);
   }
 
   private onClickTiles(element?: any) {
-    this.state.mode = "tiles";
-    this.setState(this.state);
+    this.setState({
+      mode: "tiles",
+    });
     this.onValueChanged(this, this.state.mode);
   }
 
   private mouseListEnterDropDown() {
     if (this.props.disabled === true) return;
-    this.state.overList = true;
-    this.setState(this.state);
+    this.setState({
+      overList: true,
+    });
   }
 
   private mouseListLeaveDropDown() {
     if (this.props.disabled === true) return;
-    this.state.overList = false;
-    this.setState(this.state);
+    this.setState({
+      overList: false,
+    });
   }
 
   private mouseTilesEnterDropDown() {
     if (this.props.disabled === true) return;
-    this.state.overTiles = true;
-    this.setState(this.state);
+    this.setState({
+      overTiles: true,
+    });
   }
 
   private mouseTilesLeaveDropDown() {
     if (this.props.disabled === true) return;
-    this.state.overTiles = false;
-    this.setState(this.state);
+    this.setState({
+      overTiles: false,
+    });
   }
 
   /**

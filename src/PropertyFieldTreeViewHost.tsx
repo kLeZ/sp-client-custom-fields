@@ -10,6 +10,7 @@ import { IPropertyFieldTreeViewPropsInternal, ITreeViewNode } from "./PropertyFi
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { Async } from "office-ui-fabric-react/lib/Utilities";
 import { Checkbox } from "office-ui-fabric-react/lib/Checkbox";
+import update from "immutability-helper";
 
 require("react-ui-tree-draggable/dist/react-ui-tree.css");
 var Tree: any = require("react-ui-tree-draggable/dist/react-ui-tree");
@@ -103,13 +104,11 @@ export default class PropertyFieldTreeViewHost extends React.Component<IProperty
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.selectedNodesIDs, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.selectedNodesIDs, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -167,7 +166,7 @@ export default class PropertyFieldTreeViewHost extends React.Component<IProperty
     else if (node.collapsed !== true && node.expandedPictureUrl !== undefined) picUrl = node.expandedPictureUrl;
     else if (node.pictureUrl !== undefined) picUrl = node.pictureUrl;
     return (
-      <div style={style} onClick={this.onClickNode.bind(null, node)} name={node.id} id={node.id} role="menuitem">
+      <div style={style} onClick={this.onClickNode.bind(null, node)} id={node.id} role="menuitem">
         {checkBoxAvailable ? (
           <div style={{ marginRight: "5px" }}>
             {" "}
@@ -190,14 +189,21 @@ export default class PropertyFieldTreeViewHost extends React.Component<IProperty
    */
   private onClickNode(node: ITreeViewNode): void {
     if (this.props.allowFoldersSelections === false && (node.children !== undefined && node.children.length != 0)) return;
+    let activeNodes = this.state.activeNodes;
     if (this.props.allowMultipleSelections === false) {
-      this.state.activeNodes = [node];
+      activeNodes = [node];
     } else {
       var index = this.getSelectedNodePosition(node);
-      if (index != -1) this.state.activeNodes.splice(index, 1);
-      else this.state.activeNodes.push(node);
+      if (index != -1)
+        activeNodes = update(this.state.activeNodes, {
+          $splice: [[index, 1]],
+        });
+      else
+        activeNodes = update(this.state.activeNodes, {
+          $push: [node],
+        });
     }
-    this.setState(this.state);
+    this.setState({ activeNodes });
     this.saveSelectedNodes();
   }
 
@@ -218,8 +224,11 @@ export default class PropertyFieldTreeViewHost extends React.Component<IProperty
    * @param index
    */
   private handleTreeChange(rootNode: any, index: number): void {
-    this.state.tree[index] = rootNode;
-    this.setState(this.state);
+    const tree = this.state.tree;
+    const newTree = update(tree, {
+      [index]: { $set: rootNode },
+    });
+    this.setState({ tree: newTree });
   }
 
   /**

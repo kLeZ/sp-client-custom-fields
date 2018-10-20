@@ -6,6 +6,7 @@
  * Released under MIT licence
  */
 import * as React from "react";
+import update from "immutability-helper";
 import { IPropertyFieldDropDownTreeViewPropsInternal, IDropDownTreeViewNode } from "./PropertyFieldDropDownTreeView";
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { Async } from "office-ui-fabric-react/lib/Utilities";
@@ -137,13 +138,11 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.selectedNodesIDs, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.selectedNodesIDs, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -177,8 +176,9 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<
    */
   private onOpenDialog(): void {
     if (this.props.disabled === true) return;
-    this.state.isOpen = !this.state.isOpen;
-    this.setState(this.state);
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
   }
 
   /**
@@ -186,8 +186,9 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<
    * Mouse is hover the fontpicker
    */
   private mouseEnterDropDown(element?: any) {
-    this.state.isHoverDropdown = true;
-    this.setState(this.state);
+    this.setState({
+      isHoverDropdown: true,
+    });
   }
 
   /**
@@ -195,8 +196,9 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<
    * Mouse is leaving the fontpicker
    */
   private mouseLeaveDropDown(element?: any) {
-    this.state.isHoverDropdown = false;
-    this.setState(this.state);
+    this.setState({
+      isHoverDropdown: false,
+    });
   }
 
   /**
@@ -205,14 +207,21 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<
    */
   private onClickNode(node: IDropDownTreeViewNode): void {
     if (this.props.allowFoldersSelections === false && (node.children !== undefined && node.children.length != 0)) return;
+    let activeNodes = this.state.activeNodes;
     if (this.props.allowMultipleSelections === false) {
-      this.state.activeNodes = [node];
+      activeNodes = [node];
     } else {
       var index = this.getSelectedNodePosition(node);
-      if (index != -1) this.state.activeNodes.splice(index, 1);
-      else this.state.activeNodes.push(node);
+      if (index != -1)
+        activeNodes = update(this.state.activeNodes, {
+          $splice: [[index, 1]],
+        });
+      else
+        activeNodes = update(this.state.activeNodes, {
+          $push: [node],
+        });
     }
-    this.setState(this.state);
+    this.setState({ activeNodes });
     this.saveSelectedNodes();
   }
 
@@ -270,8 +279,11 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<
    * @param index
    */
   private handleTreeChange(rootNode: any, index: number): void {
-    this.state.tree[index] = rootNode;
-    this.setState(this.state);
+    const tree = this.state.tree;
+    const newTree = update(tree, {
+      [index]: { $set: rootNode },
+    });
+    this.setState({ tree: newTree });
   }
 
   /**
@@ -280,7 +292,7 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<
    */
   public render(): JSX.Element {
     //User wants to use the preview font picker, so just build it
-    var fontSelect = {
+    var fontSelect: React.CSSProperties = {
       fontSize: "16px",
       width: "100%",
       position: "relative",
@@ -291,7 +303,7 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<
     if (this.props.disabled === true) dropdownColor = "1px solid #f4f4f4";
     else if (this.state.isOpen === true) dropdownColor = "1px solid #3091DE";
     else if (this.state.isHoverDropdown === true) dropdownColor = "1px solid #767676";
-    var fontSelectA = {
+    var fontSelectA: React.CSSProperties = {
       backgroundColor: this.props.disabled === true ? "#f4f4f4" : "#fff",
       borderRadius: "0px",
       backgroundClip: "padding-box",
@@ -307,7 +319,7 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<
       textDecoration: "none",
       cursor: this.props.disabled === true ? "default" : "pointer",
     };
-    var fontSelectASpan = {
+    var fontSelectASpan: React.CSSProperties = {
       marginRight: "26px",
       display: "block",
       overflow: "hidden",
@@ -317,7 +329,7 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<
       cursor: this.props.disabled === true ? "default" : "pointer",
       fontWeight: 400,
     };
-    var fontSelectADiv = {
+    var fontSelectADiv: React.CSSProperties = {
       borderRadius: "0 0px 0px 0",
       backgroundClip: "padding-box",
       border: "0px",
@@ -328,14 +340,14 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<
       height: "100%",
       width: "22px",
     };
-    var fontSelectADivB = {
+    var fontSelectADivB: React.CSSProperties = {
       display: "block",
       width: "100%",
       height: "100%",
       cursor: this.props.disabled === true ? "default" : "pointer",
       marginTop: "2px",
     };
-    var fsDrop = {
+    var fsDrop: React.CSSProperties = {
       background: "#fff",
       border: "1px solid #aaa",
       borderTop: "0",
@@ -347,7 +359,7 @@ export default class PropertyFieldDropDownTreeViewHost extends React.Component<
       zIndex: 999,
       display: this.state.isOpen ? "block" : "none",
     };
-    var fsResults = {
+    var fsResults: React.CSSProperties = {
       margin: "0 4px 4px 0",
       maxHeight: "360px",
       width: "calc(100% - 4px)",

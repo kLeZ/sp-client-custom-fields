@@ -85,20 +85,28 @@ export default class PropertyFieldDimensionPickerHost extends React.Component<
     if (this.props.initialValue != null && this.props.initialValue !== undefined) {
       if (this.props.initialValue.width != null && this.props.initialValue.width !== undefined) {
         if (this.props.initialValue.width.indexOf("px") > -1) {
-          this.state.widthUnit = "px";
-          this.state.width = Math.round(+this.props.initialValue.width.replace("px", ""));
+          this.setState({
+            widthUnit: "px",
+            width: Math.round(+this.props.initialValue.width.replace("px", "")),
+          });
         } else if (this.props.initialValue.height.indexOf("%") > -1) {
-          this.state.widthUnit = "%";
-          this.state.width = Math.round(+this.props.initialValue.width.replace("%", ""));
+          this.setState({
+            widthUnit: "%",
+            width: Math.round(+this.props.initialValue.width.replace("%", "")),
+          });
         }
       }
       if (this.props.initialValue.height != null && this.props.initialValue.height !== undefined) {
         if (this.props.initialValue.height.indexOf("px") > -1) {
-          this.state.heightUnit = "px";
-          this.state.height = Math.round(+this.props.initialValue.height.replace("px", ""));
+          this.setState({
+            heightUnit: "px",
+            height: Math.round(+this.props.initialValue.height.replace("px", "")),
+          });
         } else if (this.props.initialValue.height.indexOf("%") > -1) {
-          this.state.heightUnit = "%";
-          this.state.height = Math.round(+this.props.initialValue.height.replace("%", ""));
+          this.setState({
+            heightUnit: "%",
+            height: Math.round(+this.props.initialValue.height.replace("%", "")),
+          });
         }
       }
     }
@@ -109,11 +117,15 @@ export default class PropertyFieldDimensionPickerHost extends React.Component<
    * Function called when the width changed
    */
   private onWidthChanged(newValue: any): void {
+    let newState = {
+      height: this.state.height,
+      width: this.state.width,
+    };
     if (this.state.widthUnit === this.state.heightUnit && this.state.conserveRatio === true && this.props.preserveRatioEnabled === true) {
-      if (this.state.width != 0) this.state.height = Math.round((this.state.height / this.state.width) * +newValue);
+      if (this.state.width != 0) newState.height = Math.round((this.state.height / this.state.width) * +newValue);
     }
-    this.state.width = Math.round(+newValue);
-    this.setState(this.state);
+    newState.width = Math.round(+newValue);
+    this.setState(newState);
     this.saveDimension();
   }
 
@@ -122,11 +134,15 @@ export default class PropertyFieldDimensionPickerHost extends React.Component<
    * Function called when the height changed
    */
   private onHeightChanged(newValue: any): void {
+    let newState = {
+      height: this.state.height,
+      width: this.state.width,
+    };
     if (this.state.widthUnit === this.state.heightUnit && this.state.conserveRatio === true && this.props.preserveRatioEnabled === true) {
-      if (this.state.height != 0) this.state.width = Math.round((this.state.width / this.state.height) * +newValue);
+      if (this.state.height != 0) newState.width = Math.round((this.state.width / this.state.height) * +newValue);
     }
-    this.state.height = Math.round(+newValue);
-    this.setState(this.state);
+    newState.height = Math.round(+newValue);
+    this.setState(newState);
     this.saveDimension();
   }
 
@@ -137,8 +153,9 @@ export default class PropertyFieldDimensionPickerHost extends React.Component<
   private onWidthUnitChanged(element?: IDropdownOption): void {
     if (element != null) {
       var newValue: string = element.key.toString();
-      this.state.widthUnit = newValue;
-      this.setState(this.state);
+      this.setState({
+        widthUnit: newValue,
+      });
       this.saveDimension();
     }
   }
@@ -150,8 +167,9 @@ export default class PropertyFieldDimensionPickerHost extends React.Component<
   private onHeightUnitChanged(element?: IDropdownOption): void {
     if (element != null) {
       var newValue: string = element.key.toString();
-      this.state.heightUnit = newValue;
-      this.setState(this.state);
+      this.setState({
+        heightUnit: newValue,
+      });
       this.saveDimension();
     }
   }
@@ -162,8 +180,9 @@ export default class PropertyFieldDimensionPickerHost extends React.Component<
    */
   private onRatioChanged(element: any, isChecked: boolean): void {
     if (element) {
-      this.state.conserveRatio = isChecked;
-      this.setState(this.state);
+      this.setState({
+        conserveRatio: isChecked,
+      });
     }
   }
 
@@ -189,7 +208,7 @@ export default class PropertyFieldDimensionPickerHost extends React.Component<
       return;
     }
 
-    var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value || "");
+    var result: string | PromiseLike<string> = this.props.onGetErrorMessage(value);
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialValue, value);

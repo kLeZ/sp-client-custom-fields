@@ -154,26 +154,30 @@ export default class PropertyFieldDateTimePickerHost extends React.Component<
    */
   private onSelectDate(date: Date): void {
     if (date == null) return;
-    this.state.day = date;
-    this.setState(this.state);
+    this.setState({
+      day: date,
+    });
     this.saveDate();
   }
 
   private dropdownHoursChanged(element?: IDropdownOption): void {
-    this.state.hours = Number(element.key);
-    this.setState(this.state);
+    this.setState({
+      hours: Number(element.key),
+    });
     this.saveDate();
   }
 
   private dropdownMinutesChanged(element?: any): void {
-    this.state.minutes = Number(element.key);
-    this.setState(this.state);
+    this.setState({
+      minutes: Number(element.key),
+    });
     this.saveDate();
   }
 
   private dropdownSecondsChanged(element?: any): void {
-    this.state.seconds = Number(element.key);
-    this.setState(this.state);
+    this.setState({
+      seconds: Number(element.key),
+    });
     this.saveDate();
   }
 
@@ -212,13 +216,11 @@ export default class PropertyFieldDateTimePickerHost extends React.Component<
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialDate, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialDate, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -299,7 +301,7 @@ export default class PropertyFieldDateTimePickerHost extends React.Component<
     return (
       <div>
         <Label>{this.props.label}</Label>
-        <table cellPadding="0" cellSpacing="0" width="100%" style={{ marginTop: "10px" }}>
+        <table cellPadding="0" cellSpacing="0" style={{ width: "100%", marginTop: "10px" }}>
           <tbody>
             <tr>
               <td style={{ verticalAlign: "top" }}>
@@ -323,19 +325,19 @@ export default class PropertyFieldDateTimePickerHost extends React.Component<
                 <table cellPadding="0" cellSpacing="0">
                   <tbody>
                     <tr>
-                      <td width="79">
+                      <td>
                         <Dropdown label="" options={hours} onChanged={this.dropdownHoursChanged} />
                       </td>
-                      <td width="4" style={{ paddingLeft: "2px", paddingRight: "2px" }}>
+                      <td style={{ paddingLeft: "2px", paddingRight: "2px" }}>
                         <Label>:</Label>
                       </td>
-                      <td width="71">
+                      <td>
                         <Dropdown label="" options={minutes} onChanged={this.dropdownMinutesChanged} />
                       </td>
-                      <td width="4" style={{ paddingLeft: "2px", paddingRight: "2px" }}>
+                      <td style={{ paddingLeft: "2px", paddingRight: "2px" }}>
                         <Label>:</Label>
                       </td>
-                      <td width="71">
+                      <td>
                         <Dropdown label="" options={seconds} onChanged={this.dropdownSecondsChanged} />
                       </td>
                     </tr>

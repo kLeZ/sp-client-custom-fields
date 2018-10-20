@@ -55,8 +55,9 @@ export default class PropertyFieldNumericInputHost extends React.Component<IProp
    * Function called when the component value changed
    */
   private onValueChanged(value: number): void {
-    this.state.currentValue = value;
-    this.setState(this.state);
+    this.setState({
+      currentValue: value,
+    });
     this.delayedValidate(value);
   }
 

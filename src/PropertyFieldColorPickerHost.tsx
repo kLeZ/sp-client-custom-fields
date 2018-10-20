@@ -61,8 +61,7 @@ export default class PropertyFieldColorPickerHost extends React.Component<IPrope
    * Function called when the ColorPicker Office UI Fabric component selected color changed
    */
   private onColorChanged(color: string): void {
-    this.state.color = color;
-    this.setState(this.state);
+    this.setState({ color });
     this.delayedValidate(color);
   }
 
@@ -83,13 +82,11 @@ export default class PropertyFieldColorPickerHost extends React.Component<IPrope
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialColor, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialColor, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {

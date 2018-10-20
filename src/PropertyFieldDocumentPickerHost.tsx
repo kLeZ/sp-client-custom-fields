@@ -104,13 +104,11 @@ export default class PropertyFieldDocumentPickerHost extends React.Component<
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialValue, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialValue, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -136,8 +134,9 @@ export default class PropertyFieldDocumentPickerHost extends React.Component<
    *
    */
   private onEraseButton(): void {
-    this.state.selectedImage = "";
-    this.setState(this.state);
+    this.setState({
+      selectedImage: "",
+    });
     this.saveImageProperty("");
   }
 
@@ -147,8 +146,9 @@ export default class PropertyFieldDocumentPickerHost extends React.Component<
    *
    */
   private onOpenPanel(element?: any): void {
-    this.state.openPanel = true;
-    this.setState(this.state);
+    this.setState({
+      openPanel: true,
+    });
   }
 
   /**
@@ -157,8 +157,9 @@ export default class PropertyFieldDocumentPickerHost extends React.Component<
    *
    */
   private onTextFieldChanged(newValue: string): void {
-    this.state.selectedImage = newValue;
-    this.setState(this.state);
+    this.setState({
+      selectedImage: newValue,
+    });
     this.saveImageProperty(newValue);
   }
 
@@ -168,15 +169,17 @@ export default class PropertyFieldDocumentPickerHost extends React.Component<
    *
    */
   private onClosePanel(element?: any): void {
-    this.state.openPanel = false;
-    this.setState(this.state);
+    this.setState({
+      openPanel: false,
+    });
   }
 
   private onClickRecent(element?: any): void {
-    //this.state.openRecent = true;
-    //this.state.openSite = false;
-    //this.state.openUpload = false;
-    //this.setState(this.state);
+    // this.setState({
+    //  openRecent: true,
+    //  openSite: false,
+    //  openUpload: false,
+    // });
   }
 
   /**
@@ -200,8 +203,9 @@ export default class PropertyFieldDocumentPickerHost extends React.Component<
         for (var iExt = 0; iExt < extensions.length; iExt++) {
           var ext = extensions[iExt].toLowerCase();
           if (lowerUrl.indexOf(ext) > -1) {
-            this.state.selectedImage = imageUrl;
-            this.setState(this.state);
+            this.setState({
+              selectedImage: imageUrl,
+            });
             this.saveImageProperty(imageUrl);
             this.onClosePanel();
             break;
@@ -231,17 +235,19 @@ export default class PropertyFieldDocumentPickerHost extends React.Component<
   }
 
   private onClickSite(element?: any): void {
-    this.state.openRecent = false;
-    this.state.openSite = true;
-    this.state.openUpload = false;
-    this.setState(this.state);
+    this.setState({
+      openRecent: false,
+      openSite: true,
+      openUpload: false,
+    });
   }
 
   private onClickUpload(element?: any): void {
-    this.state.openRecent = false;
-    this.state.openSite = false;
-    this.state.openUpload = true;
-    this.setState(this.state);
+    this.setState({
+      openRecent: false,
+      openSite: false,
+      openUpload: true,
+    });
   }
 
   /**
@@ -270,7 +276,7 @@ export default class PropertyFieldDocumentPickerHost extends React.Component<
         <table style={{ width: "100%", borderSpacing: 0 }}>
           <tbody>
             <tr>
-              <td width="*">
+              <td>
                 <TextField
                   disabled={this.props.disabled}
                   value={this.state.selectedImage}
@@ -279,7 +285,7 @@ export default class PropertyFieldDocumentPickerHost extends React.Component<
                   readOnly={this.props.readOnly}
                 />
               </td>
-              <td width="64">
+              <td>
                 <table style={{ width: "100%", borderSpacing: 0 }}>
                   <tbody>
                     <tr>

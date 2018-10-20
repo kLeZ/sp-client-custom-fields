@@ -74,8 +74,7 @@ export default class PropertyFieldColorPickerMiniHost extends React.Component<
    * Function called when the ColorPicker Office UI Fabric component selected color changed
    */
   private onColorChanged(color: string): void {
-    this.state.color = color;
-    this.setState(this.state);
+    this.setState({ color });
     this.delayedValidate(color);
   }
 
@@ -96,13 +95,11 @@ export default class PropertyFieldColorPickerMiniHost extends React.Component<
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialColor, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialColor, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -136,20 +133,17 @@ export default class PropertyFieldColorPickerMiniHost extends React.Component<
    */
   private onClickButton(): void {
     if (this.props.disabled === true) return;
-    this.state.calloutVisible = !this.state.calloutVisible;
-    this.setState(this.state);
+    this.setState({ calloutVisible: !this.state.calloutVisible });
   }
 
   private onMouseEnterButton(): void {
     if (this.props.disabled === true) return;
-    this.state.isHover = true;
-    this.setState(this.state);
+    this.setState({ isHover: true });
   }
 
   private onMouseLeaveButton(): void {
     if (this.props.disabled === true) return;
-    this.state.isHover = false;
-    this.setState(this.state);
+    this.setState({ isHover: false });
   }
 
   /**
@@ -185,7 +179,7 @@ export default class PropertyFieldColorPickerMiniHost extends React.Component<
           <Callout
             className="ms-CalloutExample-callout"
             gapSpace={0}
-            targetElement={this.menuButtonElement}
+            target={this.menuButtonElement}
             setInitialFocus={true}
             onDismiss={this.onClickButton}
           >

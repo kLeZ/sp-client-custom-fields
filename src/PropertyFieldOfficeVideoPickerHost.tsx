@@ -105,13 +105,11 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialValue, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialValue, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -137,8 +135,9 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
    *
    */
   private onEraseButton(): void {
-    this.state.selectedVideo = "";
-    this.setState(this.state);
+    this.setState({
+      selectedVideo: "",
+    });
     this.saveVideoProperty("");
   }
 
@@ -148,9 +147,10 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
    *
    */
   private onOpenPanel(element?: any): void {
-    this.state.openPanel = true;
-    this.state.iframeLoaded = false;
-    this.setState(this.state);
+    this.setState({
+      openPanel: true,
+      iframeLoaded: false,
+    });
   }
 
   /**
@@ -159,8 +159,9 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
    *
    */
   private onTextFieldChanged(newValue: string): void {
-    this.state.selectedVideo = newValue;
-    this.setState(this.state);
+    this.setState({
+      selectedVideo: newValue,
+    });
     this.saveVideoProperty(newValue);
   }
 
@@ -170,8 +171,9 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
    *
    */
   private onClosePanel(element?: any): void {
-    this.state.openPanel = false;
-    this.setState(this.state);
+    this.setState({
+      openPanel: false,
+    });
   }
 
   public componentDidUpdate(prevProps: any, prevState: any, prevContext: any): void {
@@ -191,8 +193,9 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
     cancelButton.onclick = "";
     cancelButton.addEventListener("click", this.onClosePanel, false);
 
-    this.state.iframeLoaded = true;
-    this.setState(this.state);
+    this.setState({
+      iframeLoaded: true,
+    });
   }
 
   private iFrameValidation(): void {
@@ -203,8 +206,9 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
       return;
     }
     var vidUrl = dialogResult.Url;
-    this.state.selectedVideo = vidUrl;
-    this.setState(this.state);
+    this.setState({
+      selectedVideo: vidUrl,
+    });
     this.saveVideoProperty(vidUrl);
     this.onClosePanel();
   }
@@ -240,7 +244,7 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
         <table style={{ width: "100%", borderSpacing: 0 }}>
           <tbody>
             <tr>
-              <td width="*">
+              <td>
                 <TextField
                   disabled={this.props.disabled}
                   value={this.state.selectedVideo}
@@ -249,7 +253,7 @@ export default class PropertyFieldOfficeVideoPickerHost extends React.Component<
                   readOnly={this.props.readOnly}
                 />
               </td>
-              <td width="64">
+              <td>
                 <table style={{ width: "100%", borderSpacing: 0 }}>
                   <tbody>
                     <tr>

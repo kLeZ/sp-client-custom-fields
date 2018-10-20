@@ -21,6 +21,8 @@ import { Async } from "office-ui-fabric-react/lib/Utilities";
 
 import * as strings from "sp-client-custom-fields/strings";
 
+import update from "immutability-helper";
+
 /**
  * @interface
  * PropertyFieldSPListQueryHost properties interface
@@ -110,7 +112,9 @@ export default class PropertyFieldSPListQueryHost extends React.Component<IPrope
 
   private loadDefaultData(): void {
     if (this.props.query == null || this.props.query == "") {
-      this.state.loadedFields = true;
+      this.setState({
+        loadedFields: true,
+      });
       return;
     }
     var indexOfGuid: number = this.props.query.indexOf("lists(guid'");
@@ -194,7 +198,7 @@ export default class PropertyFieldSPListQueryHost extends React.Component<IPrope
         });
       });
       this.state.loadedList = true;
-      this.saveState();
+      this.setState(this.state);
     });
   }
 
@@ -214,12 +218,8 @@ export default class PropertyFieldSPListQueryHost extends React.Component<IPrope
         });
       });
       this.state.loadedFields = true;
-      this.saveState();
+      this.setState(this.state);
     });
-  }
-
-  private saveState(): void {
-    this.setState(this.state);
   }
 
   private saveQuery(): void {
@@ -278,13 +278,11 @@ export default class PropertyFieldSPListQueryHost extends React.Component<IPrope
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.query, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.query, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -319,57 +317,57 @@ export default class PropertyFieldSPListQueryHost extends React.Component<IPrope
   private onChangedList(option: IDropdownOption, index?: number): void {
     this.state.selectedList = option.key as string;
     this.saveQuery();
-    this.saveState();
+    this.setState(this.state);
     this.loadFields();
   }
 
   private onChangedField(option: IDropdownOption, index?: number): void {
     this.state.selectedField = option.key as string;
     this.saveQuery();
-    this.saveState();
+    this.setState(this.state);
   }
 
   private onChangedArranged(option: IDropdownOption, index?: number): void {
     this.state.selectedArrange = option.key as string;
     this.saveQuery();
-    this.saveState();
+    this.setState(this.state);
   }
 
   private onChangedMax(newValue?: number): void {
     this.state.max = newValue;
     this.saveQuery();
-    this.saveState();
+    this.setState(this.state);
   }
 
   private onClickAddFilter(elm?: any): void {
     this.state.filters.push({});
-    this.saveState();
+    this.setState(this.state);
     this.saveQuery();
   }
 
   private onClickRemoveFilter(index: number): void {
     if (index > -1) {
       this.state.filters.splice(index, 1);
-      this.saveState();
+      this.setState(this.state);
       this.saveQuery();
     }
   }
 
   private onChangedFilterField(option: IDropdownOption, index?: number, selectedIndex?: number): void {
     this.state.filters[selectedIndex].field = option.key as string;
-    this.saveState();
+    this.setState(this.state);
     this.saveQuery();
   }
 
   private onChangedFilterOperator(option: IDropdownOption, index?: number, selectedIndex?: number): void {
     this.state.filters[selectedIndex].operator = option.key as string;
-    this.saveState();
+    this.setState(this.state);
     this.saveQuery();
   }
 
   private onChangedFilterValue(value?: string, index?: number): void {
     this.state.filters[index].value = value;
-    this.saveState();
+    this.setState(this.state);
     this.saveQuery();
   }
 

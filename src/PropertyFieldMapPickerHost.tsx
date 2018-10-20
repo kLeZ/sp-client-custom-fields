@@ -64,8 +64,9 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
   }
 
   private onClickChevron(element: any): void {
-    this.state.isOpen = !this.state.isOpen;
-    this.setState(this.state);
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
   }
 
   private onGetCurrentLocation(element: any): void {
@@ -75,25 +76,28 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
   }
 
   private showPosition(position: any): void {
-    this.state.latitude = position.coords.latitude;
-    this.state.longitude = position.coords.longitude;
-    this.setState(this.state);
+    this.setState({
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+    });
 
     var newValue: string = this.state.longitude + "," + this.state.latitude;
     this.delayedValidate(newValue);
   }
 
   private onLongitudeChange(value: string): void {
-    this.state.longitude = value;
-    this.setState(this.state);
+    this.setState({
+      longitude: value,
+    });
 
     var newValue: string = this.state.longitude + "," + this.state.latitude;
     this.delayedValidate(newValue);
   }
 
   private onLatitudeChange(value: string): void {
-    this.state.latitude = value;
-    this.setState(this.state);
+    this.setState({
+      latitude: value,
+    });
 
     var newValue: string = this.state.longitude + "," + this.state.latitude;
     this.delayedValidate(newValue);
@@ -116,13 +120,11 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialValue, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialValue, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -163,7 +165,7 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
         <table style={{ width: "100%", borderSpacing: 0 }}>
           <tbody>
             <tr>
-              <td width="100" style={{ marginRight: "10px" }}>
+              <td style={{ marginRight: "10px" }}>
                 <span
                   style={{
                     paddingBottom: "6px",
@@ -177,7 +179,7 @@ export default class PropertyFieldMapPickerHost extends React.Component<IPropert
                 </span>
                 <TextField style={{ width: "90px" }} value={this.state.longitude} disabled={this.props.disabled} onChanged={this.onLongitudeChange} />
               </td>
-              <td width="100" style={{ marginRight: "10px" }}>
+              <td style={{ marginRight: "10px" }}>
                 <span
                   style={{
                     paddingBottom: "6px",

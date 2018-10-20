@@ -145,8 +145,7 @@ export default class PropertyFieldDatePickerHost extends React.Component<IProper
     } else {
       dateAsString = date.toDateString();
     }
-    this.state.date = dateAsString;
-    this.setState(this.state);
+    this.setState({ date: dateAsString });
     this.delayedValidate(dateAsString);
   }
 
@@ -167,13 +166,11 @@ export default class PropertyFieldDatePickerHost extends React.Component<IProper
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialDate, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialDate, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {

@@ -101,8 +101,9 @@ export default class PropertyFieldStarRatingHost extends React.Component<IProper
   }
 
   private onStarClick(nextValue: any, prevValue: any, name: string) {
-    this.state.currentValue = nextValue;
-    this.setState(this.state);
+    this.setState({
+      currentValue: nextValue,
+    });
     this.delayedValidate(nextValue);
   }
 

@@ -103,11 +103,13 @@ class MaskedInput extends React.Component<IMaskedInputProps, IMaskedInputState> 
   private handleChange(e): void {
     var previousValue = this.state.value;
     e.target.value = this.handleCurrentValue(e);
-    this.state.value = e.target.value;
+    let newState = {
+      value: e.target.value,
+      firstLoading: false
+    };
 
-    if (this.state.firstLoading === true && previousValue == "") this.state.value = "";
-    this.state.firstLoading = false;
-    this.setState(this.state);
+    if (this.state.firstLoading === true && previousValue == "") newState.value = "";
+    this.setState(newState);
 
     this.delayedValidate(e.target.value);
   }
@@ -129,13 +131,11 @@ class MaskedInput extends React.Component<IMaskedInputProps, IMaskedInputState> 
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -287,11 +287,11 @@ class MaskedInput extends React.Component<IMaskedInputProps, IMaskedInputState> 
       disabled: this.props.disabled,
     };
 
-    var shellStyle = {
+    var shellStyle: React.CSSProperties = {
       position: "relative",
       lineHeight: "1",
     };
-    var shellStyleSpan = {
+    var shellStyleSpan: React.CSSProperties = {
       position: "absolute",
       left: "12px",
       top: "3px",
@@ -303,13 +303,13 @@ class MaskedInput extends React.Component<IMaskedInputProps, IMaskedInputState> 
       backgroundColor: "transparent",
       textTransform: "uppercase",
     };
-    var shellStyleSpanI = {
+    var shellStyleSpanI: React.CSSProperties = {
       fontStyle: "normal",
       color: "transparent",
       //opacity: '0',
       visibility: "hidden",
     };
-    var inputShell = {
+    var inputShell: React.CSSProperties = {
       fontSize: "16px",
       fontFamily: "monospace",
       paddingRight: "10px",

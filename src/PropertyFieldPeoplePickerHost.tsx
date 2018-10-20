@@ -117,7 +117,7 @@ export default class PropertyFieldPeoplePickerHost extends React.Component<IProp
    * @function
    * A search field change occured
    */
-  private onSearchFieldChanged(searchText: string, currentSelected: IPersonaProps[]): Promise<IPersonaProps> | IPersonaProps[] {
+  private onSearchFieldChanged(searchText: string, currentSelected: IPersonaProps[]): Promise<IPersonaProps[]> | IPersonaProps[] {
     if (searchText.length > 2) {
       //Clear the suggestions list
       this.setState({ resultsPeople: this.resultsPeople, resultsPersonas: this.resultsPersonas });
@@ -215,13 +215,11 @@ export default class PropertyFieldPeoplePickerHost extends React.Component<IProp
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.initialData, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.initialData, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {

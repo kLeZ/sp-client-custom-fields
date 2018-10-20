@@ -84,6 +84,7 @@ export default class PropertyFieldSPListMultiplePickerHost extends React.Compone
     var listService: SPListPickerService = new SPListPickerService(this.props, this.props.context);
     //Gets the libs
     listService.getLibs().then((response: ISPLists) => {
+      const selectedKeys = this.state.selectedKeys;
       response.value.map((list: ISPList) => {
         var isSelected: boolean = false;
         var indexInExisting: number = -1;
@@ -91,30 +92,18 @@ export default class PropertyFieldSPListMultiplePickerHost extends React.Compone
         if (this.props.selectedLists) indexInExisting = this.props.selectedLists.indexOf(list.Id);
         if (indexInExisting > -1) {
           isSelected = true;
-          this.state.selectedKeys.push(list.Id);
+          selectedKeys.push(list.Id);
         }
         //Add the option to the list
         this.options.push({
           key: list.Id,
           text: list.Title,
-          isChecked: isSelected,
+          checked: isSelected,
         });
       });
       this.loaded = true;
-      this.setState({ results: this.options, selectedKeys: this.state.selectedKeys, loaded: true });
+      this.setState({ results: this.options, selectedKeys, loaded: true });
     });
-  }
-
-  /**
-   * @function
-   * Remove a string from the selected keys
-   */
-  private removeSelected(element: string): void {
-    var res = [];
-    for (var i = 0; i < this.state.selectedKeys.length; i++) {
-      if (this.state.selectedKeys[i] !== element) res.push(this.state.selectedKeys[i]);
-    }
-    this.state.selectedKeys = res;
   }
 
   /**
@@ -125,12 +114,17 @@ export default class PropertyFieldSPListMultiplePickerHost extends React.Compone
     if (element) {
       var value: string = (element.currentTarget as any).value;
 
+      let selectedKeys = [];
       if (isChecked === false) {
-        this.removeSelected(value);
+        var res = [];
+        for (var i = 0; i < this.state.selectedKeys.length; i++) {
+          if (this.state.selectedKeys[i] !== value) res.push(this.state.selectedKeys[i]);
+        }
+        selectedKeys = res;
       } else {
-        this.state.selectedKeys.push(value);
+        selectedKeys.push(value);
       }
-      this.setState(this.state);
+      this.setState({ selectedKeys });
       this.delayedValidate(this.state.selectedKeys);
     }
   }
@@ -149,13 +143,11 @@ export default class PropertyFieldSPListMultiplePickerHost extends React.Compone
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.selectedLists, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.selectedLists, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -208,7 +200,7 @@ export default class PropertyFieldSPListMultiplePickerHost extends React.Compone
             return (
               <div className="ms-ChoiceField" key={this._key + "-multiplelistpicker-" + index}>
                 <Checkbox
-                  defaultChecked={item.isChecked}
+                  defaultChecked={item.checked}
                   disabled={this.props.disabled}
                   label={item.text}
                   onChange={this.onChanged}

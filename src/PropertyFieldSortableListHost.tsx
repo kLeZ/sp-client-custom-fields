@@ -77,7 +77,7 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
         var currItem = this.props.selectedItems[i];
         var choice: IChoiceGroupOption = this.getStateItemFromKey(currItem);
         if (choice != null) {
-          choice.isChecked = true;
+          choice.checked = true;
         }
       }
     }
@@ -104,9 +104,8 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
     for (var i = 0; i < this.state.selectedKeys.length; i++) {
       if (this.state.selectedKeys[i] !== element) res.push(this.state.selectedKeys[i]);
     }
-    this.state.selectedKeys = res;
-    this.getStateItemFromKey(element).isChecked = false;
-    this.setState(this.state);
+    this.getStateItemFromKey(element).checked = false;
+    this.setState({ selectedKeys: res, results: this.state.results });
   }
 
   /**
@@ -120,7 +119,7 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
       if (isChecked === false) {
         this.removeSelected(value);
       } else {
-        this.getStateItemFromKey(value).isChecked = true;
+        this.getStateItemFromKey(value).checked = true;
         this.state.selectedKeys.push(value);
         this.setState(this.state);
       }
@@ -142,13 +141,11 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
     if (result !== undefined) {
       if (typeof result === "string") {
         if (result === undefined || result === "") this.notifyAfterValidate(this.props.selectedItems, value);
-        this.state.errorMessage = result;
-        this.setState(this.state);
+        this.setState({ errorMessage: result });
       } else {
         result.then((errorMessage: string) => {
           if (errorMessage === undefined || errorMessage === "") this.notifyAfterValidate(this.props.selectedItems, value);
-          this.state.errorMessage = errorMessage;
-          this.setState(this.state);
+          this.setState({ errorMessage });
         });
       }
     } else {
@@ -177,7 +174,8 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
   }
 
   private sortDescending(elm?: any): void {
-    this.state.results.sort(
+    let results = this.state.results;
+    results.sort(
       (a: IChoiceGroupOption, b: IChoiceGroupOption): any => {
         if (this.props.sortBy == ISortableListOrder.Key) {
           return a.key > b.key ? 1 : b.key > a.key ? -1 : 0;
@@ -186,11 +184,12 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
         }
       }
     );
-    this.setState(this.state);
+    this.setState({ results });
   }
 
   private sortAscending(elm?: any): void {
-    this.state.results.sort(
+    let results = this.state.results;
+    results.sort(
       (a: IChoiceGroupOption, b: IChoiceGroupOption): any => {
         if (this.props.sortBy == ISortableListOrder.Key) {
           return a.key > b.key ? -1 : b.key > a.key ? 1 : 0;
@@ -199,7 +198,7 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
         }
       }
     );
-    this.setState(this.state);
+    this.setState({ results });
   }
 
   /**
@@ -234,7 +233,7 @@ export default class PropertyFieldSortableListHost extends React.Component<IProp
         </div>
         {this.state.results.map((item: IChoiceGroupOption, index: number) => {
           var uniqueKey = this.props.targetProperty + "-" + item.key;
-          var checked = item.isChecked != null && item.isChecked !== undefined ? item.isChecked : false;
+          var checked = item.checked != null && item.checked !== undefined ? item.checked : false;
           return (
             <div className="ms-ChoiceField" key={this._key + "-sortablelistpicker-" + index}>
               <Checkbox

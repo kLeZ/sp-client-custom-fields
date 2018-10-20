@@ -54,8 +54,9 @@ export default class PropertyFieldPasswordHost extends React.Component<IProperty
    * Function called when the component value changed
    */
   private onValueChanged(newValue: any): void {
-    this.state.currentValue = newValue;
-    this.setState(this.state);
+    this.setState({
+      currentValue: newValue,
+    });
     this.delayedValidate(newValue);
   }
 
