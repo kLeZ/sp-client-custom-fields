@@ -7,7 +7,15 @@
  */
 import { DefaultButton, PrimaryButton } from "office-ui-fabric-react/lib/Button";
 import { CommandBar } from "office-ui-fabric-react/lib/CommandBar";
-import { buildColumns, CheckboxVisibility, ConstrainMode, DetailsList, DetailsListLayoutMode as LayoutMode, Selection, SelectionMode } from "office-ui-fabric-react/lib/DetailsList";
+import {
+  buildColumns,
+  CheckboxVisibility,
+  ConstrainMode,
+  DetailsList,
+  DetailsListLayoutMode as LayoutMode,
+  Selection,
+  SelectionMode,
+} from "office-ui-fabric-react/lib/DetailsList";
 import { Dialog, DialogType } from "office-ui-fabric-react/lib/Dialog";
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { MessageBar } from "office-ui-fabric-react/lib/MessageBar";
@@ -33,7 +41,6 @@ import styles from "./PropertyFields.module.scss";
 import PropertyFieldSPFolderPickerHost from "./PropertyFieldSPFolderPickerHost";
 import PropertyFieldSPListPickerHost from "./PropertyFieldSPListPickerHost";
 import PropertyFieldStarRatingHost from "./PropertyFieldStarRatingHost";
-
 
 /**
  * @interface
@@ -221,7 +228,7 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
     newState.items = this.initItems(newState.data);
     if (this.state.selectedIndex != null && this.state.selectedIndex > 0)
       this.state.selection.setIndexSelected(this.state.selectedIndex, false, false);
-    if (this.state.columns == null || this.state.columns.length === 0) newState['columns'] = this.initColumns(newState.items);
+    if (this.state.columns == null || this.state.columns.length === 0) newState["columns"] = this.initColumns(newState.items);
     this.setState(newState);
     this.saveWebPart(this.state.data);
 
@@ -384,9 +391,9 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
                                     type="number"
                                     role="spinbutton"
                                     id={"input-" + value.id}
-                                    aria-valuemax="99999"
-                                    aria-valuemin="-999999"
-                                    aria-valuenow="0"
+                                    aria-valuemax={99999}
+                                    aria-valuemin={-999999}
+                                    aria-valuenow={0}
                                     className={styles.customTextField}
                                     style={{ width: "100px", marginBottom: "8px" }}
                                   />
@@ -806,8 +813,8 @@ export default class PropertyFieldCustomListHost extends React.Component<IProper
                                     id={"input-" + value.id}
                                     className={styles.customTextField}
                                     defaultValue={this.state.data[this.state.selectedIndex][value.id]}
-                                    aria-valuemax="99999"
-                                    aria-valuemin="-999999"
+                                    aria-valuemax={99999}
+                                    aria-valuemin={-999999}
                                     aria-valuenow={this.state.data[this.state.selectedIndex][value.id]}
                                     style={{ width: "100px", marginBottom: "8px" }}
                                   />
