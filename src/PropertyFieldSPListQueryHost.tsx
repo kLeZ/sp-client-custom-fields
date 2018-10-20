@@ -117,13 +117,15 @@ export default class PropertyFieldSPListQueryHost extends React.Component<IPrope
       });
       return;
     }
+
+    let newState = {};
     var indexOfGuid: number = this.props.query.indexOf("lists(guid'");
     if (indexOfGuid > -1) {
       var listId: string = this.props.query.substr(indexOfGuid);
       listId = listId.replace("lists(guid'", "");
       var indexOfEndGuid: number = listId.indexOf("')/items");
       listId = listId.substr(0, indexOfEndGuid);
-      this.state.selectedList = listId;
+      newState["selectedList"] = listId;
     }
     var indexOfOrderBy: number = this.props.query.indexOf("$orderBy=");
     if (indexOfOrderBy > -1) {
@@ -131,12 +133,12 @@ export default class PropertyFieldSPListQueryHost extends React.Component<IPrope
       orderBy = orderBy.replace("$orderBy=", "");
       var indexOfEndOrderBy: number = orderBy.indexOf("%20");
       var field: string = orderBy.substr(0, indexOfEndOrderBy);
-      this.state.selectedField = field;
+      newState["selectedField"] = field;
       var arranged: string = orderBy.substr(indexOfEndOrderBy);
       arranged = arranged.replace("%20", "");
       var indexOfEndArranged: number = arranged.indexOf("&");
       arranged = arranged.substr(0, indexOfEndArranged);
-      this.state.selectedArrange = arranged;
+      newState["selectedArrange"] = arranged;
     }
     var indexOfTop: number = this.props.query.indexOf("$top=");
     if (indexOfTop > -1) {
@@ -144,7 +146,7 @@ export default class PropertyFieldSPListQueryHost extends React.Component<IPrope
       top = top.replace("$top=", "");
       var indexOfEndTop: number = top.indexOf("&");
       top = top.substr(0, indexOfEndTop);
-      this.state.max = Number(top);
+      newState["max"] = Number(top);
     }
     var indexOfFilters: number = this.props.query.indexOf("$filter=");
     if (indexOfFilters > -1) {
@@ -154,6 +156,7 @@ export default class PropertyFieldSPListQueryHost extends React.Component<IPrope
       filter = filter.substr(0, indexOfEndFilter);
       if (filter != null && filter != "") {
         var subFilter = filter.split("%20and%20");
+        let filters: IFilter[] = [];
         for (var i = 0; i < subFilter.length; i++) {
           var fieldId: string = subFilter[i].substr(0, subFilter[i].indexOf("%20"));
           var operator: string = subFilter[i].substr(subFilter[i].indexOf("%20"));
@@ -170,12 +173,14 @@ export default class PropertyFieldSPListQueryHost extends React.Component<IPrope
           newObj.field = fieldId;
           newObj.operator = operator;
           newObj.value = value;
-          this.state.filters.push(newObj);
+          filters.push(newObj);
         }
+        newState["filters"] = filters;
       }
     }
     if (listId != null && listId != "") this.loadFields();
-    else this.state.loadedFields = true;
+    else newState["loadedFields"] = true;
+    this.setState(newState);
   }
 
   /**
@@ -185,40 +190,44 @@ export default class PropertyFieldSPListQueryHost extends React.Component<IPrope
   private loadLists(): void {
     var listService: SPListPickerService = new SPListPickerService(this.props, this.props.context);
     listService.getLibs().then((response: ISPLists) => {
-      this.state.lists = [];
+      let lists: IDropdownOption[] = [];
       response.value.map((list: ISPList) => {
         var isSelected: boolean = false;
         if (this.state.selectedList == list.Id) {
           isSelected = true;
         }
-        this.state.lists.push({
+        lists.push({
           key: list.Id,
           text: list.Title,
           isSelected: isSelected,
         });
       });
-      this.state.loadedList = true;
-      this.setState(this.state);
+      this.setState({
+        lists,
+        loadedList: true,
+      });
     });
   }
 
   private loadFields(): void {
     var listService: SPListPickerService = new SPListPickerService(this.props, this.props.context);
     listService.getFields(this.state.selectedList).then((response: ISPFields) => {
-      this.state.fields = [];
+      let fields: IDropdownOption[] = [];
       response.value.map((field: ISPField) => {
         var isSelected: boolean = false;
         if (this.state.selectedField == field.StaticName) {
           isSelected = true;
         }
-        this.state.fields.push({
+        fields.push({
           key: field.StaticName,
           text: field.Title,
           isSelected: isSelected,
         });
       });
-      this.state.loadedFields = true;
-      this.setState(this.state);
+      this.setState({
+        loadedFields: true,
+        fields,
+      });
     });
   }
 
@@ -315,26 +324,26 @@ export default class PropertyFieldSPListQueryHost extends React.Component<IPrope
    * Raises when a list has been selected
    */
   private onChangedList(option: IDropdownOption, index?: number): void {
-    this.state.selectedList = option.key as string;
+    this.setState({ selectedList: option.key as string });
     this.saveQuery();
     this.setState(this.state);
     this.loadFields();
   }
 
   private onChangedField(option: IDropdownOption, index?: number): void {
-    this.state.selectedField = option.key as string;
+    this.setState({ selectedField: option.key as string });
     this.saveQuery();
     this.setState(this.state);
   }
 
   private onChangedArranged(option: IDropdownOption, index?: number): void {
-    this.state.selectedArrange = option.key as string;
+    this.setState({ selectedArrange: option.key as string });
     this.saveQuery();
     this.setState(this.state);
   }
 
   private onChangedMax(newValue?: number): void {
-    this.state.max = newValue;
+    this.setState({ max: newValue });
     this.saveQuery();
     this.setState(this.state);
   }
