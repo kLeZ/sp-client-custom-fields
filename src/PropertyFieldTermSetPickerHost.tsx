@@ -8,7 +8,7 @@
  */
 import { Environment, EnvironmentType } from "@microsoft/sp-core-library";
 import { ISPHttpClientOptions, SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { IconButton } from "office-ui-fabric-react/lib/Button";
 import { Checkbox } from "office-ui-fabric-react/lib/Checkbox";
 import { Label } from "office-ui-fabric-react/lib/Label";
@@ -325,7 +325,7 @@ export default class PropertyFieldTermSetPickerHost extends React.Component<IPro
  * Service implementation to manage term stores in SharePoint
  */
 class SPTermStorePickerService {
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private props: IPropertyFieldTermSetPickerHostProps;
   private taxonomySession: string;
   private formDigest: string;
@@ -334,7 +334,7 @@ class SPTermStorePickerService {
    * @function
    * Service constructor
    */
-  constructor(_props: IPropertyFieldTermSetPickerHostProps, pageContext: IWebPartContext) {
+  constructor(_props: IPropertyFieldTermSetPickerHostProps, pageContext: WebPartContext) {
     this.props = _props;
     this.context = pageContext;
   }

@@ -10,7 +10,7 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
 import PropertyFieldDocumentPickerHost, { IPropertyFieldDocumentPickerHostProps } from "./PropertyFieldDocumentPickerHost";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 /**
  * @interface
@@ -32,7 +32,7 @@ export interface IPropertyFieldDocumentPickerProps {
    * @var
    * Parent web part context
    */
-  context: IWebPartContext;
+  context: WebPartContext;
   /**
    * @function
    * Defines a onPropertyChange function to raise when the selected Color changed.
@@ -113,7 +113,7 @@ export interface IPropertyFieldDocumentPickerPropsInternal extends IPropertyPane
   label: string;
   initialValue?: string;
   targetProperty: string;
-  context: IWebPartContext;
+  context: WebPartContext;
   onRender(elem: HTMLElement): void;
   onDispose(elem: HTMLElement): void;
   onPropertyChange(propertyPath: string, oldValue: any, newValue: any): void;
@@ -142,7 +142,7 @@ class PropertyFieldDocumentPickerBuilder implements IPropertyPaneField<IProperty
   //Custom properties
   private label: string;
   private initialValue: string;
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private onPropertyChange: (propertyPath: string, oldValue: any, newValue: any) => void;
   private customProperties: any;
   private key: string;

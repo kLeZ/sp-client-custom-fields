@@ -12,7 +12,7 @@ import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProp
 import PropertyFieldRichTextBoxHost, { IPropertyFieldRichTextBoxHostProps } from "./PropertyFieldRichTextBoxHost";
 import { SPComponentLoader } from "@microsoft/sp-loader";
 import { Async } from "office-ui-fabric-react/lib/Utilities";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 /**
  * @interface
@@ -78,7 +78,7 @@ export interface IPropertyFieldRichTextBoxProps {
    * @var
    * The current web part context
    */
-  context: IWebPartContext;
+  context: WebPartContext;
   /**
    * Whether the property pane field is enabled or not.
    */
@@ -126,7 +126,7 @@ export interface IPropertyFieldRichTextBoxPropsInternal extends IPropertyPaneCus
   disableReactivePropertyChanges?: boolean;
   properties: any;
   disabled?: boolean;
-  context: IWebPartContext;
+  context: WebPartContext;
   onGetErrorMessage?: (value: string) => string | Promise<string>;
   deferredValidationTime?: number;
 }
@@ -153,7 +153,7 @@ class PropertyFieldRichTextBoxBuilder implements IPropertyPaneField<IPropertyFie
   private key: string;
   private keyCopy: string;
   private disabled: boolean = false;
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private onGetErrorMessage: (value: string) => string | Promise<string>;
   private deferredValidationTime: number = 200;
   private renderWebPart: () => void;

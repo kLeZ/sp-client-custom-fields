@@ -10,7 +10,7 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
 import PropertyFieldCustomListHost, { IPropertyFieldCustomListHostProps } from "./PropertyFieldCustomListHost";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 export enum CustomListFieldType {
   string = 0,
@@ -73,7 +73,7 @@ export interface IPropertyFieldCustomListProps {
    * @var
    * Parent web part context
    */
-  context: IWebPartContext;
+  context: WebPartContext;
   /**
    * @function
    * Defines a onPropertyChange function to raise when the selected Color changed.
@@ -123,7 +123,7 @@ export interface IPropertyFieldCustomListPropsInternal extends IPropertyPaneCust
   value?: any[];
   headerText: string;
   targetProperty: string;
-  context: IWebPartContext;
+  context: WebPartContext;
   onRender(elem: HTMLElement): void;
   onDispose(elem: HTMLElement): void;
   onPropertyChange(propertyPath: string, oldValue: any, newValue: any): void;
@@ -149,7 +149,7 @@ class PropertyFieldCustomListBuilder implements IPropertyPaneField<IPropertyFiel
   private fields: ICustomListField[];
   private value: any[];
   private headerText: string;
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private onPropertyChange: (propertyPath: string, oldValue: any, newValue: any) => void;
   private customProperties: any;
   private key: string;

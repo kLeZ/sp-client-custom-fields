@@ -9,7 +9,7 @@
  */
 import * as React from "react";
 import * as ReactDom from "react-dom";
-import { IPropertyPaneField, PropertyPaneFieldType, IWebPartContext } from "@microsoft/sp-webpart-base";
+import { IPropertyPaneField, PropertyPaneFieldType, WebPartContext } from "@microsoft/sp-webpart-base";
 import PropertyFieldSPListPickerHost, { IPropertyFieldSPListPickerHostProps } from "./PropertyFieldSPListPickerHost";
 
 export enum PropertyFieldSPListPickerOrderBy {
@@ -28,7 +28,7 @@ export interface IPropertyFieldSPListPickerProps {
    * Property field label displayed on top
    */
   label: string;
-  context: IWebPartContext;
+  context: WebPartContext;
   selectedList?: string;
   baseTemplate?: number;
   includeHidden?: boolean;
@@ -98,7 +98,7 @@ export interface IPropertyFieldSPListPickerProps {
 export interface IPropertyFieldSPListPickerPropsInternal extends IPropertyFieldSPListPickerProps {
   label: string;
   targetProperty: string;
-  context: IWebPartContext;
+  context: WebPartContext;
   selectedList?: string;
   baseTemplate?: number;
   orderBy?: PropertyFieldSPListPickerOrderBy;
@@ -128,7 +128,7 @@ class PropertyFieldSPListPickerBuilder implements IPropertyPaneField<IPropertyFi
 
   //Custom properties label: string;
   private label: string;
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private selectedList: string;
   private baseTemplate: number;
   private orderBy: PropertyFieldSPListPickerOrderBy;

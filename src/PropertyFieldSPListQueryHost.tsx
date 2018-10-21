@@ -7,7 +7,7 @@
  *
  */
 import * as React from "react";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { Environment, EnvironmentType } from "@microsoft/sp-core-library";
 import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import { IPropertyFieldSPListQueryPropsInternal, PropertyFieldSPListQueryOrderBy } from "./PropertyFieldSPListQuery";
@@ -531,14 +531,14 @@ interface ISPFields {
  * Service implementation to get list & list items from current SharePoint site
  */
 class SPListPickerService {
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private props: IPropertyFieldSPListQueryHostProps;
 
   /**
    * @function
    * Service constructor
    */
-  constructor(_props: IPropertyFieldSPListQueryHostProps, pageContext: IWebPartContext) {
+  constructor(_props: IPropertyFieldSPListQueryHostProps, pageContext: WebPartContext) {
     this.props = _props;
     this.context = pageContext;
   }

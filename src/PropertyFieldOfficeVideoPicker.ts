@@ -10,7 +10,7 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
 import PropertyFieldOfficeVideoPickerHost, { IPropertyFieldOfficeVideoPickerHostProps } from "./PropertyFieldOfficeVideoPickerHost";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 /**
  * @interface
@@ -37,7 +37,7 @@ export interface IPropertyFieldOfficeVideoPickerProps {
    * @var
    * Parent web part context
    */
-  context: IWebPartContext;
+  context: WebPartContext;
   /**
    * Whether the image path can be edit manually or not. Default is true.
    */
@@ -109,7 +109,7 @@ export interface IPropertyFieldOfficeVideoPickerPropsInternal extends IPropertyP
   initialValue?: string;
   targetProperty: string;
   panelTitle: string;
-  context: IWebPartContext;
+  context: WebPartContext;
   onRender(elem: HTMLElement): void;
   onDispose(elem: HTMLElement): void;
   onPropertyChange(propertyPath: string, oldValue: any, newValue: any): void;
@@ -136,7 +136,7 @@ class PropertyFieldOfficeVideoPickerBuilder implements IPropertyPaneField<IPrope
   //Custom properties
   private label: string;
   private initialValue: string;
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private onPropertyChange: (propertyPath: string, oldValue: any, newValue: any) => void;
   private customProperties: any;
   private key: string;

@@ -7,7 +7,7 @@
  *
  */
 import * as React from "react";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { Dropdown, IDropdownOption } from "office-ui-fabric-react/lib/Dropdown";
 import { Async } from "office-ui-fabric-react/lib/Utilities";
 import { Environment, EnvironmentType } from "@microsoft/sp-core-library";
@@ -198,14 +198,14 @@ interface ISPList {
  * Service implementation to get list & list items from current SharePoint site
  */
 class SPListPickerService {
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private props: IPropertyFieldSPListPickerHostProps;
 
   /**
    * @function
    * Service constructor
    */
-  constructor(_props: IPropertyFieldSPListPickerHostProps, pageContext: IWebPartContext) {
+  constructor(_props: IPropertyFieldSPListPickerHostProps, pageContext: WebPartContext) {
     this.props = _props;
     this.context = pageContext;
   }

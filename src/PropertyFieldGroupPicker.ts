@@ -11,7 +11,7 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
 import PropertyFieldGroupPickerHost, { IPropertyFieldGroupPickerHostProps } from "./PropertyFieldGroupPickerHost";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 /**
  * @enum
@@ -71,7 +71,7 @@ export interface IPropertyFieldGroupPickerProps {
    * @var
    * Web Part context
    */
-  context: IWebPartContext;
+  context: WebPartContext;
   /**
    * @var
    * Intial data to load in the people picker (optional)
@@ -148,7 +148,7 @@ export interface IPropertyFieldGroupPickerProps {
 export interface IPropertyFieldGroupPickerPropsInternal extends IPropertyPaneCustomFieldProps {
   label: string;
   targetProperty: string;
-  context: IWebPartContext;
+  context: WebPartContext;
   initialData?: IPropertyFieldGroup[];
   allowDuplicate?: boolean;
   groupType: IGroupType;
@@ -175,7 +175,7 @@ class PropertyFieldGroupPickerBuilder implements IPropertyPaneField<IPropertyFie
 
   //Custom properties
   private label: string;
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private initialData: IPropertyFieldGroup[];
   private allowDuplicate: boolean = false;
   private groupType: IGroupType;

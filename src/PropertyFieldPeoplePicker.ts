@@ -11,7 +11,7 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
 import PropertyFieldPeoplePickerHost, { IPropertyFieldPeoplePickerHostProps } from "./PropertyFieldPeoplePickerHost";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 /**
  * @interface
@@ -66,7 +66,7 @@ export interface IPropertyFieldPeoplePickerProps {
    * @var
    * Web Part context
    */
-  context: IWebPartContext;
+  context: WebPartContext;
   /**
    * @var
    * Intial data to load in the people picker (optional)
@@ -138,7 +138,7 @@ export interface IPropertyFieldPeoplePickerProps {
 export interface IPropertyFieldPeoplePickerPropsInternal extends IPropertyPaneCustomFieldProps {
   label: string;
   targetProperty: string;
-  context: IWebPartContext;
+  context: WebPartContext;
   initialData?: IPropertyFieldPeople[];
   allowDuplicate?: boolean;
   onRender(elem: HTMLElement): void;
@@ -164,7 +164,7 @@ class PropertyFieldPeoplePickerBuilder implements IPropertyPaneField<IPropertyFi
 
   //Custom properties
   private label: string;
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private initialData: IPropertyFieldPeople[];
   private allowDuplicate: boolean = true;
   private onPropertyChange: (propertyPath: string, oldValue: any, newValue: any) => void;

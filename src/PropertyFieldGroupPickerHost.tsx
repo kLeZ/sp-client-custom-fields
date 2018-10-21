@@ -8,7 +8,7 @@
  */
 import * as React from "react";
 import { IPropertyFieldGroupPickerPropsInternal } from "./PropertyFieldGroupPicker";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { SPHttpClient, ISPHttpClientOptions, SPHttpClientResponse } from "@microsoft/sp-http";
 import { EnvironmentType, Environment } from "@microsoft/sp-core-library";
 import { IPropertyFieldGroup, IGroupType } from "./PropertyFieldGroupPicker";
@@ -293,13 +293,13 @@ interface IPropertyFieldSearchService {
  * Service implementation to search people in SharePoint
  */
 class PropertyFieldSearchService implements IPropertyFieldSearchService {
-  private context: IWebPartContext;
+  private context: WebPartContext;
 
   /**
    * @function
    * Service constructor
    */
-  constructor(pageContext: IWebPartContext) {
+  constructor(pageContext: WebPartContext) {
     this.context = pageContext;
   }
 

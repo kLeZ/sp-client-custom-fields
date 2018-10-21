@@ -9,7 +9,7 @@
  */
 import * as React from "react";
 import * as ReactDom from "react-dom";
-import { IPropertyPaneField, PropertyPaneFieldType, IWebPartContext } from "@microsoft/sp-webpart-base";
+import { IPropertyPaneField, PropertyPaneFieldType, WebPartContext } from "@microsoft/sp-webpart-base";
 import PropertyFieldTermSetPickerHost, { IPropertyFieldTermSetPickerHostProps } from "./PropertyFieldTermSetPickerHost";
 
 /**
@@ -126,7 +126,7 @@ export interface IPropertyFieldTermSetPickerProps {
    * @var
    * WebPart's context
    */
-  context: IWebPartContext;
+  context: WebPartContext;
   /**
    * @function
    * Defines a onPropertyChange function to raise when the selected value changed.
@@ -198,7 +198,7 @@ export interface IPropertyFieldTermSetPickerPropsInternal extends IPropertyField
   excludeSystemGroup?: boolean;
   excludeOfflineTermStores?: boolean;
   displayOnlyTermSetsAvailableForTagging?: boolean;
-  context: IWebPartContext;
+  context: WebPartContext;
   onRender(elem: HTMLElement): void;
   onDispose(elem: HTMLElement): void;
   onPropertyChange(propertyPath: string, oldValue: any, newValue: any): void;
@@ -224,7 +224,7 @@ class PropertyFieldTermSetPickerBuilder implements IPropertyPaneField<IPropertyF
 
   //Custom properties label: string;
   private label: string;
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private allowMultipleSelections: boolean = false;
   private initialValues: ISPTermSets = [];
   private excludeSystemGroup: boolean = false;

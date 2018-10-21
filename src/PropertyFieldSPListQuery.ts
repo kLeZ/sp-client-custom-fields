@@ -11,7 +11,7 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { IPropertyPaneField, PropertyPaneFieldType } from "@microsoft/sp-webpart-base";
 import PropertyFieldSPListQueryHost, { IPropertyFieldSPListQueryHostProps } from "./PropertyFieldSPListQueryHost";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 export enum PropertyFieldSPListQueryOrderBy {
   Id = 0,
@@ -29,7 +29,7 @@ export interface IPropertyFieldSPListQueryProps {
    * Property field label displayed on top
    */
   label: string;
-  context: IWebPartContext;
+  context: WebPartContext;
   query?: string;
   baseTemplate?: number;
   includeHidden?: boolean;
@@ -103,7 +103,7 @@ export interface IPropertyFieldSPListQueryProps {
 export interface IPropertyFieldSPListQueryPropsInternal extends IPropertyFieldSPListQueryProps {
   label: string;
   targetProperty: string;
-  context: IWebPartContext;
+  context: WebPartContext;
   query?: string;
   baseTemplate?: number;
   orderBy?: PropertyFieldSPListQueryOrderBy;
@@ -137,7 +137,7 @@ class PropertyFieldSPListQueryBuilder implements IPropertyPaneField<IPropertyFie
 
   //Custom properties label: string;
   private label: string;
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private query: string;
   private baseTemplate: number;
   private orderBy: PropertyFieldSPListQueryOrderBy;

@@ -11,7 +11,7 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { IPropertyPaneField, PropertyPaneFieldType } from "@microsoft/sp-webpart-base";
 import PropertyFieldSPListMultiplePickerHost, { IPropertyFieldSPListMultiplePickerHostProps } from "./PropertyFieldSPListMultiplePickerHost";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 /**
  * @enum
@@ -38,7 +38,7 @@ export interface IPropertyFieldSPListMultiplePickerProps {
    * @var
    * Parent web part context
    */
-  context: IWebPartContext;
+  context: WebPartContext;
   /**
    * @var
    * Default selected values of the picker (must be a collection of list Ids)
@@ -124,7 +124,7 @@ export interface IPropertyFieldSPListMultiplePickerProps {
 export interface IPropertyFieldSPListMultiplePickerPropsInternal extends IPropertyFieldSPListMultiplePickerProps {
   label: string;
   targetProperty: string;
-  context: IWebPartContext;
+  context: WebPartContext;
   selectedLists?: string[];
   baseTemplate?: number;
   orderBy?: PropertyFieldSPListMultiplePickerOrderBy;
@@ -154,7 +154,7 @@ class PropertyFieldSPListMultiplePickerBuilder implements IPropertyPaneField<IPr
 
   //Custom properties label: string;
   private label: string;
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private selectedLists: string[];
   private baseTemplate: number;
   private orderBy: PropertyFieldSPListMultiplePickerOrderBy;

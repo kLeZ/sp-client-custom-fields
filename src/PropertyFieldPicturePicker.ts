@@ -10,7 +10,7 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
 import PropertyFieldPicturePickerHost, { IPropertyFieldPicturePickerHostProps } from "./PropertyFieldPicturePickerHost";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 /**
  * @interface
@@ -32,7 +32,7 @@ export interface IPropertyFieldPicturePickerProps {
    * @var
    * Parent web part context
    */
-  context: IWebPartContext;
+  context: WebPartContext;
   /**
    * Whether the image preview is enabled or not. Default is true.
    */
@@ -113,7 +113,7 @@ export interface IPropertyFieldPicturePickerPropsInternal extends IPropertyPaneC
   label: string;
   initialValue?: string;
   targetProperty: string;
-  context: IWebPartContext;
+  context: WebPartContext;
   onRender(elem: HTMLElement): void;
   onDispose(elem: HTMLElement): void;
   onPropertyChange(propertyPath: string, oldValue: any, newValue: any): void;
@@ -142,7 +142,7 @@ class PropertyFieldPicturePickerBuilder implements IPropertyPaneField<IPropertyF
   //Custom properties
   private label: string;
   private initialValue: string;
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private onPropertyChange: (propertyPath: string, oldValue: any, newValue: any) => void;
   private customProperties: any;
   private key: string;

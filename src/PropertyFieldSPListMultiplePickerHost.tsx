@@ -7,7 +7,7 @@
  *
  */
 import * as React from "react";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { Environment, EnvironmentType } from "@microsoft/sp-core-library";
 import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import { Label } from "office-ui-fabric-react/lib/Label";
@@ -250,14 +250,14 @@ interface ISPList {
  * Service implementation to get list & list items from current SharePoint site
  */
 class SPListPickerService {
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private props: IPropertyFieldSPListMultiplePickerHostProps;
 
   /**
    * @function
    * Service constructor
    */
-  constructor(_props: IPropertyFieldSPListMultiplePickerHostProps, pageContext: IWebPartContext) {
+  constructor(_props: IPropertyFieldSPListMultiplePickerHostProps, pageContext: WebPartContext) {
     this.props = _props;
     this.context = pageContext;
   }

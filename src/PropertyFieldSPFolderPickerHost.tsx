@@ -7,7 +7,7 @@
  */
 import * as React from "react";
 import { Environment, EnvironmentType } from "@microsoft/sp-core-library";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import { IPropertyFieldSPFolderPickerPropsInternal } from "./PropertyFieldSPFolderPicker";
 import { Label } from "office-ui-fabric-react/lib/Label";
@@ -479,13 +479,13 @@ export interface ISPFolder {
  * Service implementation to get folders from current SharePoint site
  */
 class SPFolderPickerService {
-  private context: IWebPartContext;
+  private context: WebPartContext;
 
   /**
    * @function
    * Service constructor
    */
-  constructor(pageContext: IWebPartContext) {
+  constructor(pageContext: WebPartContext) {
     this.context = pageContext;
   }
 

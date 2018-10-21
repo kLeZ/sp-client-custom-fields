@@ -9,7 +9,7 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
 import { IPropertyPaneField, PropertyPaneFieldType, IPropertyPaneCustomFieldProps } from "@microsoft/sp-webpart-base";
-import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 import PropertyFieldSPFolderPickerHost, { IPropertyFieldSPFolderPickerHostProps } from "./PropertyFieldSPFolderPickerHost";
 
 /**
@@ -37,7 +37,7 @@ export interface IPropertyFieldSPFolderPickerProps {
    * @var
    * Parent web part context
    */
-  context: IWebPartContext;
+  context: WebPartContext;
   /**
    * @function
    * Defines a onPropertyChange function to raise when the selected folder changed.
@@ -105,7 +105,7 @@ export interface IPropertyFieldSPFolderPickerPropsInternal extends IPropertyPane
   initialFolder?: string;
   baseFolder?: string;
   targetProperty: string;
-  context: IWebPartContext;
+  context: WebPartContext;
   onRender(elem: HTMLElement): void;
   onDispose(elem: HTMLElement): void;
   onPropertyChange(propertyPath: string, oldValue: any, newValue: any): void;
@@ -132,7 +132,7 @@ class PropertyFieldSPFolderPickerBuilder implements IPropertyPaneField<IProperty
   private label: string;
   private initialFolder: string;
   private baseFolder: string;
-  private context: IWebPartContext;
+  private context: WebPartContext;
   private onPropertyChange: (propertyPath: string, oldValue: any, newValue: any) => void;
   private customProperties: any;
   private key: string;
